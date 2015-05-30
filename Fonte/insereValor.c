@@ -37,7 +37,11 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
            n = TAMANHO_NOME_CAMPO;
         }
 
-        strncpy(e->nomeCampo, nomeCampo,n); 
+        int i;
+        for(i=0; i < n-1; i++) e->nomeCampo[i] = nomeCampo[i];
+            e->nomeCampo[i] = '\0';
+
+        //strncpy(e->nomeCampo, nomeCampo,n); 
 
         n = strlen(valorCampo) + 1;
         
@@ -45,7 +49,10 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
             n = tam;
         }
 
-        strncpy(e->valorCampo, valorCampo,n);
+        for(i=0; i < n-1; i++) e->valorCampo[i] = valorCampo[i];
+            e->valorCampo[i] = '\0';
+
+        //strncpy(e->valorCampo, valorCampo,n);
 
         e->next = NULL;
         c = e;
@@ -85,14 +92,22 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
                    n = TAMANHO_NOME_CAMPO;
                 }
 
-                strncpy(e->nomeCampo, nomeCampo,n);
+                int i;
+                for(i=0; i < n-1; i++) e->nomeCampo[i] = nomeCampo[i];
+                e->nomeCampo[i] = '\0';
+
+                //strncpy(e->nomeCampo, nomeCampo,n);
                 
-                 n = strlen(valorCampo) + 1;
+                n = strlen(valorCampo) + 1;
         
                 if (n > tam && tipo == 'S') {
                     n = tam;
                 }
-                strncpy(e->valorCampo, valorCampo,n);
+
+                for(i=0; i < n-1; i++) e->valorCampo[i] = valorCampo[i];
+                e->valorCampo[i] = '\0';
+
+                //strncpy(e->valorCampo, valorCampo,n);
                 aux->next = e;
                 return c;
             }
