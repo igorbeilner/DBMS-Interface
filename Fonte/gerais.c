@@ -2,7 +2,7 @@
 #include "buffend.h"
 
 // FUNCOES AUXILIARES
-int tamTupla(tp_table *esquema, struct fs_objects objeto){// Retorna o tamanho total da tupla da tabela.
+int tamTupla(tp_table *esquema, struct fs_objects objeto) {// Retorna o tamanho total da tupla da tabela.
 
     int qtdCampos = objeto.qtdCampos, i, tamanhoGeral = 0;
    
@@ -13,26 +13,26 @@ int tamTupla(tp_table *esquema, struct fs_objects objeto){// Retorna o tamanho t
 
     return tamanhoGeral;
 }
-int pot10(int n)
-{
+
+int pot10(int n) {
     if(n == 0)
         return 1;
     return 10 * pot10(n-1);
 }
-int strtam(char n[])
-{
+
+int strtam(char n[]) {
     if(n[0]==0)
         return 0;
     return 1+strtam(n+1);
 }
-int convertI(char u[])
-{
+
+int convertI(char u[]) {
     if(strtam(u) == 0)
         return 0;
     return (u[0]-48)*pot10(strtam(u)-1) + convertI(u+1);
 }
-double get_decimal(char u[]) 
-{
+
+double get_decimal(char u[]) {
     double decimal=0;
     int i,tamanho = strtam(u);
     for(i=0;i<tamanho && u[i]!='.';i++); // posiciona o indice i encima do ponto
@@ -40,8 +40,8 @@ double get_decimal(char u[])
     decimal=(double)convertI(u+i+1)/(double)(pot10(tamanho-i-1));
     return decimal;
 }
-double get_inteiro(char v[]) 
-{
+
+double get_inteiro(char v[]) {
     double inteiro=0;
     int i,tamanho = strtam(v);
     char u[10];
@@ -52,8 +52,7 @@ double get_inteiro(char v[])
     return inteiro;
 }
 
-double convertD(char u[]) 
-{
+double convertD(char u[]) {
     return get_inteiro(u)+get_decimal(u);
     //Soma inteiro com decimal.ss
 }

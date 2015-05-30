@@ -7,7 +7,7 @@
     Retorno:    tp_table
    ---------------------------------------------------------------------------------------------*/
 
-tp_table *abreTabela(char *nomeTabela, struct fs_objects *objeto, tp_table **tabela){
+tp_table *abreTabela(char *nomeTabela, struct fs_objects *objeto, tp_table **tabela) {
     *objeto     = leObjeto(nomeTabela);
     *tabela     = leSchema(*objeto);
 

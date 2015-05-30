@@ -34,9 +34,7 @@ int procuraObjectArquivo(char *nomeTabela){
         if(teste == 0){                                         //NÃO É IGUAL
             fseek(fp, 0, SEEK_END);
             fwrite(table, sizeof(char), tamanhoTotal, fp);            
-        }
-
-        else if(achou != 1){                                    //É IGUAL E NÃO TINHA SIDO DESCOBERTO.
+        } else if(achou != 1){                                    //É IGUAL E NÃO TINHA SIDO DESCOBERTO.
             achou = 1;
             fread(table, sizeof(char), 0, dicionario);
         }

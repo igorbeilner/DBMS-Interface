@@ -1,8 +1,7 @@
 //BufferPool
 #include "buffend.h"
 
-int verificaNomeTabela(char *nomeTabela)
-{
+int verificaNomeTabela(char *nomeTabela) {
 
     FILE *dicionario;
     char *tupla = (char *)malloc(sizeof(char)*TAMANHO_NOME_TABELA);

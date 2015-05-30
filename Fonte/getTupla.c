@@ -19,8 +19,7 @@ char *getTupla(tp_table *campos,struct fs_objects objeto, int from){ //Pega uma 
     if(fgetc (dados) != EOF){
         fseek(dados, -1, 1);
         fread(linha, sizeof(char), tamTpl, dados); //Traz a tupla inteira do arquivo
-    }
-    else{       //Caso em que o from possui uma valor inválido para o arquivo de dados
+    } else {       //Caso em que o from possui uma valor inválido para o arquivo de dados
         fclose(dados);
         return ERRO_DE_LEITURA;
     }

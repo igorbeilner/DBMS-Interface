@@ -11,15 +11,13 @@ table *adicionaCampo(table *t,char *nomeCampo, char tipoCampo, int tamanhoCampo,
         
         tp_table *e = (tp_table *)malloc(sizeof(tp_table));
         memset(e, 0, sizeof(*e));
-        if (e == NULL)
-        {
+        if (e == NULL) {
             return ERRO_DE_ALOCACAO;
         }
         e->next = NULL;
         int n = strlen(nomeCampo)+1;
 
-        if (n > TAMANHO_NOME_CAMPO)
-        {
+        if (n > TAMANHO_NOME_CAMPO) {
             n = TAMANHO_NOME_CAMPO;
         }
 
@@ -42,16 +40,14 @@ table *adicionaCampo(table *t,char *nomeCampo, char tipoCampo, int tamanhoCampo,
             if(aux->next == NULL){ // Adiciona um campo no final.   
                 tp_table *e = (tp_table *)malloc(sizeof(tp_table));
                    memset(e, 0, sizeof(*e));
-                if (e == NULL)
-                {
+                if (e == NULL) {
                     return ERRO_DE_ALOCACAO;
                 }
                 e->next = NULL;
 
                 int n = strlen(nomeCampo)+1;
 
-                if (n > TAMANHO_NOME_CAMPO)
-                {
+                if (n > TAMANHO_NOME_CAMPO) {
                     n = TAMANHO_NOME_CAMPO;
                 }
                 strncpy(e->nome, nomeCampo,n); // Copia nome do campo passado para o esquema

@@ -39,25 +39,19 @@ int verificaChavePK(char *nomeTabela, column *c, char *nomeCampo, char *valorCam
                 if(strcmp(pagina[j].valorCampo, valorCampo) == 0){
                     return ERRO_CHAVE_PRIMARIA;
                 }
-            }
-
-            else if(pagina[j].tipoCampo == 'I'){ 
+            } else if(pagina[j].tipoCampo == 'I'){ 
                 int *n = (int *)&pagina[j].valorCampo[0];
 
                 if(*n == atoi(valorCampo)){
                     return ERRO_CHAVE_PRIMARIA;
                 }
-            }
-
-            else if(pagina[j].tipoCampo == 'D'){ 
+            } else if(pagina[j].tipoCampo == 'D'){ 
                 double *nn = (double *)&pagina[j].valorCampo[0];
 
                 if(*nn == atof(valorCampo)){
                     return ERRO_CHAVE_PRIMARIA;
                 }
-            }
-
-            else if(pagina[j].tipoCampo == 'C'){                        
+            } else if(pagina[j].tipoCampo == 'C'){                        
                 if(pagina[j].valorCampo == valorCampo){
                     return ERRO_CHAVE_PRIMARIA;
                 }

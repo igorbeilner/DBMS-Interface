@@ -1,9 +1,9 @@
 //BufferPool
 #include "buffend.h"
 
-int drawline(tp_buffer *buffpoll, tp_table *s, struct fs_objects objeto, int p, int num_page){
+int drawline(tp_buffer *buffpoll, tp_table *s, struct fs_objects objeto, int p, int num_page) {
      
-    if (num_page > PAGES || p > SIZE){
+    if (num_page > PAGES || p > SIZE) {
         return ERRO_DE_PARAMETRO;
     }
     int *pos_ini, aux = (p * tamTupla(s,objeto)) , num_reg = objeto.qtdCampos;
@@ -15,11 +15,11 @@ int drawline(tp_buffer *buffpoll, tp_table *s, struct fs_objects objeto, int p, 
     
     count = pos_aux = bit_pos = 0;
     
-    for(count = 0; count < num_reg; count++){
+    for(count = 0; count < num_reg; count++) {
         pos_aux = *(pos_ini);
         bit_pos = 0;
 
-        switch(s[count].tipo){
+        switch(s[count].tipo) {
             case 'S':
                 x = 0;
                 while(buffpoll[num_page].data[pos_aux] != '\0'){

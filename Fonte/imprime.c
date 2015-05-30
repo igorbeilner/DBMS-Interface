@@ -53,11 +53,9 @@ void imprime(char nomeTabela[]) {
         	else if(pagina[j].tipoCampo == 'I'){
             	int *n = (int *)&pagina[j].valorCampo[0];
             	printf("%s: %-15d ",pagina[j].nomeCampo, *n);
-        	}
-        	else if(pagina[j].tipoCampo == 'C'){
+        	} else if(pagina[j].tipoCampo == 'C'){
             	printf("%s: %-15c ",pagina[j].nomeCampo, pagina[j].valorCampo[0]);
-        	}
-        	else if(pagina[j].tipoCampo == 'D'){
+        	} else if(pagina[j].tipoCampo == 'D'){
             	double *n = (double *)&pagina[j].valorCampo[0];
    	        	 printf("%s: %-15f ",pagina[j].nomeCampo, *n);
         	}
