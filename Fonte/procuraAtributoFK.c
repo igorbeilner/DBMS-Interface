@@ -15,11 +15,10 @@ tp_table *procuraAtributoFK(struct fs_objects objeto){
     tp_table *vetEsqm = (tp_table *)malloc(sizeof(tp_table)*objeto.qtdCampos);
 
     if((schema = fopen("fs_schema.dat", "a+b")) == NULL){
-        printf("Erro GRAVE ao abrir o ESQUEMA.\nAbortando...\n");
+        printf("Erro GRAVE ao abrir o ESQUEMA.\n");
         free(tupla);
 		free(esquema);
 		free(vetEsqm);
-        exit(1);
     }
     
     while((fgetc (schema) != EOF) && i < objeto.qtdCampos){ // Varre o arquivo ate encontrar todos os campos com o codigo da tabela.

@@ -15,15 +15,13 @@ void imprime(char nomeTabela[]) {
     tp_table *esquema = leSchema(objeto);
 
     if(esquema == ERRO_ABRIR_ESQUEMA){
-        printf("Erro GRAVE ao Criar o ESQUEMA.\nAbortando...\n");
-        exit(1);
+        printf("Erro GRAVE ao Criar o ESQUEMA.\n");
     }
 
     tp_buffer *bufferpoll = initbuffer();
 
     if(bufferpoll == ERRO_DE_ALOCACAO){
-        printf("Erro GRAVE alocar memória para o BUFFER.\nAbortando...\n");
-        exit(1);
+        printf("Erro GRAVE alocar memória para o BUFFER.\n");
     }
 
     erro = SUCCESS;
@@ -34,8 +32,7 @@ void imprime(char nomeTabela[]) {
     column *pagina = getPage(bufferpoll, esquema, objeto, 0);
 
     if(pagina == ERRO_PARAMETRO){
-         printf("Erro GRAVE ao abrir a TABELA.\nAbortando...\n");
-        exit(1);
+        printf("Erro GRAVE ao abrir a TABELA.\n");
     }
     
     // PARA IMPRIMIR PÁGINA
