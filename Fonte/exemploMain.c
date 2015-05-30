@@ -114,10 +114,11 @@ int main(){
     
     
     imprime("Aluno");        //Imprime os atributos da tabela "Aluno"
+    excluirTabela("Aluno");
     imprime("Inst");
-    //excluirTabela("Inst");   //Exclui os dados da tabela do dicionario e remove-a do disco
+    excluirTabela("Inst");   //Exclui os dados da tabela do dicionario e remove-a do disco
     imprime("Inscri");
-    //excluirTabela("Inscri");
+    excluirTabela("Inscri");
     
     
     return 0;

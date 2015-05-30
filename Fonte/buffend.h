@@ -369,3 +369,17 @@ tp_table *abreTabela(char *nomeTabela, struct fs_objects *objeto, tp_table **tab
 
 
 int retornaTamanhoValorCampo(char *nomeCampo, table  *tab);
+
+void cria_campo(int tam, int header, char *val, int x);
+
+char *getTupla(tp_table *campos,struct fs_objects objeto, int from);
+
+void setTupla(tp_buffer *buffer,char *tupla, int tam, int pos);
+
+double convertD(char u[]);
+
+char retornaTamanhoTipoDoCampo(char *nomeCampo, table  *tab);
+
+int drawline(tp_buffer *buffpoll, tp_table *s, struct fs_objects objeto, int p, int num_page);
+
+int cabecalho(tp_table *s, int num_reg);
