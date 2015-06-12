@@ -47,14 +47,14 @@ typedef struct tp_buffer{ // Estrutura utilizada para armazenar o buffer.
    unsigned int position; 	// Próxima posição válida na página.
 }tp_buffer;
 
-typdedef struct insert { // Estrutura utilizada pelo reconhecedor para armazenar os identificadores.
+typdedef struct rc_insert { // Estrutura utilizada pelo reconhecedor para armazenar os identificadores.
     char    *tableName;         // Nome da tabela
     char   **columnName;        // Colunas da tabela
     char   **strValues;         // Valores alfanuméricos
     int     *intValues;         // Valores inteiros (ou tamanho do strValue)
     char    *type;              // Definição do tipo de valor
     int      N;                 // Número de colunas de valores
-}insert;
+}rc_insert;
 
 // Union's utilizados na conversão de variáveis do tipo inteiro e double.
 
