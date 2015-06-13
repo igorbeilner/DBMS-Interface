@@ -34,7 +34,8 @@ void setTable(char **nome) {
 	printf("Tabela: %s\n", *nome);
 	GLOBAL_INS.tableName = malloc(sizeof(char)*(strlen(*nome)+1));
 
-	strcpy(GLOBAL_INS.tableName, *nome); //strcpy já inclui \0 no final
+	strcpy(GLOBAL_INS.tableName, *nome);
+	GLOBAL_INS.tableName[strlen(*nome)] = '\0';
 }
 
 void setColumn(char **nome) {
@@ -43,6 +44,7 @@ void setColumn(char **nome) {
 
 	GLOBAL_INS.columnName[col_count] = malloc(sizeof(char)*(strlen(*nome)+1));
 	strcpy(GLOBAL_INS.columnName[col_count], *nome);
+	GLOBAL_INS.columnName[col_count][strlen(*nome)] = '\0';
 
 	col_count++;
 }
@@ -55,6 +57,7 @@ void setValue(char *nome) {
 	/* Adiciona o valor no vetor de strings */
 	GLOBAL_INS.values[val_count] = malloc(sizeof(char)*(strlen(nome)+1));
 	strcpy(GLOBAL_INS.values[val_count], nome);
+	GLOBAL_INS.values[val_count][strlen(nome)] = '\0';
 
 	val_count++;
 }
@@ -80,6 +83,7 @@ void clearGlobalIns() {
 
     free(GLOBAL_INS.columnName);
     GLOBAL_INS.columnName = (char **)malloc(sizeof(char **));
+    GLOBAL_INS.columnName = NULL;
 
     free(GLOBAL_INS.values);
     GLOBAL_INS.values = (char **)malloc(sizeof(char **));
@@ -119,7 +123,7 @@ int interface() {
 
 %token INSERT INTO STRING NUMBER VALUES VALUE;
 
-line: insert into tabela values ';' {if (col_count == val_count || GLOBAL_INS.columnName == NULL) GLOBAL_INS.N = val_count; else yyerror("The column counter doesn't match the value counter.");}
+line: insert into tabela values ';' {if (col_count == val_count || GLOBAL_INS.columnName == NULL) GLOBAL_INS.N = val_count; else {printf("The column counter doesn't match the value counter.\n");noerror=0;};}
 	|';' '\n' {return 0;}
 	| STRING ';' line {return 0;}
 	| STRING '\n' line {return 0;}
