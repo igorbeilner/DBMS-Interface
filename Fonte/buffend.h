@@ -51,7 +51,6 @@ typedef struct rc_insert {
     char    *tableName;         // Nome da tabela
     char   **columnName;        // Colunas da tabela
     char   **values;            // Valores da inserção
-    char    *type;              // Definição do tipo de valor
     int      N;                 // Número de colunas de valores
 }rc_insert;
 
