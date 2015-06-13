@@ -96,7 +96,6 @@ int yywrap() {
 }
 
 void setTable(char **nome) {
-	printf("Tabela: %s\n", *nome);
 	GLOBAL_INS.tableName = malloc(sizeof(char)*(strlen(*nome)+1));
 
 	strcpy(GLOBAL_INS.tableName, *nome);
@@ -104,7 +103,6 @@ void setTable(char **nome) {
 }
 
 void setColumn(char **nome) {
-	printf("Coluna: %s\n", *nome);
 	GLOBAL_INS.columnName = realloc(GLOBAL_INS.columnName, (col_count+1)*sizeof(char *));
 
 	GLOBAL_INS.columnName[col_count] = malloc(sizeof(char)*(strlen(*nome)+1));
@@ -115,7 +113,6 @@ void setColumn(char **nome) {
 }
 
 void setValue(char *nome) {
-	printf("Valor: %s\n", nome);
 	/* Aloca memória */
 	GLOBAL_INS.values  	  = 		realloc(GLOBAL_INS.values, (val_count+1)*sizeof(char *));
 
@@ -176,7 +173,7 @@ int interface() {
 }
 
 
-#line 180 "y.tab.c" /* yacc.c:339  */
+#line 177 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -232,14 +229,14 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 115 "yacc.y" /* yacc.c:355  */
+#line 112 "yacc.y" /* yacc.c:355  */
 
 	int intval;
 	double floatval;
 	int subtok;
 	char *strval;
 
-#line 243 "y.tab.c" /* yacc.c:355  */
+#line 240 "y.tab.c" /* yacc.c:355  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -254,7 +251,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 258 "y.tab.c" /* yacc.c:358  */
+#line 255 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -552,9 +549,9 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   126,   126,   127,   128,   129,   130,   131,   133,   135,
-     135,   137,   137,   139,   139,   141,   143,   145,   145,   147,
-     147
+       0,   123,   123,   124,   125,   126,   127,   128,   130,   132,
+     132,   134,   134,   136,   136,   138,   140,   142,   142,   144,
+     144
 };
 #endif
 
@@ -1342,55 +1339,55 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 126 "yacc.y" /* yacc.c:1646  */
+#line 123 "yacc.y" /* yacc.c:1646  */
     {if (col_count == val_count || GLOBAL_INS.columnName == NULL) GLOBAL_INS.N = val_count; else {printf("The column counter doesn't match the value counter.\n");noerror=0;};}
-#line 1348 "y.tab.c" /* yacc.c:1646  */
+#line 1345 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 127 "yacc.y" /* yacc.c:1646  */
+#line 124 "yacc.y" /* yacc.c:1646  */
     {return 0;}
-#line 1354 "y.tab.c" /* yacc.c:1646  */
+#line 1351 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 128 "yacc.y" /* yacc.c:1646  */
+#line 125 "yacc.y" /* yacc.c:1646  */
     {return 0;}
-#line 1360 "y.tab.c" /* yacc.c:1646  */
+#line 1357 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 129 "yacc.y" /* yacc.c:1646  */
+#line 126 "yacc.y" /* yacc.c:1646  */
     {return 0;}
-#line 1366 "y.tab.c" /* yacc.c:1646  */
+#line 1363 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 135 "yacc.y" /* yacc.c:1646  */
+#line 132 "yacc.y" /* yacc.c:1646  */
     {setTable(yytext);}
-#line 1372 "y.tab.c" /* yacc.c:1646  */
+#line 1369 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 141 "yacc.y" /* yacc.c:1646  */
+#line 138 "yacc.y" /* yacc.c:1646  */
     {setColumn(yytext);}
-#line 1378 "y.tab.c" /* yacc.c:1646  */
+#line 1375 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 147 "yacc.y" /* yacc.c:1646  */
+#line 144 "yacc.y" /* yacc.c:1646  */
     {setValue(yylval.strval);}
-#line 1384 "y.tab.c" /* yacc.c:1646  */
+#line 1381 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 147 "yacc.y" /* yacc.c:1646  */
+#line 144 "yacc.y" /* yacc.c:1646  */
     {setValue(yylval.strval);}
-#line 1390 "y.tab.c" /* yacc.c:1646  */
+#line 1387 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1394 "y.tab.c" /* yacc.c:1646  */
+#line 1391 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1618,4 +1615,4 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 149 "yacc.y" /* yacc.c:1906  */
+#line 146 "yacc.y" /* yacc.c:1906  */

@@ -31,7 +31,6 @@ int yywrap() {
 }
 
 void setTable(char **nome) {
-	printf("Tabela: %s\n", *nome);
 	GLOBAL_INS.tableName = malloc(sizeof(char)*(strlen(*nome)+1));
 
 	strcpy(GLOBAL_INS.tableName, *nome);
@@ -39,7 +38,6 @@ void setTable(char **nome) {
 }
 
 void setColumn(char **nome) {
-	printf("Coluna: %s\n", *nome);
 	GLOBAL_INS.columnName = realloc(GLOBAL_INS.columnName, (col_count+1)*sizeof(char *));
 
 	GLOBAL_INS.columnName[col_count] = malloc(sizeof(char)*(strlen(*nome)+1));
@@ -50,7 +48,6 @@ void setColumn(char **nome) {
 }
 
 void setValue(char *nome) {
-	printf("Valor: %s\n", nome);
 	/* Aloca memória */
 	GLOBAL_INS.values  	  = 		realloc(GLOBAL_INS.values, (val_count+1)*sizeof(char *));
 
