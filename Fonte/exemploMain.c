@@ -41,7 +41,32 @@ int main(){
             finalizaTabela(tab[2]);
         }
        
-         
+        insert teste;
+        strcpy(teste.tableName, "Aluno");
+        teste.tableName[5] = '\0';
+        strcpy(teste.columnName[0], "CPF");
+        strcpy(teste.columnName[1], "Nome");
+        strcpy(teste.columnName[2], "Endereco");
+        strcpy(teste.columnName[3], "Peso");
+
+        strcpy(teste.values[0], "123456");
+        strcpy(teste.values[1], "Rogerio");
+        strcpy(teste.values[2], "Rua Marechal");
+        strcpy(teste.values[3], "81.4");
+
+        teste.columnName[0][3] = '\0';
+        teste.columnName[1][4] = '\0';
+        teste.columnName[2][8] = '\0';
+        teste.columnName[3][4] = '\0';
+        teste.values[0][6] = '\0';
+        teste.values[1][7] = '\0';
+        teste.values[2][12] = '\0';
+        teste.values[3][4] = '\0';
+
+        teste.N = 4;
+
+        insere(&teste);
+        /*
          //Inserção de tuplas na tabela1   
         colunas = NULL;     
         colunas = insereValor(tab[0],colunas, "CPF", "123456");
@@ -62,7 +87,7 @@ int main(){
         colunas = insereValor(tab[0],colunas, "Nome", "Natan");
         colunas = insereValor(tab[0],colunas, "Endereco", "RuaDelmi");
         colunas = insereValor(tab[0],colunas, "Peso", "58.9");
-        finalizaInsert("Aluno", colunas); 
+        finalizaInsert("Aluno", colunas); */
             
         
         //Inserção de tuplas na tabela2 
@@ -96,7 +121,7 @@ int main(){
         colunas = insereValor(tab[2],colunas, "CodInst", "333");
         colunas = insereValor(tab[2],colunas, "Curso", "CC");
         finalizaInsert("Inscri", colunas);
-        
+        /*
         colunas = NULL;
         colunas = insereValor(tab[2],colunas, "CodMat", "1402");
         colunas = insereValor(tab[2],colunas, "CPF", "654321");
@@ -109,7 +134,8 @@ int main(){
         colunas = insereValor(tab[2],colunas, "CPF", "1234567");
         colunas = insereValor(tab[2],colunas, "CodInst", "111");
         colunas = insereValor(tab[2],colunas, "Curso", "ADM");
-        finalizaInsert("Inscri", colunas);
+        finalizaInsert("Inscri", colunas);*/
+        
     }
     
     
