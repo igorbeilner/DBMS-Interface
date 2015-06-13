@@ -10,6 +10,8 @@ extern char* yytext[];
 extern FILE * yyin;
 extern FILE* outFile_p;
 int noerror, col_count, val_count;
+int yyparse();
+int yylex();
 
 rc_insert GLOBAL_INS;
 
