@@ -41,7 +41,18 @@ int main(){
             finalizaTabela(tab[2]);
         }
        
-        insert teste;
+        rc_insert teste;
+
+        teste.tableName = (char *)malloc(100 * sizeof(char));
+        teste.columnName = (char **)malloc(100 * sizeof(char));
+        teste.values = (char **)malloc(100 * sizeof(char));
+
+        int i;
+        for(i=0; i<100; i++) {
+            teste.columnName[i] = (char *)malloc(100 * sizeof(char));
+            teste.values[i] = (char *)malloc(100 * sizeof(char));
+        }
+
         strcpy(teste.tableName, "Aluno");
         teste.tableName[5] = '\0';
         strcpy(teste.columnName[0], "CPF");

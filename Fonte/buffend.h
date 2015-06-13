@@ -56,14 +56,6 @@ typedef struct rc_insert {
 
 // Union's utilizados na conversão de variáveis do tipo inteiro e double.
 
-typedef struct insert {
-    char tableName[100];
-    char columnName[100][100];
-    char values[100][100];
-    int N;
-    
-}insert;
-
 union c_double{
 
 	double dnum;
@@ -399,4 +391,4 @@ int drawline(tp_buffer *buffpoll, tp_table *s, struct fs_objects objeto, int p, 
 
 int cabecalho(tp_table *s, int num_reg);
 
-int insere(insert *nomeTabela);
+int insere(rc_insert *nomeTabela);

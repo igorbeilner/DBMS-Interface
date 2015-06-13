@@ -1,7 +1,7 @@
 #include "buffend.h"
 
 
-int insere(insert *nomeTabela) {
+int insere(rc_insert *nomeTabela) {
 
 	int i;
 	table *tabela = (table *)malloc(sizeof(tabela));
