@@ -392,3 +392,5 @@ int drawline(tp_buffer *buffpoll, tp_table *s, struct fs_objects objeto, int p, 
 int cabecalho(tp_table *s, int num_reg);
 
 int insert(rc_insert *nomeTabela);
+
+int interface(); // Interpretador SQL
