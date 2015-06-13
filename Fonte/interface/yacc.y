@@ -48,10 +48,9 @@ void setColumn(char **nome) {
 }
 
 void setValue(char *nome) {
-	/* Aloca memória */
-	GLOBAL_INS.values  	  = 		realloc(GLOBAL_INS.values, (val_count+1)*sizeof(char *));
+	GLOBAL_INS.values = realloc(GLOBAL_INS.values, (val_count+1)*sizeof(char *));
 
-	/* Adiciona o valor no vetor de strings */
+	// Adiciona o valor no vetor de strings
 	GLOBAL_INS.values[val_count] = malloc(sizeof(char)*(strlen(nome)+1));
 	strcpy(GLOBAL_INS.values[val_count], nome);
 	GLOBAL_INS.values[val_count][strlen(nome)] = '\0';
@@ -60,12 +59,6 @@ void setValue(char *nome) {
 }
 
 void clearGlobalIns() {
-	/*
-	char    *tableName;         // Nome da tabela
-    char   **columnName;        // Colunas da tabela
-    char   **values;            // Valores da inserção
-    int      N;                 // Número de colunas de valores
-	*/
     int i;
 
     if (GLOBAL_INS.tableName)
@@ -104,6 +97,7 @@ int interface() {
 		printf("Erro sintático, verifique.\n");
 	}
 
+	clearGlobalIns();
 	return 0;
 }
 
