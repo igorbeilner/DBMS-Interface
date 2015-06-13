@@ -1,21 +1,31 @@
 #include "buffend.h"
 
 
-int insere(rc_insert *nomeTabela) {
+int insert(rc_insert *s_insert) {
 
 	int i;
 	table *tabela = (table *)malloc(sizeof(tabela));
 	column *colunas = NULL;
 	struct fs_objects objeto;
 
-	abreTabela(nomeTabela->tableName, &objeto, &tabela->esquema);
-	strcpy(tabela->nome, nomeTabela->tableName);
+	abreTabela(s_insert->tableName, &objeto, &tabela->esquema);
+	strcpy(tabela->nome, s_insert->tableName);
 
-	for(i=0; i < nomeTabela->N; i++) {
-		colunas = insereValor(tabela, colunas, nomeTabela->columnName[i], nomeTabela->values[i]);
+	if(s_insert->columnName != NULL) {
+		
+		for(i=0; i < s_insert->N; i++) {
+			colunas = insereValor(tabela, colunas, s_insert->columnName[i], s_insert->values[i]);
+		}
+
+	} else {
+
+		for(i=0; i < s_insert->N; i++) {
+			colunas = insereValor(tabela, colunas, tabela->esquema[i].nome, s_insert->values[i]);
+		}
+
 	}
 
-	if(finalizaInsert(nomeTabela->tableName, colunas) == SUCCESS) {
+	if(finalizaInsert(s_insert->tableName, colunas) == SUCCESS) {
 		printf("INSERT 0 1\n");
 	} 
 

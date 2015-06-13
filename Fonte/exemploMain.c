@@ -44,31 +44,31 @@ int main(){
         rc_insert teste;
 
         teste.tableName = (char *)malloc(100 * sizeof(char));
-        teste.columnName = (char **)malloc(100 * sizeof(char));
+        //teste.columnName = (char **)malloc(100 * sizeof(char));
         teste.values = (char **)malloc(100 * sizeof(char));
 
         int i;
         for(i=0; i<100; i++) {
-            teste.columnName[i] = (char *)malloc(100 * sizeof(char));
+            //teste.columnName[i] = (char *)malloc(100 * sizeof(char));
             teste.values[i] = (char *)malloc(100 * sizeof(char));
         }
 
         strcpy(teste.tableName, "Aluno");
         teste.tableName[5] = '\0';
-        strcpy(teste.columnName[0], "CPF");
+        /*strcpy(teste.columnName[0], "CPF");
         strcpy(teste.columnName[1], "Nome");
         strcpy(teste.columnName[2], "Endereco");
-        strcpy(teste.columnName[3], "Peso");
+        strcpy(teste.columnName[3], "Peso");*/
 
         strcpy(teste.values[0], "123456");
         strcpy(teste.values[1], "Rogerio");
         strcpy(teste.values[2], "Rua Marechal");
         strcpy(teste.values[3], "81.4");
 
-        teste.columnName[0][3] = '\0';
+        /*teste.columnName[0][3] = '\0';
         teste.columnName[1][4] = '\0';
         teste.columnName[2][8] = '\0';
-        teste.columnName[3][4] = '\0';
+        teste.columnName[3][4] = '\0';*/
         teste.values[0][6] = '\0';
         teste.values[1][7] = '\0';
         teste.values[2][12] = '\0';
@@ -76,7 +76,7 @@ int main(){
 
         teste.N = 4;
 
-        insere(&teste);
+        insert(&teste);
         /*
          //Inserção de tuplas na tabela1   
         colunas = NULL;     
