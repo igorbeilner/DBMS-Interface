@@ -42,8 +42,7 @@ int main(){
             finalizaTabela(tab[2]);
         }
 
-        printf("Conectando...\n");
-        printf("Conectado!\n"); // hahaha
+        printf("Bem vindo ao SGBD. Utilize CONNECT para conectar-se.\n");
         interface();
         printf("Desconectado.\n");
         // INSERT INTO Aluno (CPF, Nome, Endereco, Peso) VALUES (123456, Rogerio, RuaMarechal, 80);

@@ -53,7 +53,8 @@ extern int yydebug;
     VALUE = 263,
     QUIT = 264,
     LIST_TABLES = 265,
-    ALPHANUM = 266
+    ALPHANUM = 266,
+    CONNECT = 267
   };
 #endif
 /* Tokens.  */
@@ -66,20 +67,21 @@ extern int yydebug;
 #define QUIT 264
 #define LIST_TABLES 265
 #define ALPHANUM 266
+#define CONNECT 267
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 131 "yacc.y" /* yacc.c:1909  */
+#line 140 "yacc.y" /* yacc.c:1909  */
 
 	int intval;
 	double floatval;
 	int subtok;
 	char *strval;
 
-#line 83 "y.tab.h" /* yacc.c:1909  */
+#line 85 "y.tab.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

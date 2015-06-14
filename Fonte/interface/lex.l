@@ -8,6 +8,7 @@
 (?i:INSERT)						return INSERT;
 (?i:INTO)						return INTO;
 (?i:VALUES)						return VALUES;
+(?i:CONNECT)					return CONNECT;
 
 [,]								return *yytext;
 [;]								return *yytext;

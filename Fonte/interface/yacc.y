@@ -16,6 +16,7 @@ int yylex();
 int yylex_destroy();
 
 rc_insert GLOBAL_INS;
+int CONN_ACTIVE = 0;
 
 void yyerror(char *s, ...) {
 	noerror = 0;
@@ -107,14 +108,22 @@ int interface() {
 	pthread_join(pth, NULL);
 
 	while(1){
-		printf("database> ");
+		if (!CONN_ACTIVE) {
+			printf(">");
+		} else {
+			printf("database=# ");
+		}
 
 		pthread_create(&pth, NULL, (void*)yyparse, NULL);
 		pthread_join(pth, NULL);
 
 		if (noerror) {
 			if (GLOBAL_INS.N > 0) {
-				insert(&GLOBAL_INS);
+				if (CONN_ACTIVE) {
+					insert(&GLOBAL_INS);
+				} else {
+					printf("Você não está conectado. Utilize CONNECT para conectar.\n");
+				}
 			}
 		} else {
 			printf("Erro sintático, verifique.\n");
@@ -137,13 +146,14 @@ int interface() {
 
 %%
 
-%token INSERT INTO STRING NUMBER VALUES VALUE QUIT LIST_TABLES ALPHANUM;
+%token INSERT INTO STRING NUMBER VALUES VALUE QUIT LIST_TABLES ALPHANUM CONNECT;
 
 line: insert into tabela values ';' {if (col_count == val_count || GLOBAL_INS.columnName == NULL) GLOBAL_INS.N = val_count; else {printf("The column counter doesn't match the value counter.\n");noerror=0;};}
 	|';' '\n' {return 0;}
 	| STRING ';' line {return 0;}
 	| STRING '\n' line {return 0;}
 	| QUIT {exit(0);};
+	| CONNECT {CONN_ACTIVE = 1;};
 	| LIST_TABLES {printf("Aguardando implementação do LIST TABLES\n"); return 0;};
 	| ;
 insert: INSERT;

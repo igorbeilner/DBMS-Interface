@@ -7,12 +7,15 @@ struct fs_objects leObjeto(char *nTabela){
     char *tupla = (char *)malloc(sizeof(char)*TAMANHO_NOME_TABELA);
     char *auxNome = (char *)malloc(sizeof(char)*(strlen(nTabela)+1));
 
+    strcpy(auxNome, nTabela);
+    auxNome[strlen(nTabela)+1] = '\0';
+
     int cod;
     dicionario = fopen("fs_object.dat", "a+b"); // Abre o dicionario de dados.
 
     struct fs_objects objeto;
 
-    if(!verificaNomeTabela(nTabela)){
+    if(!verificaNomeTabela(auxNome)){
         printf("A tabela '%s' não existe no banco de dados.\n", nTabela);
         if (dicionario)
         	fclose(dicionario);
@@ -29,9 +32,6 @@ struct fs_objects leObjeto(char *nTabela){
         fseek(dicionario, -1, 1);
 
         fread(tupla, sizeof(char), TAMANHO_NOME_TABELA , dicionario); //Lê somente o nome da tabela
-
-        strcpy(auxNome, nTabela);
-        auxNome[strlen(nTabela)+1] = '\0';
 
         if(strcmp(toUppercase(tupla), toUppercase(auxNome)) == 0){ // Verifica se o nome dado pelo usuario existe no dicionario de dados.
             strcpy(objeto.nome, tupla);
