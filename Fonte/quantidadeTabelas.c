@@ -19,6 +19,5 @@ int quantidadeTabelas(){
 
     fclose(dicionario);
 
-
     return codTbl;
 }
