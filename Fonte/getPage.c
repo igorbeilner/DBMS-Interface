@@ -16,7 +16,7 @@ column * getPage(tp_buffer *buffer, tp_table *campos, struct fs_objects objeto, 
         return ERRO_DE_ALOCACAO;
     
     int i=0, j=0, t=0, h=0;
-    
+        
     while(i < buffer[page].position){
         t=0;
         if(j >= objeto.qtdCampos)

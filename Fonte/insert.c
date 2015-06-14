@@ -24,7 +24,7 @@ void insert(rc_insert *s_insert) {
 				printf("Tipo de dados invalido para a coluna\n");
 				return; 
 			}
-		}
+		}    
 	} else {
 		for(i=0; i < objeto.qtdCampos; i++) {
 			if(s_insert->type[i] == tabela->esquema->tipo)
