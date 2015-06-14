@@ -150,21 +150,22 @@ void clearGlobalIns() {
 
 int interface() {
 	clearGlobalIns();
+	while(1){
+		printf("database> ");
 
-	printf("database> ");
+		yyparse();
 
-	yyparse();
-
-	if (noerror) {
-		if (GLOBAL_INS.N > 0) {
-			printf("Comando reconhecido, chamando função...\n");
-			insert(&GLOBAL_INS);
+		if (noerror) {
+			if (GLOBAL_INS.N > 0) {
+				printf("Comando reconhecido, chamando função...\n");
+				insert(&GLOBAL_INS);
+			}
+		} else {
+			printf("Erro sintático, verifique.\n");
 		}
-	} else {
-		printf("Erro sintático, verifique.\n");
-	}
 
-	clearGlobalIns();
+		clearGlobalIns();
+	}
 	return 0;
 }
 
