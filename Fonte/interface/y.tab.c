@@ -153,22 +153,23 @@ int interface() {
 	pthread_t pth;
 
 	clearGlobalIns();
+	while(1){
+		printf("database> ");
 
-	printf("database> ");
+		pthread_create(&pth, NULL, (void*)yyparse, NULL);
+		pthread_join(pth, NULL);
 
-	pthread_create(&pth, NULL, (void*)yyparse, NULL);
-	pthread_join(pth, NULL);
-
-	if (noerror) {
-		if (GLOBAL_INS.N > 0) {
-			printf("Comando reconhecido, chamando função...\n");
-			insert(&GLOBAL_INS);
+		if (noerror) {
+			if (GLOBAL_INS.N > 0) {
+				//printf("Comando reconhecido, chamando função...\n");
+				insert(&GLOBAL_INS);
+			}
+		} else {
+			printf("Erro sintático, verifique.\n");
 		}
-	} else {
-		printf("Erro sintático, verifique.\n");
-	}
 
-	clearGlobalIns();
+		clearGlobalIns();
+	}
 	return 0;
 }
 
