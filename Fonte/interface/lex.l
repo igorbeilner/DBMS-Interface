@@ -5,12 +5,9 @@
 
 %%
 
-insert							return INSERT;
-INSERT							return INSERT;
-into							return INTO;
-INTO							return INTO;
-values							return VALUES;
-VALUES							return VALUES;
+(?i:INSERT)						return INSERT;
+(?i:INTO)						return INTO;
+(?i:VALUES)						return VALUES;
 
 [,]								return *yytext;
 [;]								return *yytext;
