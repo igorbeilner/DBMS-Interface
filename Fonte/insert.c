@@ -19,12 +19,12 @@ void insert(rc_insert *s_insert) {
 
 			if(s_insert->type[i] == 'S' && type == 'C') {
 				s_insert->values[i][1] = '\0';
-				type = 'S';
+				s_insert->type[i] = 'C';
 			}
 
 			if(s_insert->type[i] == 'D' && type == 'I') {
-				s_insert->values[i][1] = '\0';
-				type = 'I';
+				s_insert->values[i][procuraPonto(s_insert->values[i])] = '\0';
+				s_insert->type[i] = 'D';
 			}
 
 			if(!type) 		//verifica se a coluna foi encontrada
@@ -38,10 +38,22 @@ void insert(rc_insert *s_insert) {
 		}    
 	} else {
 		for(i=0; i < objeto.qtdCampos; i++) {
-			if(s_insert->type[i] == tabela->esquema->tipo)
+
+			if(s_insert->type[i] == 'S' && tabela->esquema[i].tipo == 'C') {
+				s_insert->values[i][1] = '\0';
+				s_insert->type[i] = 'C';
+			}
+
+			if(s_insert->type[i] == 'I' && tabela->esquema[i].tipo == 'D') {
+
+				s_insert->values[i][procuraPonto(s_insert->values[i])] = '\0';
+				s_insert->type[i] = 'D';
+			}
+
+			if(s_insert->type[i] == tabela->esquema[i].tipo)
 				colunas = insereValor(tabela, colunas, tabela->esquema[i].nome, s_insert->values[i]);
 			else {
-				printf("Tipo de dados invalido para a coluna\n");
+				printf("Tipo de dados invalido para a coluna %d\n", i);
 				return;
 			}
 		}

@@ -395,3 +395,5 @@ int cabecalho(tp_table *s, int num_reg);
 void insert(rc_insert *nomeTabela);
 
 int interface(); // Interpretador SQL
+
+int procuraPonto(char *Doub);
