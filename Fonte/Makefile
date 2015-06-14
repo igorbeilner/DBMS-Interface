@@ -7,7 +7,7 @@ lex.yy.c: lex.l y.tab.h
 	lex lex.l
 
 prog: *.c interface/*.c interface/*.h
-	gcc *.c interface/*.c -lfl -o prog -Wall
+	gcc *.c interface/*.c -lfl -pthread -o prog -Wall
 
 clean:
 	rm prog
