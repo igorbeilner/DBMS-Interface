@@ -51,13 +51,15 @@ void setColumn(char **nome) {
 	col_count++;
 }
 
-void setValue(char *nome) {
+void setValue(char *nome, char type) {
 	GLOBAL_INS.values = realloc(GLOBAL_INS.values, (val_count+1)*sizeof(char *));
+	GLOBAL_INS.type = realloc(GLOBAL_INS.type, (val_count+1)*sizeof(char));
 
 	// Adiciona o valor no vetor de strings
 	GLOBAL_INS.values[val_count] = malloc(sizeof(char)*(strlen(nome)+1));
 	strcpy(GLOBAL_INS.values[val_count], nome);
 	GLOBAL_INS.values[val_count][strlen(nome)] = '\0';
+	GLOBAL_INS.type[val_count] = type;
 
 	val_count++;
 }
@@ -81,6 +83,9 @@ void clearGlobalIns() {
 
 	free(GLOBAL_INS.values);
 	GLOBAL_INS.values = (char **)malloc(sizeof(char **));
+
+	free(GLOBAL_INS.type);
+	GLOBAL_INS.type = (char *)malloc(sizeof(char));
 	val_count = col_count = GLOBAL_INS.N = 0;
 	yylex_destroy();
 	noerror = 1;
@@ -146,6 +151,6 @@ values: VALUES '(' value_list ')';
 
 value_list: value | value ',' value_list;
 
-value: VALUE {setValue(yylval.strval);} | STRING {setValue(yylval.strval);};
+value: VALUE {setValue(yylval.strval, 'I');} | STRING {setValue(yylval.strval, 'S');};
 
 %%
