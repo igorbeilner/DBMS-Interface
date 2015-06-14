@@ -8,7 +8,6 @@ int main(){
     int nrTabelas = 3;
     int nTabela[nrTabelas];
     table  *tab[nrTabelas];
-    column *colunas;
     int object, schema;
 
     object      = existeArquivo("fs_object.dat");
@@ -50,39 +49,6 @@ int main(){
         // INSERT INTO Aluno (CPF, Nome, Endereco, Peso) VALUES (123456, Rogerio, RuaMarechal, 80);
         // INSERT INTO Aluno VALUES (123456, Rogerio, RuaMarechal, 80);
 
-
-        //Inserção de tuplas na tabela2
-        colunas = NULL;
-        colunas = insereValor(tab[1],colunas, "CodInst", "111");
-        colunas = insereValor(tab[1],colunas, "Nome", "UFFS");
-        colunas = insereValor(tab[1],colunas, "Endereco", "RuadeTerra");
-        colunas = insereValor(tab[1],colunas, "Reitor", "MandaChuva");
-        finalizaInsert("Inst", colunas);
-
-        colunas = NULL;
-        colunas = insereValor(tab[1],colunas, "CodInst", "222");
-        colunas = insereValor(tab[1],colunas, "Nome", "CEFET");
-        colunas = insereValor(tab[1],colunas, "Endereco", "RuadePedra");
-        colunas = insereValor(tab[1],colunas, "Reitor", "MandaVento");
-        finalizaInsert("Inst", colunas);
-
-        colunas = NULL;
-        colunas = insereValor(tab[1],colunas, "CodInst", "333");
-        colunas = insereValor(tab[1],colunas, "Nome", "UNOESC");
-        colunas = insereValor(tab[1],colunas, "Endereco", "RuadeAsfal");
-        colunas = insereValor(tab[1],colunas, "Reitor", "MandaAgua");
-        finalizaInsert("Inst", colunas);
-
-
-
-        //Inserção de tupla na tabela3
-        colunas = NULL;
-        colunas = insereValor(tab[2],colunas, "CodMat", "1401");
-        colunas = insereValor(tab[2],colunas, "CPF", "123456");
-        colunas = insereValor(tab[2],colunas, "CodInst", "333");
-        colunas = insereValor(tab[2],colunas, "Curso", "CC");
-        finalizaInsert("Inscri", colunas);
-        
     }
 
 
