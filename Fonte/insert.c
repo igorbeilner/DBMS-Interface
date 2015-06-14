@@ -7,7 +7,7 @@ void insert(rc_insert *s_insert) {
 	table *tabela = (table *)malloc(sizeof(table));
 	column *colunas = NULL;
 	struct fs_objects objeto;
-	char type;
+	char type, flag=0;
 
 	abreTabela(s_insert->tableName, &objeto, &tabela->esquema); //retorna o esquema para a insere valor
 	strcpy(tabela->nome, s_insert->tableName);
@@ -33,7 +33,7 @@ void insert(rc_insert *s_insert) {
 				colunas = insereValor(tabela, colunas, s_insert->columnName[i], s_insert->values[i]);
 			else {
 				printf("Tipo de dados invalido para a coluna\n");
-				return; 
+				flag=1; 
 			}
 		}    
 	} else {
@@ -54,11 +54,12 @@ void insert(rc_insert *s_insert) {
 				colunas = insereValor(tabela, colunas, tabela->esquema[i].nome, s_insert->values[i]);
 			else {
 				printf("Tipo de dados invalido para a coluna %d\n", i);
-				return;
+				flag=1;
 			}
 		}
 	}
-	if(finalizaInsert(s_insert->tableName, colunas) == SUCCESS)
-		printf("INSERT 0 1\n");
+	if(!flag)
+		if(finalizaInsert(s_insert->tableName, colunas) == SUCCESS)
+			printf("INSERT 0 1\n");
 
 }
