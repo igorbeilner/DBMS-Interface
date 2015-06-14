@@ -5,7 +5,7 @@
 int tamTupla(tp_table *esquema, struct fs_objects objeto) {// Retorna o tamanho total da tupla da tabela.
 
     int qtdCampos = objeto.qtdCampos, i, tamanhoGeral = 0;
-   
+
     if(qtdCampos){ // Lê o primeiro inteiro que representa a quantidade de campos da tabela.
         for(i = 0; i < qtdCampos; i++)
             tamanhoGeral += esquema[i].tam; // Soma os tamanhos de cada campo da tabela.
@@ -36,6 +36,7 @@ double get_decimal(char u[]) {
     double decimal=0;
     int i,tamanho = strtam(u);
     for(i=0;i<tamanho && u[i]!='.';i++); // posiciona o indice i encima do ponto
+    if (u[i] != '.') return 0;
     decimal=convertI(u+i+1);///(pot10(tamanho-i-1));
     decimal=(double)convertI(u+i+1)/(double)(pot10(tamanho-i-1));
     return decimal;
