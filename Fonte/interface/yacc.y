@@ -52,13 +52,22 @@ void setColumn(char **nome) {
 }
 
 void setValue(char *nome, char type) {
+	int i;
 	GLOBAL_INS.values = realloc(GLOBAL_INS.values, (val_count+1)*sizeof(char *));
 	GLOBAL_INS.type = realloc(GLOBAL_INS.type, (val_count+1)*sizeof(char));
 
 	// Adiciona o valor no vetor de strings
 	GLOBAL_INS.values[val_count] = malloc(sizeof(char)*(strlen(nome)+1));
-	strcpy(GLOBAL_INS.values[val_count], nome);
-	GLOBAL_INS.values[val_count][strlen(nome)] = '\0';
+	if (type == 'I') {
+		strcpy(GLOBAL_INS.values[val_count], nome);
+		GLOBAL_INS.values[val_count][strlen(nome)] = '\0';
+	} else if (type == 'S') {
+		for (i = 1; i < strlen(nome)-1; i++) {
+			GLOBAL_INS.values[val_count][i-1] = nome[i];
+		}
+		GLOBAL_INS.values[val_count][strlen(nome)-1] = '\0';
+	}
+
 	GLOBAL_INS.type[val_count] = type;
 
 	val_count++;
@@ -128,7 +137,7 @@ int interface() {
 
 %%
 
-%token INSERT INTO STRING NUMBER VALUES VALUE QUIT LIST_TABLES;
+%token INSERT INTO STRING NUMBER VALUES VALUE QUIT LIST_TABLES ALPHANUM;
 
 line: insert into tabela values ';' {if (col_count == val_count || GLOBAL_INS.columnName == NULL) GLOBAL_INS.N = val_count; else {printf("The column counter doesn't match the value counter.\n");noerror=0;};}
 	|';' '\n' {return 0;}
@@ -153,6 +162,7 @@ values: VALUES '(' value_list ')';
 
 value_list: value | value ',' value_list;
 
-value: VALUE {setValue(yylval.strval, 'I');} | STRING {setValue(yylval.strval, 'S');};
+value: VALUE {setValue(yylval.strval, 'I');}
+	 | ALPHANUM {setValue(yylval.strval, 'S');};
 
 %%
