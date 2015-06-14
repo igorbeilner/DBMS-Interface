@@ -65,7 +65,7 @@ void setValue(char *nome, char type) {
 		for (i = 1; i < strlen(nome)-1; i++) {
 			GLOBAL_INS.values[val_count][i-1] = nome[i];
 		}
-		GLOBAL_INS.values[val_count][strlen(nome)-1] = '\0';
+		GLOBAL_INS.values[val_count][strlen(nome)-2] = '\0';
 	}
 
 	GLOBAL_INS.type[val_count] = type;
