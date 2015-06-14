@@ -22,7 +22,7 @@ typedef struct tp_table{ // Estrutura usada para carregar fs_schema.dat
 	char tipo;						// Tipo do Campo.                     1bytes
 	int tam;						// Tamanho do Campo.                  4bytes
 	int chave;						// Tipo da chave                      4bytes
-	char tabelaApt[TAMANHO_NOME_TABELA]; //Nome da Tabela Apontada        20bytes 
+	char tabelaApt[TAMANHO_NOME_TABELA]; //Nome da Tabela Apontada        20bytes
 	char attApt[TAMANHO_NOME_CAMPO];	//Nome do Atributo Apontado       40bytes
 	struct tp_table *next;			// Encadeamento para o próximo campo.
 }tp_table;
@@ -397,3 +397,5 @@ void insert(rc_insert *nomeTabela);
 int interface(); // Interpretador SQL
 
 int procuraPonto(char *Doub);
+
+char *toUppercase(char *str);
