@@ -5,7 +5,7 @@ int verificaNomeTabela(char *nomeTabela) {
 
     FILE *dicionario;
     char *tupla = (char *)malloc(sizeof(char)*TAMANHO_NOME_TABELA);
-    char *nomeAux = (char *)malloc(sizeof(char)*strlen(nomeTabela)+1);
+    char *nomeAux = (char *)malloc(sizeof(char)*(strlen(nomeTabela)+1));
 
     if((dicionario = fopen("fs_object.dat","a+b")) == NULL){
 		free(tupla);
