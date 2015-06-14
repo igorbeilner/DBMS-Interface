@@ -22,7 +22,7 @@ void insert(rc_insert *s_insert) {
 				colunas = insereValor(tabela, colunas, s_insert->columnName[i], s_insert->values[i]);
 			else {
 				printf("Tipo de dados invalido para a coluna\n");
-				return;
+				return; 
 			}
 		}
 	} else {
