@@ -16,9 +16,9 @@ void insert(rc_insert *s_insert) {
 		for(i=0; i < s_insert->N; i++) {
 			
 			type = retornaTamanhoTipoDoCampo(s_insert->columnName[i], tabela);
-			if(!type) 
+			if(!type) 		//verifica se a coluna foi encontrada
 				printf("Nome da coluna invalido\n");
-			else if(s_insert->type[i] == type)
+			else if(s_insert->type[i] == type)	//verifica se o dado inserido e do mesmo tipo que o aceito pela coluna
 				colunas = insereValor(tabela, colunas, s_insert->columnName[i], s_insert->values[i]);
 			else {
 				printf("Tipo de dados invalido para a coluna\n");
