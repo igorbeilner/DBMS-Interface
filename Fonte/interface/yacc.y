@@ -13,6 +13,7 @@ extern FILE* outFile_p;
 int noerror, col_count, val_count;
 int yyparse();
 int yylex();
+int yylex_destroy();
 
 rc_insert GLOBAL_INS;
 
@@ -62,32 +63,35 @@ void setValue(char *nome) {
 }
 
 void clearGlobalIns() {
-    int i;
+	int i;
 
-    if (GLOBAL_INS.tableName)
-    	free(GLOBAL_INS.tableName);
-    GLOBAL_INS.tableName = (char *)malloc(sizeof(char *));
+	if (GLOBAL_INS.tableName)
+		free(GLOBAL_INS.tableName);
+	GLOBAL_INS.tableName = (char *)malloc(sizeof(char *));
 
-    for (i = 0; i < GLOBAL_INS.N; i++ ) {
-    	if (GLOBAL_INS.columnName)
-    		free(GLOBAL_INS.columnName[i]);
-    	free(GLOBAL_INS.values[i]);
-    }
+	for (i = 0; i < GLOBAL_INS.N; i++ ) {
+		if (GLOBAL_INS.columnName)
+			free(GLOBAL_INS.columnName[i]);
+		free(GLOBAL_INS.values[i]);
+	}
 
-    free(GLOBAL_INS.columnName);
-    GLOBAL_INS.columnName = (char **)malloc(sizeof(char **));
-    GLOBAL_INS.columnName = NULL;
+	free(GLOBAL_INS.columnName);
+	GLOBAL_INS.columnName = (char **)malloc(sizeof(char **));
+	GLOBAL_INS.columnName = NULL;
 
-    free(GLOBAL_INS.values);
-    GLOBAL_INS.values = (char **)malloc(sizeof(char **));
-    val_count = col_count = GLOBAL_INS.N = 0;
-    noerror = 1;
+	free(GLOBAL_INS.values);
+	GLOBAL_INS.values = (char **)malloc(sizeof(char **));
+	val_count = col_count = GLOBAL_INS.N = 0;
+	yylex_destroy();
+	noerror = 1;
 }
 
 int interface() {
 	pthread_t pth;
 
-	clearGlobalIns();
+	pthread_create(&pth, NULL, (void*)clearGlobalIns, NULL);
+	pthread_join(pth, NULL);
+
 	while(1){
 		printf("database> ");
 
@@ -96,14 +100,14 @@ int interface() {
 
 		if (noerror) {
 			if (GLOBAL_INS.N > 0) {
-				//printf("Comando reconhecido, chamando função...\n");
 				insert(&GLOBAL_INS);
 			}
 		} else {
 			printf("Erro sintático, verifique.\n");
 		}
 
-		clearGlobalIns();
+		pthread_create(&pth, NULL, (void*)clearGlobalIns, NULL);
+		pthread_join(pth, NULL);
 	}
 	return 0;
 }
