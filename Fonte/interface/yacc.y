@@ -128,13 +128,15 @@ int interface() {
 
 %%
 
-%token INSERT INTO STRING NUMBER VALUES VALUE;
+%token INSERT INTO STRING NUMBER VALUES VALUE QUIT LIST_TABLES;
 
 line: insert into tabela values ';' {if (col_count == val_count || GLOBAL_INS.columnName == NULL) GLOBAL_INS.N = val_count; else {printf("The column counter doesn't match the value counter.\n");noerror=0;};}
 	|';' '\n' {return 0;}
 	| STRING ';' line {return 0;}
 	| STRING '\n' line {return 0;}
-	|;
+	| QUIT {exit(0);};
+	| LIST_TABLES {printf("Aguardando implementação do LIST TABLES\n"); return 0;};
+	| ;
 insert: INSERT;
 
 into: INTO;

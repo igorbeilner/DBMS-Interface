@@ -21,5 +21,7 @@ VALUES							return VALUES;
 [0-9]*\.?[0-9]*					{yylval.strval = yytext; return VALUE;};
 
 \n								return 0;
+[\\][q]							return QUIT;
+[\\][dt]						return LIST_TABLES;
 [ \t]+							/* ignore whitespace */;
 %%

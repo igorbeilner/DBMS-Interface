@@ -50,7 +50,9 @@ extern int yydebug;
     STRING = 260,
     NUMBER = 261,
     VALUES = 262,
-    VALUE = 263
+    VALUE = 263,
+    QUIT = 264,
+    LIST_TABLES = 265
   };
 #endif
 /* Tokens.  */
@@ -60,6 +62,8 @@ extern int yydebug;
 #define NUMBER 261
 #define VALUES 262
 #define VALUE 263
+#define QUIT 264
+#define LIST_TABLES 265
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -73,7 +77,7 @@ union YYSTYPE
 	int subtok;
 	char *strval;
 
-#line 77 "y.tab.h" /* yacc.c:1909  */
+#line 81 "y.tab.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
