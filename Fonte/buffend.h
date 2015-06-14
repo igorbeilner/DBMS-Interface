@@ -52,6 +52,7 @@ typedef struct rc_insert {
     char   **columnName;        // Colunas da tabela
     char   **values;            // Valores da inserção
     int      N;                 // Número de colunas de valores
+    char 	*type;				// Tipo do dado
 }rc_insert;
 
 // Union's utilizados na conversão de variáveis do tipo inteiro e double.
@@ -391,6 +392,6 @@ int drawline(tp_buffer *buffpoll, tp_table *s, struct fs_objects objeto, int p, 
 
 int cabecalho(tp_table *s, int num_reg);
 
-int insert(rc_insert *nomeTabela);
+void insert(rc_insert *nomeTabela);
 
 int interface(); // Interpretador SQL

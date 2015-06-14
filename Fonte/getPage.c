@@ -7,8 +7,8 @@ column * getPage(tp_buffer *buffer, tp_table *campos, struct fs_objects objeto, 
     if(page >= PAGES)
         return ERRO_PAGINA_INVALIDA;
 
-    if(buffer[page].nrec == 0) //Essa página não possui registros
-        return ERRO_PARAMETRO;
+    //if(buffer[page].nrec == 0) //Essa página não possui registros
+        //return ERRO_PARAMETRO;
     
     column *colunas = (column *)malloc(sizeof(column)*objeto.qtdCampos*buffer[page].nrec); //Aloca a quantidade de campos necessária
     
