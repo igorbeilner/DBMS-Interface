@@ -35,6 +35,7 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
          */
         if (n > TAMANHO_NOME_CAMPO) {
            n = TAMANHO_NOME_CAMPO;
+           printf("Warning: nome truncado devido ao limite de tamanho\n");
         }
 
         int i;
@@ -47,6 +48,7 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
         
         if (n > tam && tipo == 'S') {
             n = tam;
+            printf("Warning: valor truncado devido ao limite de tamanho\n");
         }
 
         for(i=0; i < n-1; i++) e->valorCampo[i] = valorCampo[i];
