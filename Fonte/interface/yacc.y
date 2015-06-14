@@ -85,6 +85,8 @@ void clearGlobalIns() {
 }
 
 int interface() {
+	pthread_t pth;
+
 	clearGlobalIns();
 
 	printf("database> ");
