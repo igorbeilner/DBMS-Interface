@@ -14,7 +14,7 @@ void insert(rc_insert *s_insert) {
 
 	if(s_insert->columnName != NULL) {
 		for(i=0; i < s_insert->N; i++) {
-			
+
 			type = retornaTamanhoTipoDoCampo(s_insert->columnName[i], tabela);
 
 			if(s_insert->type[i] == 'S' && type == 'C') {
@@ -28,14 +28,14 @@ void insert(rc_insert *s_insert) {
 			}
 
 			if(!type) 		//verifica se a coluna foi encontrada
-				printf("Nome da coluna invalido\n");
+				printf("A coluna '%s' não existe na tabela '%s'\n", s_insert->columnName[i], tabela->nome);
 			else if(s_insert->type[i] == type)	//verifica se o dado inserido e do mesmo tipo que o aceito pela coluna
 				colunas = insereValor(tabela, colunas, s_insert->columnName[i], s_insert->values[i]);
 			else {
-				printf("Tipo de dados invalido para a coluna\n");
-				flag=1; 
+				printf("Tipo de dados invalido para a coluna '%s' da tabela '%s' (esperado: %c, recebido: %c)\n", s_insert->columnName[i], tabela->nome, type, s_insert->type[i]);
+				flag=1;
 			}
-		}    
+		}
 	} else {
 		for(i=0; i < objeto.qtdCampos; i++) {
 
@@ -53,7 +53,7 @@ void insert(rc_insert *s_insert) {
 			if(s_insert->type[i] == tabela->esquema[i].tipo)
 				colunas = insereValor(tabela, colunas, tabela->esquema[i].nome, s_insert->values[i]);
 			else {
-				printf("Tipo de dados invalido para a coluna %d\n", i);
+				printf("Tipo de dados invalido para a coluna '%s' da tabela '%s' (esperado: %c, recebido: %c)\n", tabela->esquema[i].nome, tabela->nome, tabela->esquema[i].tipo, s_insert->type[i]);
 				flag=1;
 			}
 		}

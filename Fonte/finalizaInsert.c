@@ -77,7 +77,7 @@ int finalizaInsert(char *nome, column *c){
         return ERRO_CHAVE_PRIMARIA;
     }
     if(erro == ERRO_DE_PARAMETRO) {
-        printf("Erro na função finalizaInsert(). Erro de parametro.\n");
+        printf("Erro de parametro.\n");
         free(c);    // Libera a memoria da estrutura.
 		free(auxT); // Libera a memoria da estrutura.
 		free(temp); // Libera a memoria da estrutura.
