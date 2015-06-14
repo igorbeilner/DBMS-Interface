@@ -18,7 +18,7 @@ VALUES							return VALUES;
 [)]								return *yytext;
 
 [a-zA-Z]+[0-9]*					{yylval.strval = yytext; return STRING;};
-([0-9][0-9]*\.?[0-9]*)?			{yylval.strval = yytext; return VALUE;};
+[0-9]*\.?[0-9]*					{yylval.strval = yytext; return VALUE;};
 
 \n								return 0;
 [ \t]+							/* ignore whitespace */;
