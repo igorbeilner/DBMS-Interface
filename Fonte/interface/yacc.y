@@ -3,6 +3,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
+#include <pthread.h>
 #include "../buffend.h"
 
 extern int  yylineno;
@@ -88,7 +89,8 @@ int interface() {
 
 	printf("database> ");
 
-	yyparse();
+	pthread_create(&pth, NULL, (void*)yyparse, NULL);
+	pthread_join(pth, NULL);
 
 	if (noerror) {
 		if (GLOBAL_INS.N > 0) {
