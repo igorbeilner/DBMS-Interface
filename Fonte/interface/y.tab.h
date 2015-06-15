@@ -53,8 +53,9 @@ extern int yydebug;
     VALUE = 263,
     QUIT = 264,
     LIST_TABLES = 265,
-    ALPHANUM = 266,
-    CONNECT = 267
+    LIST_TABLE = 266,
+    ALPHANUM = 267,
+    CONNECT = 268
   };
 #endif
 /* Tokens.  */
@@ -66,8 +67,9 @@ extern int yydebug;
 #define VALUE 263
 #define QUIT 264
 #define LIST_TABLES 265
-#define ALPHANUM 266
-#define CONNECT 267
+#define LIST_TABLE 266
+#define ALPHANUM 267
+#define CONNECT 268
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -81,7 +83,7 @@ union YYSTYPE
 	int subtok;
 	char *strval;
 
-#line 85 "y.tab.h" /* yacc.c:1909  */
+#line 87 "y.tab.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

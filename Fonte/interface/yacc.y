@@ -146,7 +146,7 @@ int interface() {
 
 %%
 
-%token INSERT INTO STRING NUMBER VALUES VALUE QUIT LIST_TABLES ALPHANUM CONNECT;
+%token INSERT INTO STRING NUMBER VALUES VALUE QUIT LIST_TABLES LIST_TABLE ALPHANUM CONNECT;
 
 line: insert into tabela values ';' {if (col_count == val_count || GLOBAL_INS.columnName == NULL) GLOBAL_INS.N = val_count; else {printf("The column counter doesn't match the value counter.\n");noerror=0;};}
 	|';' '\n' {return 0;}
@@ -154,7 +154,8 @@ line: insert into tabela values ';' {if (col_count == val_count || GLOBAL_INS.co
 	| STRING '\n' line {return 0;}
 	| QUIT {exit(0);};
 	| CONNECT {CONN_ACTIVE = 1;};
-	| LIST_TABLES {printf("Aguardando implementação do LIST TABLES\n"); return 0;};
+	| LIST_TABLE STRING {printTable(yylval.strval); return 0;};
+	| LIST_TABLES {printTable(NULL); return 0;};
 	| ;
 insert: INSERT;
 

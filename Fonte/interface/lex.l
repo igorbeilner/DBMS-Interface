@@ -21,6 +21,7 @@
 
 \n								return 0;
 [\\][q]							return QUIT;
-[\\][dt]						return LIST_TABLES;
+[\\][d]							return LIST_TABLES;
+[\\][dt]						return LIST_TABLE;
 [ \t]+							/* ignore whitespace */;
 %%
