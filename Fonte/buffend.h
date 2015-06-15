@@ -399,5 +399,3 @@ int interface(); // Interpretador SQL
 void printTable(char *tbl);
 
 int procuraPonto(char *Doub);
-
-char retornaTipoDoCampoExistente(table *tabela, char *nome);

@@ -15,7 +15,7 @@ void insert(rc_insert *s_insert) {
 	if(s_insert->columnName != NULL) {
 		for(i=0; i < s_insert->N; i++) {
 
-			type = retornaTipoDoCampoExistente(tabela, s_insert->columnName[i]);
+			type = retornaTamanhoTipoDoCampo(s_insert->columnName[i],tabela);
 
 			if(s_insert->type[i] == 'S' && type == 'C') {
 				s_insert->values[i][1] = '\0';
