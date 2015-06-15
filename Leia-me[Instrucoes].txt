@@ -325,7 +325,7 @@ O interpretador reconhece comandos SQL para INSERT. Por exemplo:
 A ordem das colunas especificadas não precisa ser na mesma ordem da criação e não é necessário informar todas. Quando o usuário
 não especificar a coluna o SGBD colocará um valor nulo, de acordo com o tipo de dado.
 
-Os tokens SQL NÃO são case-sensitive. Os nomes de tabelas e colunas são case-sensitive.
+Os tokens SQL NÃO são case-sensitive. Os nomes de tabelas e colunas SÃO case-sensitive.
 
 Além disso, foram implementados os comandos \d para listar todas as tabelas e \dt <tabela> para listar os atributos da tabela.
 
