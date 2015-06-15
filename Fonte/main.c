@@ -45,6 +45,7 @@ int main(){
 
         //teste do printTable
         //printTable(NULL);
+        printf("Bem-vindo! Utilize CONNECT para conectar-se ao banco.\n");
         interface();
         printf("Desconectado.\n");
         // INSERT INTO Aluno (CPF, Nome, Endereco, Peso) VALUES (123456, Rogerio, RuaMarechal, 80);
