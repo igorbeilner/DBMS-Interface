@@ -7,14 +7,15 @@ Objetivo: Mostrar as tabelas do banco de dados ou, em específico, os atributos 
 
 void printTable(char *tbl){
     if(tbl == NULL){     //mostra todas as tabelas do banco
+        FILE *dicionario;
         printf("Tabelas:\n");
         char *tupla = (char *)malloc(sizeof(char)*TAMANHO_NOME_TABELA);
         if((dicionario = fopen("fs_object.dat","a+b")) == NULL){
     		free(tupla);
-            return ERRO_ABRIR_ARQUIVO;
+            exit(1);
         }
 
-        while(fgetc (diconario) != EOF){
+        while(fgetc (dicionario) != EOF){
             fseek(dicionario, -1, 1);
             fread(tupla, sizeof(char), TAMANHO_NOME_TABELA, dicionario);
             printf("%s\n", tupla);
@@ -26,7 +27,7 @@ void printTable(char *tbl){
     else{               //mostra todos atributos da tabela *tbl
 
         int j,erro, x, p;
-        struct fs_objects objeto = leObjeto(nomeTabela);
+        struct fs_objects objeto = leObjeto(tbl);
 
         tp_table *esquema = leSchema(objeto);
 
