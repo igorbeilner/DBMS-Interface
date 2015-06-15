@@ -1,7 +1,80 @@
 #include "buffend.h"
 
+/* Funções auxiliares do insert. */
+
 // Verifica se dois tipos de dados são compatíveis, ou seja, se table_type pode receber
 // insert_type, mesmo não sendo exatamente o tipo especificado
+int typesCompatible(char table_type, char insert_type);
+
+// Busca o valor na inserção *s_insert designado à *columnName.
+// Se não existe, retorna 0, 0.0 ou \0
+char *getInsertedValue(rc_insert *s_insert, char *columnName, table *tabela);
+
+// Busca o tipo do valor na inserção *s_insert do valor que irá para *columnName
+// Se não existe em *s_insert, assume o tipo do esquema já que não receberá nada.
+char getInsertedType(rc_insert *s_insert, char *columnName, table *tabela);
+
+// Se foram especificadas colunas no *s_insert, verifica se elas existem no esquema.
+int allColumnsExists(rc_insert *s_insert, table *tabela);
+
+void insert(rc_insert *s_insert) {
+
+	int i;
+	table *tabela = (table *)malloc(sizeof(table));
+	column *colunas = NULL;
+	tp_table *esquema;
+	struct fs_objects objeto;
+	char  flag=0;
+
+	abreTabela(s_insert->tableName, &objeto, &tabela->esquema); //retorna o esquema para a insere valor
+	strcpy(tabela->nome, s_insert->tableName);
+
+	if(s_insert->columnName != NULL) {
+		if (allColumnsExists(s_insert, tabela)) {
+			for (esquema = tabela->esquema; esquema != NULL; esquema = esquema->next) {
+				if(typesCompatible(esquema->tipo,getInsertedType(s_insert, esquema->nome, tabela))) {
+					colunas = insereValor(tabela, colunas, esquema->nome, getInsertedValue(s_insert, esquema->nome, tabela));
+				} else {
+					printf("Tipo de dado inválido para a coluna '%s' da tabela '%s' (esperado: %c, recebido: %c). Nenhum registro inserido.\n", esquema->nome, tabela->nome, esquema->tipo, getInsertedType(s_insert, esquema->nome, tabela));
+					flag=1;
+				}
+			}
+		} else {
+			flag = 1;
+		}
+	} else {
+		if (s_insert->N == objeto.qtdCampos) {
+			for(i=0; i < objeto.qtdCampos; i++) {
+
+				if(s_insert->type[i] == 'S' && tabela->esquema[i].tipo == 'C') {
+					s_insert->values[i][1] = '\0';
+					s_insert->type[i] = 'C';
+				}
+
+				if(s_insert->type[i] == 'I' && tabela->esquema[i].tipo == 'D') {
+
+					s_insert->values[i][procuraPonto(s_insert->values[i])] = '\0';
+					s_insert->type[i] = 'D';
+				}
+
+				if(s_insert->type[i] == tabela->esquema[i].tipo)
+					colunas = insereValor(tabela, colunas, tabela->esquema[i].nome, s_insert->values[i]);
+				else {
+					printf("ERRO: Tipo de dado inválido para a coluna '%s' da tabela '%s' (esperado: %c, recebido: %c). Nenhum registro inserido.\n", tabela->esquema[i].nome, tabela->nome, tabela->esquema[i].tipo, s_insert->type[i]);
+					flag=1;
+				}
+			}
+		} else {
+			printf("ERRO: O número de valores da insersão não corresponde ao número de colunas da tabela. Nenhum registro inserido.\n");
+			flag = 1;
+		}
+	}
+
+	if(!flag)
+		if(finalizaInsert(s_insert->tableName, colunas) == SUCCESS)
+			printf("INSERT 0 1\n");
+}
+
 int typesCompatible(char table_type, char insert_type) {
 	return (table_type == 'D' && insert_type == 'I')
 		|| (table_type == 'S' && insert_type == 'I')
@@ -67,63 +140,4 @@ int allColumnsExists(rc_insert *s_insert, table *tabela) {
 		}
 
 	return 1;
-}
-
-void insert(rc_insert *s_insert) {
-
-	int i;
-	table *tabela = (table *)malloc(sizeof(table));
-	column *colunas = NULL;
-	tp_table *esquema;
-	struct fs_objects objeto;
-	char  flag=0;
-
-	abreTabela(s_insert->tableName, &objeto, &tabela->esquema); //retorna o esquema para a insere valor
-	strcpy(tabela->nome, s_insert->tableName);
-
-	if(s_insert->columnName != NULL) {
-		if (allColumnsExists(s_insert, tabela)) {
-			for (esquema = tabela->esquema; esquema != NULL; esquema = esquema->next) {
-				if(typesCompatible(esquema->tipo,getInsertedType(s_insert, esquema->nome, tabela))) {
-					colunas = insereValor(tabela, colunas, esquema->nome, getInsertedValue(s_insert, esquema->nome, tabela));
-				} else {
-					printf("Tipo de dado inválido para a coluna '%s' da tabela '%s' (esperado: %c, recebido: %c). Nenhum registro inserido.\n", esquema->nome, tabela->nome, esquema->tipo, getInsertedType(s_insert, esquema->nome, tabela));
-					flag=1;
-				}
-			}
-		} else {
-			flag = 1;
-		}
-	} else {
-		if (s_insert->N == objeto.qtdCampos) {
-			for(i=0; i < objeto.qtdCampos; i++) {
-
-				if(s_insert->type[i] == 'S' && tabela->esquema[i].tipo == 'C') {
-					s_insert->values[i][1] = '\0';
-					s_insert->type[i] = 'C';
-				}
-
-				if(s_insert->type[i] == 'I' && tabela->esquema[i].tipo == 'D') {
-
-					s_insert->values[i][procuraPonto(s_insert->values[i])] = '\0';
-					s_insert->type[i] = 'D';
-				}
-
-				if(s_insert->type[i] == tabela->esquema[i].tipo)
-					colunas = insereValor(tabela, colunas, tabela->esquema[i].nome, s_insert->values[i]);
-				else {
-					printf("ERRO: Tipo de dado inválido para a coluna '%s' da tabela '%s' (esperado: %c, recebido: %c). Nenhum registro inserido.\n", tabela->esquema[i].nome, tabela->nome, tabela->esquema[i].tipo, s_insert->type[i]);
-					flag=1;
-				}
-			}
-		} else {
-			printf("ERRO: O número de valores da insersão não corresponde ao número de colunas da tabela. Nenhum registro inserido.\n");
-			flag = 1;
-		}
-	}
-
-	if(!flag)
-		if(finalizaInsert(s_insert->tableName, colunas) == SUCCESS)
-			printf("INSERT 0 1\n");
-
 }
