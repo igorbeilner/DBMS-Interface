@@ -396,6 +396,8 @@ void insert(rc_insert *nomeTabela);
 
 int interface(); // Interpretador SQL
 
+void printTable(char *tbl);
+
 int procuraPonto(char *Doub);
 
 char *toUppercase(char *str);

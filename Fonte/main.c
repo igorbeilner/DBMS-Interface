@@ -45,6 +45,8 @@ int main(){
 
         printf("Conectando...\n");
         printf("Conectado!\n"); // hahaha
+        //teste do printTable
+        //printTable(NULL);
         interface();
         printf("Desconectado.\n");
         // INSERT INTO Aluno (CPF, Nome, Endereco, Peso) VALUES (123456, Rogerio, RuaMarechal, 80);
