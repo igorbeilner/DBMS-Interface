@@ -20,8 +20,8 @@
 [0-9]*\.?[0-9]*					{yylval.strval = yytext; return VALUE;};
 
 \n								return 0;
-[\\][q]							return QUIT;
-[\\][d]							return LIST_TABLES;
-[\\][dt]						return LIST_TABLE;
+[\\][q]+						return QUIT;
+[\\][d]+						return LIST_TABLES;
+[\\][d]+[t]+					return LIST_TABLE;
 [ \t]+							/* ignore whitespace */;
 %%
