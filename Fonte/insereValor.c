@@ -3,10 +3,10 @@
 
 // INSERE NA TABELA
 column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
-    
+
     column *aux;
     if(c == NULL){ // Se o valor a ser inserido é o primeiro, adiciona primeiro campo.
-    
+
         column *e = (column *)malloc(sizeof(column));
 
         if (e == NULL)    {
@@ -14,7 +14,7 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
         }
 
         int tam = retornaTamanhoValorCampo(nomeCampo, tab);
-        char tipo = retornaTamanhoTipoDoCampo(nomeCampo,tab); 
+        char tipo = retornaTamanhoTipoDoCampo(nomeCampo,tab);
 
         int nTam = strlen(valorCampo);
 
@@ -23,7 +23,7 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
         }
 
         e->valorCampo = (char *)malloc(sizeof(char) * (nTam+1));
-        
+
         if (e->valorCampo == NULL) {
             return ERRO_DE_ALOCACAO;
         }
@@ -31,7 +31,7 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
         int n = strlen(nomeCampo)+1;
 
         /**
-         * Verifica se o nome ultrapassa o limite, se sim trunca 
+         * Verifica se o nome ultrapassa o limite, se sim trunca
          */
         if (n > TAMANHO_NOME_CAMPO) {
            n = TAMANHO_NOME_CAMPO;
@@ -42,10 +42,10 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
         for(i=0; i < n-1; i++) e->nomeCampo[i] = nomeCampo[i];
             e->nomeCampo[i] = '\0';
 
-        //strncpy(e->nomeCampo, nomeCampo,n); 
+        //strncpy(e->nomeCampo, nomeCampo,n);
 
         n = strlen(valorCampo) + 1;
-        
+
         if (n > tam && tipo == 'S') {
             n = tam;
             printf("Warning: valor truncado devido ao limite de tamanho\n");
@@ -69,7 +69,7 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
                     return ERRO_DE_ALOCACAO;
                 }
                 int tam = retornaTamanhoValorCampo(nomeCampo, tab);
-                char tipo = retornaTamanhoTipoDoCampo(nomeCampo,tab); 
+                char tipo = retornaTamanhoTipoDoCampo(nomeCampo,tab);
 
                 int nTam = strlen(valorCampo);
 
@@ -88,7 +88,7 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
                 int n = strlen(nomeCampo)+1;
 
                 /**
-                 * Verifica se o nome do campo ultrapassa o limite, se sim trunca 
+                 * Verifica se o nome do campo ultrapassa o limite, se sim trunca
                  */
                 if (n > TAMANHO_NOME_CAMPO) {
                    n = TAMANHO_NOME_CAMPO;
@@ -100,9 +100,9 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
                 e->nomeCampo[i] = '\0';
 
                 //strncpy(e->nomeCampo, nomeCampo,n);
-                
+
                 n = strlen(valorCampo) + 1;
-        
+
                 if (n > tam && tipo == 'S') {
                     n = tam;
                     printf("Warning: valor truncado devido ao limite de tamanho\n");
