@@ -1,5 +1,7 @@
 #include "buffend.h"
 
+// Verifica se dois tipos de dados são compatíveis, ou seja, se table_type pode receber
+// insert_type, mesmo não sendo exatamente o tipo especificado
 int typesCompatible(char table_type, char insert_type) {
 	return (table_type == 'D' && insert_type == 'I')
 		|| (table_type == 'S' && insert_type == 'I')
@@ -10,10 +12,10 @@ int typesCompatible(char table_type, char insert_type) {
 		|| (table_type == 'I' && insert_type == 'I')
 		|| (table_type == 'S' && insert_type == 'S')
 		|| (table_type == 'C' && insert_type == 'C');
-
 }
 
-// Busca o valor da coluna. Assume que columnName foi preenchido.
+// Busca o valor na inserção *s_insert designado à *columnName.
+// Se não existe, retorna 0, 0.0 ou \0
 char *getInsertedValue(rc_insert *s_insert, char *columnName, table *tabela) {
 	int i;
 	char tipo, *noValue;
@@ -37,6 +39,8 @@ char *getInsertedValue(rc_insert *s_insert, char *columnName, table *tabela) {
 	return noValue;
 }
 
+// Busca o tipo do valor na inserção *s_insert do valor que irá para *columnName
+// Se não existe em *s_insert, assume o tipo do esquema já que não receberá nada.
 char getInsertedType(rc_insert *s_insert, char *columnName, table *tabela) {
 	int i;
 	char noValue;
@@ -51,7 +55,7 @@ char getInsertedType(rc_insert *s_insert, char *columnName, table *tabela) {
 	return noValue;
 }
 
-// Verifica se todos os columnName existem
+// Se foram especificadas colunas no *s_insert, verifica se elas existem no esquema.
 int allColumnsExists(rc_insert *s_insert, table *tabela) {
 	int i;
 	if (!s_insert->columnName) return 0;
@@ -83,7 +87,7 @@ void insert(rc_insert *s_insert) {
 				if(typesCompatible(esquema->tipo,getInsertedType(s_insert, esquema->nome, tabela))) {
 					colunas = insereValor(tabela, colunas, esquema->nome, getInsertedValue(s_insert, esquema->nome, tabela));
 				} else {
-					printf("Tipo de dados invalido para a coluna '%s' da tabela '%s' (esperado: %c, recebido: %c). Nenhum registro inserido.\n", esquema->nome, tabela->nome, esquema->tipo, getInsertedType(s_insert, esquema->nome, tabela));
+					printf("Tipo de dado inválido para a coluna '%s' da tabela '%s' (esperado: %c, recebido: %c). Nenhum registro inserido.\n", esquema->nome, tabela->nome, esquema->tipo, getInsertedType(s_insert, esquema->nome, tabela));
 					flag=1;
 				}
 			}
@@ -91,25 +95,30 @@ void insert(rc_insert *s_insert) {
 			flag = 1;
 		}
 	} else {
-		for(i=0; i < objeto.qtdCampos; i++) {
+		if (s_insert->N == objeto.qtdCampos) {
+			for(i=0; i < objeto.qtdCampos; i++) {
 
-			if(s_insert->type[i] == 'S' && tabela->esquema[i].tipo == 'C') {
-				s_insert->values[i][1] = '\0';
-				s_insert->type[i] = 'C';
+				if(s_insert->type[i] == 'S' && tabela->esquema[i].tipo == 'C') {
+					s_insert->values[i][1] = '\0';
+					s_insert->type[i] = 'C';
+				}
+
+				if(s_insert->type[i] == 'I' && tabela->esquema[i].tipo == 'D') {
+
+					s_insert->values[i][procuraPonto(s_insert->values[i])] = '\0';
+					s_insert->type[i] = 'D';
+				}
+
+				if(s_insert->type[i] == tabela->esquema[i].tipo)
+					colunas = insereValor(tabela, colunas, tabela->esquema[i].nome, s_insert->values[i]);
+				else {
+					printf("ERRO: Tipo de dado inválido para a coluna '%s' da tabela '%s' (esperado: %c, recebido: %c). Nenhum registro inserido.\n", tabela->esquema[i].nome, tabela->nome, tabela->esquema[i].tipo, s_insert->type[i]);
+					flag=1;
+				}
 			}
-
-			if(s_insert->type[i] == 'I' && tabela->esquema[i].tipo == 'D') {
-
-				s_insert->values[i][procuraPonto(s_insert->values[i])] = '\0';
-				s_insert->type[i] = 'D';
-			}
-
-			if(s_insert->type[i] == tabela->esquema[i].tipo)
-				colunas = insereValor(tabela, colunas, tabela->esquema[i].nome, s_insert->values[i]);
-			else {
-				printf("Tipo de dados invalido para a coluna '%s' da tabela '%s' (esperado: %c, recebido: %c). Nenhum registro inserido.\n", tabela->esquema[i].nome, tabela->nome, tabela->esquema[i].tipo, s_insert->type[i]);
-				flag=1;
-			}
+		} else {
+			printf("ERRO: O número de valores da insersão não corresponde ao número de colunas da tabela. Nenhum registro inserido.\n");
+			flag = 1;
 		}
 	}
 
