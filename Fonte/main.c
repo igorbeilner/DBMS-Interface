@@ -16,6 +16,8 @@ int main(){
     nTabela[0]  = existeArquivo("Aluno.dat");
     nTabela[1]  = existeArquivo("Inst.dat");
     nTabela[2]  = existeArquivo("Inscri.dat");
+
+
      if(!object || !schema){
 
         if(!nTabela[0]){                                                                    //Se ainda não existe a Aluno, a mesma é criada
@@ -42,14 +44,6 @@ int main(){
             tab[2] = adicionaCampo(tab[2], "Curso"   , 'S',  20  ,NPK, "","");
             finalizaTabela(tab[2]);
         }
-
-        //teste do printTable
-        //printTable(NULL);
-        printf("Bem-vindo! Utilize CONNECT para conectar-se ao banco.\n");
-        interface();
-        printf("Desconectado.\n");
-        // INSERT INTO Aluno (CPF, Nome, Endereco, Peso) VALUES (123456, Rogerio, RuaMarechal, 80);
-        // INSERT INTO Aluno VALUES (123456, Rogerio, RuaMarechal, 80);
 
 
         //Inserção de tuplas na tabela2
@@ -85,6 +79,14 @@ int main(){
         finalizaInsert("Inscri", colunas);
 
     }
+
+    //teste do printTable
+    //printTable(NULL);
+    printf("Bem-vindo! Utilize CONNECT para conectar-se ao banco.\n");
+    interface();
+    printf("Desconectado.\n");
+    // INSERT INTO Aluno (CPF, Nome, Endereco, Peso) VALUES (123456, Rogerio, RuaMarechal, 80);
+    // INSERT INTO Aluno VALUES (123456, Rogerio, RuaMarechal, 80);
 
 
     imprime("Aluno");        //Imprime os atributos da tabela "Aluno"
