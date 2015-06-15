@@ -30,14 +30,15 @@ void insert(rc_insert *s_insert) {
 				s_insert->type[i] = 'C';
 			}
 
-			if(s_insert->type[i] == 'D' && type == 'I') {
+			if(s_insert->type[i] == 'I' && type == 'D') {
 				s_insert->values[i][procuraPonto(s_insert->values[i])] = '\0';
 				s_insert->type[i] = 'D';
 			}
 
-			if(!type) 		//verifica se a coluna foi encontrada
+			if(!type) { 		//verifica se a coluna foi encontrada
 				printf("A coluna '%s' não existe na tabela '%s'\n", s_insert->columnName[i], tabela->nome);
-			else if(s_insert->type[i] == type)	//verifica se o dado inserido e do mesmo tipo que o aceito pela coluna
+				flag=1;
+			} else if(s_insert->type[i] == type)	//verifica se o dado inserido e do mesmo tipo que o aceito pela coluna
 				colunas = insereValor(tabela, colunas, s_insert->columnName[i], s_insert->values[i]);
 			else {
 				printf("Tipo de dados invalido para a coluna '%s' da tabela '%s' (esperado: %c, recebido: %c)\n", s_insert->columnName[i], tabela->nome, type, s_insert->type[i]);
