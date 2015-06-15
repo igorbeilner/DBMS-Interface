@@ -9,6 +9,7 @@
 (?i:INTO)						return INTO;
 (?i:VALUES)						return VALUES;
 (?i:CONNECT)					return CONNECT;
+(?i:SELECT)						return SELECT;
 
 [,]								return *yytext;
 [;]								return *yytext;

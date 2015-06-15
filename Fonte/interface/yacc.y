@@ -146,7 +146,7 @@ int interface() {
 
 %%
 
-%token INSERT INTO STRING NUMBER VALUES VALUE QUIT LIST_TABLES LIST_TABLE ALPHANUM CONNECT;
+%token INSERT INTO STRING NUMBER VALUES VALUE QUIT LIST_TABLES LIST_TABLE ALPHANUM CONNECT SELECT;
 
 line: insert into tabela values ';' {
 										if (col_count == val_count || GLOBAL_INS.columnName == NULL)
@@ -160,6 +160,13 @@ line: insert into tabela values ';' {
 	| STRING ';' line {return 0;}
 	| STRING '\n' line {return 0;}
 	| QUIT {exit(0);};
+	| SELECT STRING {
+						if (CONN_ACTIVE)
+							imprime(yylval.strval);
+						else
+							printf("Você não está conectado\n");
+						return 0;
+					};
 	| CONNECT {CONN_ACTIVE = 1;};
 	| LIST_TABLE STRING {
 							if(CONN_ACTIVE)
