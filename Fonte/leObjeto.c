@@ -11,15 +11,18 @@ struct fs_objects leObjeto(char *nTabela){
     struct fs_objects objeto;
 
     if(!verificaNomeTabela(nTabela)){
-        printf("Erro GRAVE! na função leObjeto(). Nome da tabela inválido.\n");
+        printf("A tabela '%s' não foi encontrada.\n", nTabela);
         if (dicionario)
             fclose(dicionario);
         free(tupla);
+
+        return objeto;
     }
 
     if (dicionario == NULL) {
-        printf("Erro GRAVE! na função leObjeto(). Arquivo não encontrado.\n\n");
+        printf("Dicionário de dados não encontrado.\n\n");
         free(tupla);
+        return objeto;
     }
 
 
