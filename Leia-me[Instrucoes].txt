@@ -2,7 +2,7 @@
 
 => 15 Julho 2014 <=
 
-Universidade Federal da Fronteira Sul – UFFS 
+Universidade Federal da Fronteira Sul – UFFS
 Curso: Ciência da Computação
 Componente Curricular: Banco de Dados II
 Professor: Dr. Denio Duarte
@@ -23,14 +23,14 @@ Sobre o dicionário de dados e o esquema:
 	};
 
 	typedef struct tp_table{ // Estrutura usada para carregar fs_schema.dat
-		char nome[TAMANHO_NOME_CAMPO];	
-		char tipo;						
-		int tam;						
-		struct tp_table *next;	
+		char nome[TAMANHO_NOME_CAMPO];
+		char tipo;
+		int tam;
+		struct tp_table *next;
 	}tp_table;
 
 	O arquivo fs_object.dat organiza-se da seguinte forma:
-		20B que representam o nome da tabela; 
+		20B que representam o nome da tabela;
 		1B que representam o código da tabela;
 		20B que representa o nome do arquivo onde estão as tuplas da tabela;
 		4B que representa a quantidade de campos da tabela.
@@ -105,7 +105,7 @@ Da compilação:
 
 => 16 outubro 2014 <=
 
-Universidade Federal da Fronteira Sul – UFFS 
+Universidade Federal da Fronteira Sul – UFFS
 Curso: Ciência da Computação
 Componente Curricular: Banco de Dados II
 Professor: Dr. Denio Duarte
@@ -126,14 +126,14 @@ Sobre o dicionário de dados e o esquema:
 	};
 
 	typedef struct tp_table{ // Estrutura usada para carregar fs_schema.dat
-		char nome[TAMANHO_NOME_CAMPO];	
-		char tipo;						
-		int tam;						
-		struct tp_table *next;	
+		char nome[TAMANHO_NOME_CAMPO];
+		char tipo;
+		int tam;
+		struct tp_table *next;
 	}tp_table;
 
 	O arquivo fs_object.dat organiza-se da seguinte forma:
-		20B que representam o nome da tabela; 
+		20B que representam o nome da tabela;
 		1B que representam o código da tabela;
 		20B que representa o nome do arquivo onde estão as tuplas da tabela;
 		4B que representa a quantidade de campos da tabela.
@@ -205,7 +205,7 @@ Da compilação:
 
 => 20 dezembro 2014 <=
 
-Universidade Federal da Fronteira Sul – UFFS 
+Universidade Federal da Fronteira Sul – UFFS
 Curso: Ciência da Computação
 Componente Curricular: Banco de Dados II
 Professor: Dr. Denio Duarte
@@ -218,7 +218,7 @@ Introdução:
 - Fazer uma funcionalidade para abrir uma tabela para trabalhar (uma função que englobe leObjeto e leSchema)
 - Fazer uma funcionalidade que exclua uma tabela (um drop table). A tabela deve ser excluída do disco e do dicionário.
 - Atualizar o txt com as instruções e comentar o código para facilitar as futuras manutenções.
-	
+
 A definição de chave primária ou chave estrangeira de um atributo é representado por um "flag" que é passado por parametro na criação da tabela. Exemplo abaixo
 
 - NPK (Sem chave);
@@ -226,7 +226,7 @@ A definição de chave primária ou chave estrangeira de um atributo é represen
 - FK (Chave estrangeira)
 
 Da criação das tabelas:
-	iniciaTabela("tabela"); 							
+	iniciaTabela("tabela");
 	adicionaCampo(tabela, "atrib11" , 'I', (sizeof(int))	,PK	," "		," ");
 	adicionaCampo(tabela, "atrib12" , 'I', (sizeof(int))	,NPK	," "		," ");
 	adicionaCampo(tabela, "atrib13" , 'S', 10		,NPK	," "		," ");
@@ -242,7 +242,7 @@ Obsevação Inserção: Se tabela tiver chave estrangeira FK, o primeiro atribut
 Da inserção de Tuplas:
 	insereValor(colunas, "nomeAtrib1", "value1");
 	insereValor(colunas, "nomeAtrib2", "value2");
-	erro = finalizaInsert("tabela", colunas); 
+	erro = finalizaInsert("tabela", colunas);
 
 -> Variável colunas do tipo column,
 -> Nome do atributo "nomeAtrib" a ser adicionado o valor,
@@ -298,3 +298,31 @@ Da compilação:
 	$ gcc *.c -o prog -Wall
 	$ ./prog
 
+##############LEIA-ME PARTE 4 #############################################################################################################
+
+=> 15 de junho de 2015 <=
+
+Universidade Federal da Fronteira Sul – UFFS
+Curso: Ciência da Computação
+Componente Curricular: Banco de Dados II
+Professor: Dr. Denio Duarte
+Alunos: Igor Beilner, Eliton Traverssini, Régis T. Feyh.
+=============================================================================================================================================
+
+O reconhecedor de comandos SQL foi implementado utilizando yacc e lex. Portanto, para aterá-los, basta editar os arquivos .y e .l que se
+econtram em /Fonte/interface/. Toda vez que for alterados esses arquivos, é necessário gerar novamente os arquivos do reconhecedor.
+Para isso, basta executar o comando 'make' no bash quando estiver na pasta onde estão os arquivos.
+
+Para compilar o projeto inteiro, basta executar o comando 'make' na pasta /Fonte/. Isso irá gerar o executável 'prog'.
+
+Implementado o interpretador do comando SQL INSERT. Agora o programa aceita comandos do tipo:
+ - INSERT INTO <NomeTabela> (<coluna1>,...,<colunaN>) VALUES (<valorNum>, '<valorStr>',...);
+ - INSERT INTO <NomeTabela> VALUES (<valorNum>, '<valorStr>',...); // Desde que o número de valores corresponda ao número de colunas
+
+
+A ordem das colunas especificadas não precisa ser na mesma ordem da criação e não é necessário informar todas. Quando o usuário
+não especificar a coluna o SGBD colocará um valor nulo, de acordo com o tipo de dado.
+
+Além disso, foram implementados os comandos \d para listar todas as tabelas e \dt <tabela> para listar os atributos da tabela.
+
+Para auxiliar nos testes, existe um SELECT bem rudimentar que imprime tudo. O comando é: SELECT <nomeTabela>
