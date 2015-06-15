@@ -52,7 +52,10 @@ void printTable(char *tbl){
 
         // PARA IMPRIMIR PÁGINA
         //printf("Número de tuplas: %d\n", --x);
-    	p = 0;
+
+        printf("Table: public.%s\n", tbl);
+        printf(" Column     | Type\n");
+        p = 0;
     	while(x){
     	    column *pagina = getPage(bufferpoll, esquema, objeto, p);
     	    if(pagina == ERRO_PARAMETRO){
@@ -61,15 +64,15 @@ void printTable(char *tbl){
     	    }
     		for(j=0; j < objeto.qtdCampos*bufferpoll[p].nrec; j++){
             	if(pagina[j].tipoCampo == 'S')
-                	printf("%s\n", pagina[j].nomeCampo);
+                	printf("%s     | text\n", pagina[j].nomeCampo);
             	else if(pagina[j].tipoCampo == 'I'){
                 	//int *n = (int *)&pagina[j].valorCampo[0];
-                	printf("%s\n",pagina[j].nomeCampo);
+                	printf("%s     | integer\n",pagina[j].nomeCampo);
             	} else if(pagina[j].tipoCampo == 'C'){
-                	printf("%s\n",pagina[j].nomeCampo);
+                	printf("%s     | char\n",pagina[j].nomeCampo);
             	} else if(pagina[j].tipoCampo == 'D'){
                 	//double *n = (double *)&pagina[j].valorCampo[0];
-            	    printf("%s\n",pagina[j].nomeCampo);
+            	    printf("%s     | double\n",pagina[j].nomeCampo);
             	}
             	//if(j>=1 && ((j+1)%objeto.qtdCampos)==0){
                 //	printf("\n");
