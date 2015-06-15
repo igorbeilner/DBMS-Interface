@@ -27,6 +27,11 @@ void printTable(char *tbl){
 		printf("\n\n");
 	} else{               //mostra todos atributos da tabela *tbl
 
+		if(!verificaNomeTabela(tbl)) {
+			printf("Nome da tabela invalido!\n");
+			return;
+		}
+
 		printf("Table: public.%s\n", tbl);
 		printf(" Column    | Type\n");
 		printf("----------------------\n");
