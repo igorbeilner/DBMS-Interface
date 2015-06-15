@@ -2,21 +2,31 @@
 #include "buffend.h"
 
 char retornaTamanhoTipoDoCampo(char *nomeCampo, table  *tab) {
-    
-    char tipo = 0;
+	char *auxNomeParam, *auxNomeStruct;
 
-    tp_table *temp = tab->esquema;
+	char tipo = 0;
 
-    while(temp != NULL) {
+	tp_table *temp = tab->esquema;
 
-       if (strcmp(nomeCampo,temp->nome) == 0) {
-            tipo = temp->tipo;
+	auxNomeParam = (char *)malloc((strlen(nomeCampo)+1)*sizeof(char));
+	strcpy(auxNomeParam, nomeCampo);
 
-            return tipo;
-       }
+	while(temp != NULL) {
+		auxNomeStruct = (char *)malloc((strlen(temp->nome)+1)*sizeof(char));
+		strcpy(auxNomeStruct, temp->nome);
 
-       temp = temp->next;
-    }
+		if (strcmp(toUppercase(auxNomeParam),toUppercase(auxNomeStruct)) == 0) {
+			tipo = temp->tipo;
 
-    return tipo;
+			free(auxNomeStruct);
+			free(auxNomeParam);
+			return tipo;
+		}
+
+		free(auxNomeStruct);
+		temp = temp->next;
+	}
+
+	free(auxNomeParam);
+	return tipo;
 }
