@@ -53,6 +53,7 @@ void printTable(char *tbl){
 
         // PARA IMPRIMIR PÁGINA
         //printf("Número de tuplas: %d\n", --x);
+        x--;
 
         printf("Table: public.%s\n", tbl);
         printf(" Column     | Type\n");
