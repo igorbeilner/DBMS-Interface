@@ -85,17 +85,6 @@ int main(){
     printf("Bem-vindo! Utilize CONNECT para conectar-se ao banco.\n");
     interface();
     printf("Desconectado.\n");
-    // INSERT INTO Aluno (CPF, Nome, Endereco, Peso) VALUES (123456, Rogerio, RuaMarechal, 80);
-    // INSERT INTO Aluno VALUES (123456, Rogerio, RuaMarechal, 80);
-
-
-    imprime("Aluno");        //Imprime os atributos da tabela "Aluno"
-    excluirTabela("Aluno");
-    imprime("Inst");
-    excluirTabela("Inst");   //Exclui os dados da tabela do dicionario e remove-a do disco
-    imprime("Inscri");
-    excluirTabela("Inscri");
-
 
     return 0;
 }
