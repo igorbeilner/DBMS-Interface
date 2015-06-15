@@ -42,12 +42,17 @@ tp_table *leSchema (struct fs_objects objeto){
                 fread(tupla, sizeof(char), TAMANHO_NOME_CAMPO, schema);
                 strcpy(esquema[i].attApt,tupla);
 
+                if (i > 0)
+                    esquema[i-1].next = &esquema[i];
+
                 i++;
             } else {
                 fseek(schema, 109, 1); // Pula a quantidade de caracteres para a proxima verificacao (40B do nome, 1B do tipo e 4B do tamanho,4B da chave, 20B do nome da Tabela Apontada e 40B do atributo apontado).
             }
         }
     }
+    esquema[i].next = NULL;
+
     free(tupla);
     free(tuplaT);
     fclose(schema);
