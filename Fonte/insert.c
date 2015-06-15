@@ -16,17 +16,12 @@ void insert(rc_insert *s_insert) {
 	if(s_insert->columnName != NULL) {
 		for(i=0; i < s_insert->N; i++) {
 
-			printf("----\n");
 			for (esq = tabela->esquema, type = 0; esq != NULL; esq = esq->next) {
-				/*printf("Compara: %s e %s\n", esq->nome, s_insert->columnName[i]);
 				if (strcmp(esq->nome, s_insert->columnName[i]) == 0) {
 					type = esq->tipo;
 					break;
 				}
-				printf("next: %s\n", esq->next->nome);*/
-				printf("%s\n", esq->nome);
 			}
-			printf("-----\n");
 
 			//type = retornaTamanhoTipoDoCampo(s_insert->columnName[i], tabela);
 
