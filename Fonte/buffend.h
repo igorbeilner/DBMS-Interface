@@ -392,10 +392,28 @@ int drawline(tp_buffer *buffpoll, tp_table *s, struct fs_objects objeto, int p, 
 
 int cabecalho(tp_table *s, int num_reg);
 
+/*------------------------------------------------------------------------------------ */
+/* ----------------- Igor Beilner, Eliton Traverssini, Régis T. Feyh ----------------- */
+/*------------------------------------------------------------------------------------ */
+/* insert: Recebe uma estrutura rc_insert e valida os tokens encontrados pela interface().
+ *         Se os valores forem válidos, insere um novo valor.
+ */
 void insert(rc_insert *nomeTabela);
 
-int interface(); // Interpretador SQL
+/* interface: Parte gerada pelo yacc, presente no arquivo yacc.y
+ *            É responsável por fazer a conexão ao banco e chamar yyparse()
+ *            para fazer a validação dos comandos enviados pelo usuário.
+ */
+int interface();
 
+/* printTable: Imprime a list de tabelas quando o usuário enviar o comando \d
+ *             ou imprime a list de atributos da tabela quando o usuário informar
+ *             \dt <Nome da tabela>
+ */
 void printTable(char *tbl);
 
+/* procuraPonto: Auxiliar para certificar que o valor é double.
+ *               O valor é armazenado como char, mas no formato de double, então
+ *               se tiver o ., é porque é double.
+ */
 int procuraPonto(char *Doub);
