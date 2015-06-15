@@ -51,6 +51,20 @@ char getInsertedType(rc_insert *s_insert, char *columnName, table *tabela) {
 	return noValue;
 }
 
+// Verifica se todos os columnName existem
+int allColumnsExists(rc_insert *s_insert, table *tabela) {
+	int i;
+	if (!s_insert->columnName) return 0;
+
+	for (i = 0; i < s_insert->N; i++)
+		if (retornaTamanhoTipoDoCampo(s_insert->columnName[i], tabela) == 0) {
+			printf("A coluna '%s' não existe na tabela '%s'. Nenhum registro inserido.\n", s_insert->columnName[i], tabela->nome);
+			return 0;
+		}
+
+	return 1;
+}
+
 void insert(rc_insert *s_insert) {
 
 	int i;
@@ -64,13 +78,17 @@ void insert(rc_insert *s_insert) {
 	strcpy(tabela->nome, s_insert->tableName);
 
 	if(s_insert->columnName != NULL) {
-		for (esquema = tabela->esquema; esquema != NULL; esquema = esquema->next) {
-			if(typesCompatible(esquema->tipo,getInsertedType(s_insert, esquema->nome, tabela))) {
-				colunas = insereValor(tabela, colunas, esquema->nome, getInsertedValue(s_insert, esquema->nome, tabela));
-			} else {
-				printf("Tipo de dados invalido para a coluna '%s' da tabela '%s' (esperado: %c, recebido: %c)\n", esquema->nome, tabela->nome, esquema->tipo, getInsertedType(s_insert, esquema->nome, tabela));
-				flag=1;
+		if (allColumnsExists(s_insert, tabela)) {
+			for (esquema = tabela->esquema; esquema != NULL; esquema = esquema->next) {
+				if(typesCompatible(esquema->tipo,getInsertedType(s_insert, esquema->nome, tabela))) {
+					colunas = insereValor(tabela, colunas, esquema->nome, getInsertedValue(s_insert, esquema->nome, tabela));
+				} else {
+					printf("Tipo de dados invalido para a coluna '%s' da tabela '%s' (esperado: %c, recebido: %c). Nenhum registro inserido.\n", esquema->nome, tabela->nome, esquema->tipo, getInsertedType(s_insert, esquema->nome, tabela));
+					flag=1;
+				}
 			}
+		} else {
+			flag = 1;
 		}
 	} else {
 		for(i=0; i < objeto.qtdCampos; i++) {
@@ -89,7 +107,7 @@ void insert(rc_insert *s_insert) {
 			if(s_insert->type[i] == tabela->esquema[i].tipo)
 				colunas = insereValor(tabela, colunas, tabela->esquema[i].nome, s_insert->values[i]);
 			else {
-				printf("Tipo de dados invalido para a coluna '%s' da tabela '%s' (esperado: %c, recebido: %c)\n", tabela->esquema[i].nome, tabela->nome, tabela->esquema[i].tipo, s_insert->type[i]);
+				printf("Tipo de dados invalido para a coluna '%s' da tabela '%s' (esperado: %c, recebido: %c). Nenhum registro inserido.\n", tabela->esquema[i].nome, tabela->nome, tabela->esquema[i].tipo, s_insert->type[i]);
 				flag=1;
 			}
 		}
