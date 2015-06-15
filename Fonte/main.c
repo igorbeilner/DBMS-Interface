@@ -43,8 +43,6 @@ int main(){
             finalizaTabela(tab[2]);
         }
 
-        printf("Conectando...\n");
-        printf("Conectado!\n"); // hahaha
         //teste do printTable
         //printTable(NULL);
         interface();
