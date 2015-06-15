@@ -6,7 +6,6 @@ void insert(rc_insert *s_insert) {
 	int i;
 	table *tabela = (table *)malloc(sizeof(table));
 	column *colunas = NULL;
-	tp_table *esq;
 	struct fs_objects objeto;
 	char type, flag=0;
 
@@ -16,14 +15,7 @@ void insert(rc_insert *s_insert) {
 	if(s_insert->columnName != NULL) {
 		for(i=0; i < s_insert->N; i++) {
 
-			for (esq = tabela->esquema, type = 0; esq != NULL; esq = esq->next) {
-				if (strcmp(esq->nome, s_insert->columnName[i]) == 0) {
-					type = esq->tipo;
-					break;
-				}
-			}
-
-			//type = retornaTamanhoTipoDoCampo(s_insert->columnName[i], tabela);
+			type = retornaTipoDoCampoExistente(tabela, s_insert->columnName[i]);
 
 			if(s_insert->type[i] == 'S' && type == 'C') {
 				s_insert->values[i][1] = '\0';
