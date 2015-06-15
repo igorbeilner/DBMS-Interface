@@ -587,9 +587,9 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   151,   151,   152,   153,   154,   155,   156,   157,   158,
-     159,   160,   162,   164,   164,   166,   166,   168,   168,   170,
-     172,   174,   174,   176,   177
+       0,   151,   151,   159,   160,   161,   162,   163,   164,   171,
+     178,   179,   181,   183,   183,   185,   185,   187,   187,   189,
+     191,   193,   193,   195,   196
 };
 #endif
 
@@ -1382,78 +1382,97 @@ yyreduce:
     {
         case 2:
 #line 151 "yacc.y" /* yacc.c:1646  */
-    {if (col_count == val_count || GLOBAL_INS.columnName == NULL) GLOBAL_INS.N = val_count; else {printf("The column counter doesn't match the value counter.\n");noerror=0;};}
-#line 1387 "y.tab.c" /* yacc.c:1646  */
+    {
+										if (col_count == val_count || GLOBAL_INS.columnName == NULL)
+											GLOBAL_INS.N = val_count;
+										else {
+											printf("The column counter doesn't match the value counter.\n");
+											noerror=0;
+										}
+									}
+#line 1394 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 152 "yacc.y" /* yacc.c:1646  */
+#line 159 "yacc.y" /* yacc.c:1646  */
     {return 0;}
-#line 1393 "y.tab.c" /* yacc.c:1646  */
+#line 1400 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 153 "yacc.y" /* yacc.c:1646  */
+#line 160 "yacc.y" /* yacc.c:1646  */
     {return 0;}
-#line 1399 "y.tab.c" /* yacc.c:1646  */
+#line 1406 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 154 "yacc.y" /* yacc.c:1646  */
+#line 161 "yacc.y" /* yacc.c:1646  */
     {return 0;}
-#line 1405 "y.tab.c" /* yacc.c:1646  */
+#line 1412 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 155 "yacc.y" /* yacc.c:1646  */
+#line 162 "yacc.y" /* yacc.c:1646  */
     {exit(0);}
-#line 1411 "y.tab.c" /* yacc.c:1646  */
+#line 1418 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 156 "yacc.y" /* yacc.c:1646  */
+#line 163 "yacc.y" /* yacc.c:1646  */
     {CONN_ACTIVE = 1;}
-#line 1417 "y.tab.c" /* yacc.c:1646  */
+#line 1424 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 157 "yacc.y" /* yacc.c:1646  */
-    {printTable(yylval.strval); return 0;}
-#line 1423 "y.tab.c" /* yacc.c:1646  */
+#line 164 "yacc.y" /* yacc.c:1646  */
+    {
+							if(CONN_ACTIVE)
+								printTable(yylval.strval);
+							else
+								printf("Você não está conectado\n");
+							return 0;
+						}
+#line 1436 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 158 "yacc.y" /* yacc.c:1646  */
-    {printTable(NULL); return 0;}
-#line 1429 "y.tab.c" /* yacc.c:1646  */
+#line 171 "yacc.y" /* yacc.c:1646  */
+    {
+					if(CONN_ACTIVE)
+						printTable(NULL);
+					else
+						printf("Você não está conectado\n");
+					return 0;
+				}
+#line 1448 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 164 "yacc.y" /* yacc.c:1646  */
+#line 183 "yacc.y" /* yacc.c:1646  */
     {setTable(yytext);}
-#line 1435 "y.tab.c" /* yacc.c:1646  */
+#line 1454 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 170 "yacc.y" /* yacc.c:1646  */
+#line 189 "yacc.y" /* yacc.c:1646  */
     {setColumn(yytext);}
-#line 1441 "y.tab.c" /* yacc.c:1646  */
+#line 1460 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 176 "yacc.y" /* yacc.c:1646  */
+#line 195 "yacc.y" /* yacc.c:1646  */
     {setValue(yylval.strval, 'I');}
-#line 1447 "y.tab.c" /* yacc.c:1646  */
+#line 1466 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 177 "yacc.y" /* yacc.c:1646  */
+#line 196 "yacc.y" /* yacc.c:1646  */
     {setValue(yylval.strval, 'S');}
-#line 1453 "y.tab.c" /* yacc.c:1646  */
+#line 1472 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1457 "y.tab.c" /* yacc.c:1646  */
+#line 1476 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1681,5 +1700,5 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 179 "yacc.y" /* yacc.c:1906  */
+#line 198 "yacc.y" /* yacc.c:1906  */
 
