@@ -411,9 +411,3 @@ int interface();
  *             \dt <Nome da tabela>
  */
 void printTable(char *tbl);
-
-/* procuraPonto: Auxiliar para certificar que o valor é double.
- *               O valor é armazenado como char, mas no formato de double, então
- *               se tiver o ., é porque é double.
- */
-int procuraPonto(char *Doub);

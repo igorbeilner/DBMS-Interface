@@ -1,7 +1,7 @@
 CONNECT
-insert into Aluno (CPF, Nome, Endereco, Peso) values (123123, 'igor', 'rua', 123);
-insert into Aluno (CPF, Nome, Endereco, Peso) values (123122, 'greg', 'rua', 123);
-insert into Aluno values (123121, 'roges', 'rua', 123);
+insert into Aluno (CPF, Nome, Endereco, Peso) values (123123, 'igor', 'rua', 123.5);
+insert into Aluno (CPF, Nome, Endereco, Peso) values (123122, 'greg', 'rua', 123.5);
+insert into Aluno values (123121, 'roges', 'rua', 123.5);
 insert into Aluno values (123120, 'marcos', 'rua', 123);
 insert into Aluno values (123119, 'igor beilner', 'rua', 123);
 insert into Aluno values (123118, 'gregory beilner', 'rua', 123);

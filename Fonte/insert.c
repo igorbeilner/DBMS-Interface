@@ -53,7 +53,6 @@ void insert(rc_insert *s_insert) {
 
 				if(s_insert->type[i] == 'I' && tabela->esquema[i].tipo == 'D') {
 
-					s_insert->values[i][procuraPonto(s_insert->values[i])] = '\0';
 					s_insert->type[i] = 'D';
 				}
 
