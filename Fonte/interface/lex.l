@@ -17,7 +17,7 @@
 [)]								return *yytext;
 
 [a-zA-Z]+[0-9]*					{yylval.strval = yytext; return STRING;};
-[\']([a-zA-Z0-9]+[ ]*)+[\']  {yylval.strval = yytext; return ALPHANUM;};
+[\']([^'])+[\']			  		{yylval.strval = yytext; return ALPHANUM;};
 [0-9]*\.?[0-9]*					{yylval.strval = yytext; return VALUE;};
 
 \n								return 0;
