@@ -47,31 +47,33 @@ extern int yydebug;
   {
     INSERT = 258,
     INTO = 259,
-    STRING = 260,
-    NUMBER = 261,
-    VALUES = 262,
-    VALUE = 263,
-    QUIT = 264,
-    LIST_TABLES = 265,
-    LIST_TABLE = 266,
-    ALPHANUM = 267,
-    CONNECT = 268,
-    SELECT = 269
+    VALUES = 260,
+    SELECT = 261,
+    FROM = 262,
+    STRING = 263,
+    NUMBER = 264,
+    VALUE = 265,
+    QUIT = 266,
+    LIST_TABLES = 267,
+    LIST_TABLE = 268,
+    ALPHANUM = 269,
+    CONNECT = 270
   };
 #endif
 /* Tokens.  */
 #define INSERT 258
 #define INTO 259
-#define STRING 260
-#define NUMBER 261
-#define VALUES 262
-#define VALUE 263
-#define QUIT 264
-#define LIST_TABLES 265
-#define LIST_TABLE 266
-#define ALPHANUM 267
-#define CONNECT 268
-#define SELECT 269
+#define VALUES 260
+#define SELECT 261
+#define FROM 262
+#define STRING 263
+#define NUMBER 264
+#define VALUE 265
+#define QUIT 266
+#define LIST_TABLES 267
+#define LIST_TABLE 268
+#define ALPHANUM 269
+#define CONNECT 270
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -85,7 +87,7 @@ union YYSTYPE
 	int subtok;
 	char *strval;
 
-#line 89 "y.tab.h" /* yacc.c:1909  */
+#line 91 "y.tab.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

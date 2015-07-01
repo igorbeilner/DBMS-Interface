@@ -146,43 +146,47 @@ int interface() {
 
 %%
 
-%token INSERT INTO STRING NUMBER VALUES VALUE QUIT LIST_TABLES LIST_TABLE ALPHANUM CONNECT SELECT;
+%token  INSERT		INTO		VALUES		SELECT		FROM
+		STRING		NUMBER		VALUE		QUIT		LIST_TABLES
+		LIST_TABLE 	ALPHANUM 	CONNECT;
 
 line: insert into tabela values ';' {
-										if (col_count == val_count || GLOBAL_INS.columnName == NULL)
-											GLOBAL_INS.N = val_count;
-										else {
-											printf("The column counter doesn't match the value counter.\n");
-											noerror=0;
-										}
-									}
-	|';' '\n' {return 0;}
-	| STRING ';' line {return 0;}
-	| STRING '\n' line {return 0;}
-	| QUIT {exit(0);};
-	| SELECT STRING {
-						if (CONN_ACTIVE)
-							imprime(yylval.strval);
-						else
-							printf("Você não está conectado\n");
-						return 0;
-					};
-	| CONNECT {CONN_ACTIVE = 1;};
+			if (col_count == val_count || GLOBAL_INS.columnName == NULL)
+				GLOBAL_INS.N = val_count;
+			else {
+				printf("The column counter doesn't match the value counter.\n");
+				noerror=0;
+			}
+		};
+
+	| SELECT '*' FROM STRING {
+			if (CONN_ACTIVE)
+				imprime(yylval.strval);
+			else
+				printf("Você não está conectado\n");
+			return 0;
+		} ';';
+
 	| LIST_TABLE STRING {
-							if(CONN_ACTIVE)
-								printTable(yylval.strval);
-							else
-								printf("Você não está conectado\n");
-							return 0;
-						};
+			if(CONN_ACTIVE)
+				printTable(yylval.strval);
+			else
+				printf("Você não está conectado\n");
+			return 0;
+		};
+
 	| LIST_TABLES {
-					if(CONN_ACTIVE)
-						printTable(NULL);
-					else
-						printf("Você não está conectado\n");
-					return 0;
-				};
+			if(CONN_ACTIVE)
+				printTable(NULL);
+			else
+				printf("Você não está conectado\n");
+			return 0;
+		};
+
+	| CONNECT {CONN_ACTIVE = 1; return 0;};
+	| QUIT {exit(0);};
 	| ;
+
 insert: INSERT;
 
 into: INTO;

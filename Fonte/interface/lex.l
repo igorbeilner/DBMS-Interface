@@ -10,9 +10,11 @@
 (?i:VALUES)						return VALUES;
 (?i:CONNECT)					return CONNECT;
 (?i:SELECT)						return SELECT;
+(?i:FROM)						return FROM;
 
 [,]								return *yytext;
 [;]								return *yytext;
+[*]								return *yytext;
 [(]								return *yytext;
 [)]								return *yytext;
 
