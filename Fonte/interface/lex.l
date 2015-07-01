@@ -14,11 +14,14 @@
 (?i:FROM)						return FROM;
 (?i:CREATE)						return CREATE;
 (?i:TABLE)						return TABLE;
-(?i:INT)						return INT;
-(?i:TEXT)						return TEXT;
+(?i:INTEGER)					return INTEGER;
+(?i:INT)						return INTEGER;
+(?i:VARCHAR)					return VARCHAR;
 (?i:DOUBLE)						return DOUBLE;
 (?i:PRIMARY)					return PRIMARY;
 (?i:KEY)						return KEY;
+(?i:FOREIGN)					return FOREIGN;
+(?i:REFERENCES)					return REFERENCES;
 
 [,]								return *yytext;
 [;]								return *yytext;
@@ -28,7 +31,8 @@
 
 [a-zA-Z]+[0-9]*					{yylval.strval = yytext; return STRING;};
 [\']([^'])+[\']			  		{yylval.strval = yytext; return ALPHANUM;};
-[0-9]*\.?[0-9]*					{yylval.strval = yytext; return VALUE;};
+[0-9]*\.[0-9]*					{yylval.strval = yytext; return VALUE;};
+[0-9]+							{yylval.strval = yytext; return NUMBER;}
 
 \n								{
 									if (parser->mode != 0)

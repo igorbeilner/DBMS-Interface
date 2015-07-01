@@ -52,8 +52,8 @@ extern int yydebug;
     FROM = 262,
     CREATE = 263,
     TABLE = 264,
-    INT = 265,
-    TEXT = 266,
+    INTEGER = 265,
+    VARCHAR = 266,
     DOUBLE = 267,
     PRIMARY = 268,
     KEY = 269,
@@ -75,8 +75,8 @@ extern int yydebug;
 #define FROM 262
 #define CREATE 263
 #define TABLE 264
-#define INT 265
-#define TEXT 266
+#define INTEGER 265
+#define VARCHAR 266
 #define DOUBLE 267
 #define PRIMARY 268
 #define KEY 269
@@ -94,7 +94,7 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 176 "yacc.y" /* yacc.c:1909  */
+#line 178 "yacc.y" /* yacc.c:1909  */
 
     int intval;
     double floatval;

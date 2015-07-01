@@ -101,7 +101,8 @@ void clearGlobalStructs() {
     for (i = 0; i < GLOBAL_DATA.N; i++ ) {
         if (GLOBAL_DATA.columnName)
             free(GLOBAL_DATA.columnName[i]);
-        free(GLOBAL_DATA.values[i]);
+        if (GLOBAL_DATA.values)
+            free(GLOBAL_DATA.values[i]);
     }
 
     free(GLOBAL_DATA.columnName);
@@ -110,6 +111,7 @@ void clearGlobalStructs() {
 
     free(GLOBAL_DATA.values);
     GLOBAL_DATA.values = (char **)malloc(sizeof(char **));
+    GLOBAL_DATA.values = NULL;
 
     free(GLOBAL_DATA.type);
     GLOBAL_DATA.type = (char *)malloc(sizeof(char));
@@ -186,8 +188,8 @@ int interface() {
 %%
 
 %token  INSERT      INTO        VALUES      SELECT      FROM
-        CREATE      TABLE       INT         TEXT        DOUBLE
-        PRIMARY     KEY
+        CREATE      TABLE       INTEGER     VARCHAR     DOUBLE
+        PRIMARY     KEY         FOREIGN     REFERENCES
         STRING      NUMBER      VALUE       QUIT        LIST_TABLES
         LIST_TABLE  ALPHANUM    CONNECT;
 
@@ -227,6 +229,7 @@ column: STRING {setColumn(yytext);};
 value_list: value | value ',' value_list;
 
 value: VALUE {setValue(yylval.strval, 'I');}
+     | NUMBER {setValue(yylval.strval, 'I');}
      | ALPHANUM {setValue(yylval.strval, 'S');};
 
 
@@ -236,13 +239,23 @@ select: SELECT {setMode('S');} '*' FROM table_select semicolon {return 0;};
 table_select: STRING {setTable(yytext);};
 
 /* CREATE TABLE */
-create_table: CREATE TABLE {setMode('C');} table '(' table_column_attr ')' semicolon {return 0;};
+create_table: CREATE TABLE {setMode('C');} table '(' table_column_attr ')' semicolon {
+    GLOBAL_DATA.N = col_count;
+
+    printf("create table ok\n");
+    return 0;
+};
 
 table_column_attr: column type special | column type special ',' table_column_attr;
 
-type: INT | TEXT | DOUBLE;
+type: INTEGER | VARCHAR'(' NUMBER ')' | DOUBLE;
 
-special: /*optional*/ | PRIMARY KEY;
+special: /*optional*/ | PRIMARY KEY | FOREIGN KEY REFERENCES table_fk '(' column_fk ')';
+
+table_fk: STRING;
+
+column_fk: STRING;
+
 
 /*--------------------------------------------------*/
 /**************** GENERAL FUNCTIONS *****************/

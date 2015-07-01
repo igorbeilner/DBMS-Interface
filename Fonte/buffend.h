@@ -50,10 +50,10 @@ typedef struct tp_buffer{ // Estrutura utilizada para armazenar o buffer.
 typedef struct rc_insert {
     char    *tableName;         // Nome da tabela
     char   **columnName;        // Colunas da tabela
-    char   **values;            // Valores da inserção
+    char   **values;            // Valores da inserção ou tamanho das strings na criação
     int      N;                 // Número de colunas de valores
-    char 	*type;				// Tipo do dado
-    char    *attribute;         // Por enquanto só serve pra marcar se é PK
+    char 	*type;				// Tipo do dado da inserção ou criação de tabela
+    char    *attribute;         // Utilizado na criação ('P' = PK, 'F' = FK, 0 = NPK)
 }rc_insert;
 
 typedef struct rc_parser {
