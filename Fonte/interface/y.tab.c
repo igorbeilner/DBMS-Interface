@@ -84,156 +84,156 @@ rc_insert GLOBAL_DATA;
 rc_parser GLOBAL_PARSER;
 
 void yyerror(rc_parser *GLOBAL_PARSER, char *s, ...) {
-	noerror = 0;
-	/*extern yylineno;
+    noerror = 0;
+    /*extern yylineno;
 
-	va_list ap;
-	va_start(ap, s);
+    va_list ap;
+    va_start(ap, s);
 
-	fprintf(stderr, "%d: error: ", yylineno);
-	vfprintf(stderr, s, ap);
-	fprintf(stderr, "\n");
-	*/
+    fprintf(stderr, "%d: error: ", yylineno);
+    vfprintf(stderr, s, ap);
+    fprintf(stderr, "\n");
+    */
 }
 
 int yywrap() {
-	return 1;
+    return 1;
 }
 
 void connect(char **nome) {
-	if (GLOBAL_PARSER.mode != 0) {
-		printf("Você já está conectado!\n");
-		return;
-	} else {
-		GLOBAL_PARSER.db_name = malloc(sizeof(char)*((strlen(*nome)+1)));
+    if (GLOBAL_PARSER.mode != 0) {
+        printf("Você já está conectado!\n");
+        return;
+    } else {
+        GLOBAL_PARSER.db_name = malloc(sizeof(char)*((strlen(*nome)+1)));
 
-		strcpy(GLOBAL_PARSER.db_name, *nome);
-		GLOBAL_PARSER.db_name[strlen(*nome)] = '\0';
+        strcpy(GLOBAL_PARSER.db_name, *nome);
+        GLOBAL_PARSER.db_name[strlen(*nome)] = '\0';
 
-		GLOBAL_PARSER.conn_active = 1;
-	}
+        GLOBAL_PARSER.conn_active = 1;
+    }
 }
 
 void setTable(char **nome) {
-	if (GLOBAL_PARSER.mode != 0) {
-		GLOBAL_PARSER.data->tableName = malloc(sizeof(char)*((strlen(*nome)+1)));
+    if (GLOBAL_PARSER.mode != 0) {
+        GLOBAL_PARSER.data->tableName = malloc(sizeof(char)*((strlen(*nome)+1)));
 
-		strcpy(GLOBAL_PARSER.data->tableName, *nome);
-		GLOBAL_PARSER.data->tableName[strlen(*nome)] = '\0';
-	} else
-		return;
+        strcpy(GLOBAL_PARSER.data->tableName, *nome);
+        GLOBAL_PARSER.data->tableName[strlen(*nome)] = '\0';
+    } else
+        return;
 }
 
 void setColumn(char **nome) {
-	GLOBAL_DATA.columnName = realloc(GLOBAL_DATA.columnName, (col_count+1)*sizeof(char *));
+    GLOBAL_DATA.columnName = realloc(GLOBAL_DATA.columnName, (col_count+1)*sizeof(char *));
 
-	GLOBAL_DATA.columnName[col_count] = malloc(sizeof(char)*(strlen(*nome)+1));
-	strcpy(GLOBAL_DATA.columnName[col_count], *nome);
-	GLOBAL_DATA.columnName[col_count][strlen(*nome)] = '\0';
+    GLOBAL_DATA.columnName[col_count] = malloc(sizeof(char)*(strlen(*nome)+1));
+    strcpy(GLOBAL_DATA.columnName[col_count], *nome);
+    GLOBAL_DATA.columnName[col_count][strlen(*nome)] = '\0';
 
-	col_count++;
+    col_count++;
 }
 
 void setValue(char *nome, char type) {
-	int i;
-	GLOBAL_DATA.values = realloc(GLOBAL_DATA.values, (val_count+1)*sizeof(char *));
-	GLOBAL_DATA.type = realloc(GLOBAL_DATA.type, (val_count+1)*sizeof(char));
+    int i;
+    GLOBAL_DATA.values = realloc(GLOBAL_DATA.values, (val_count+1)*sizeof(char *));
+    GLOBAL_DATA.type = realloc(GLOBAL_DATA.type, (val_count+1)*sizeof(char));
 
-	// Adiciona o valor no vetor de strings
-	GLOBAL_DATA.values[val_count] = malloc(sizeof(char)*(strlen(nome)+1));
-	if (type == 'I') {
-		strcpy(GLOBAL_DATA.values[val_count], nome);
-		GLOBAL_DATA.values[val_count][strlen(nome)] = '\0';
-	} else if (type == 'S') {
-		for (i = 1; i < strlen(nome)-1; i++) {
-			GLOBAL_DATA.values[val_count][i-1] = nome[i];
-		}
-		GLOBAL_DATA.values[val_count][strlen(nome)-2] = '\0';
-	}
+    // Adiciona o valor no vetor de strings
+    GLOBAL_DATA.values[val_count] = malloc(sizeof(char)*(strlen(nome)+1));
+    if (type == 'I') {
+        strcpy(GLOBAL_DATA.values[val_count], nome);
+        GLOBAL_DATA.values[val_count][strlen(nome)] = '\0';
+    } else if (type == 'S') {
+        for (i = 1; i < strlen(nome)-1; i++) {
+            GLOBAL_DATA.values[val_count][i-1] = nome[i];
+        }
+        GLOBAL_DATA.values[val_count][strlen(nome)-2] = '\0';
+    }
 
-	GLOBAL_DATA.type[val_count] = type;
+    GLOBAL_DATA.type[val_count] = type;
 
-	val_count++;
+    val_count++;
 }
 
 void clearGlobalStructs() {
-	int i;
+    int i;
 
-	if (GLOBAL_DATA.tableName)
-		free(GLOBAL_DATA.tableName);
-	GLOBAL_DATA.tableName = (char *)malloc(sizeof(char *));
+    if (GLOBAL_DATA.tableName)
+        free(GLOBAL_DATA.tableName);
+    GLOBAL_DATA.tableName = (char *)malloc(sizeof(char *));
 
-	for (i = 0; i < GLOBAL_DATA.N; i++ ) {
-		if (GLOBAL_DATA.columnName)
-			free(GLOBAL_DATA.columnName[i]);
-		free(GLOBAL_DATA.values[i]);
-	}
+    for (i = 0; i < GLOBAL_DATA.N; i++ ) {
+        if (GLOBAL_DATA.columnName)
+            free(GLOBAL_DATA.columnName[i]);
+        free(GLOBAL_DATA.values[i]);
+    }
 
-	free(GLOBAL_DATA.columnName);
-	GLOBAL_DATA.columnName = (char **)malloc(sizeof(char **));
-	GLOBAL_DATA.columnName = NULL;
+    free(GLOBAL_DATA.columnName);
+    GLOBAL_DATA.columnName = (char **)malloc(sizeof(char **));
+    GLOBAL_DATA.columnName = NULL;
 
-	free(GLOBAL_DATA.values);
-	GLOBAL_DATA.values = (char **)malloc(sizeof(char **));
+    free(GLOBAL_DATA.values);
+    GLOBAL_DATA.values = (char **)malloc(sizeof(char **));
 
-	free(GLOBAL_DATA.type);
-	GLOBAL_DATA.type = (char *)malloc(sizeof(char));
-	val_count = col_count = GLOBAL_DATA.N = 0;
+    free(GLOBAL_DATA.type);
+    GLOBAL_DATA.type = (char *)malloc(sizeof(char));
+    val_count = col_count = GLOBAL_DATA.N = 0;
 
-	free(GLOBAL_DATA.attribute);
-	GLOBAL_DATA.attribute = (char *)malloc(sizeof(char));
+    free(GLOBAL_DATA.attribute);
+    GLOBAL_DATA.attribute = (char *)malloc(sizeof(char));
 
-	yylex_destroy();
-	noerror = 1;
+    yylex_destroy();
+    noerror = 1;
 
-	GLOBAL_PARSER.data 				= &GLOBAL_DATA;
-	GLOBAL_PARSER.mode				= 0;
+    GLOBAL_PARSER.data              = &GLOBAL_DATA;
+    GLOBAL_PARSER.mode              = 0;
 }
 
 void setMode(char mode) {
-	GLOBAL_PARSER.mode = mode;
+    GLOBAL_PARSER.mode = mode;
 }
 
 
 int interface() {
-	pthread_t pth;
+    pthread_t pth;
 
-	pthread_create(&pth, NULL, (void*)clearGlobalStructs, NULL);
-	pthread_join(pth, NULL);
+    pthread_create(&pth, NULL, (void*)clearGlobalStructs, NULL);
+    pthread_join(pth, NULL);
 
-	GLOBAL_PARSER.conn_active = 0;
+    GLOBAL_PARSER.conn_active = 0;
 
-	while(1){
-		if (!GLOBAL_PARSER.conn_active) {
-			printf(">");
-		} else {
-			printf("%s=# ", GLOBAL_PARSER.db_name);
-		}
+    while(1){
+        if (!GLOBAL_PARSER.conn_active) {
+            printf(">");
+        } else {
+            printf("%s=# ", GLOBAL_PARSER.db_name);
+        }
 
-		pthread_create(&pth, NULL, (void*)yyparse, &GLOBAL_PARSER);
-		pthread_join(pth, NULL);
+        pthread_create(&pth, NULL, (void*)yyparse, &GLOBAL_PARSER);
+        pthread_join(pth, NULL);
 
-		if (noerror) {
-			if (GLOBAL_PARSER.mode != 0) {
-				if (!GLOBAL_PARSER.conn_active) {
-					printf("Você não está conectado. Utilize CONNECT para conectar.\n");
-				} else {
-					if (GLOBAL_PARSER.mode == 'I') {
-						if (GLOBAL_PARSER.data->N > 0)
-							insert(&GLOBAL_DATA);
-					} else if (GLOBAL_PARSER.mode == 'S') {
-						imprime(GLOBAL_DATA.tableName);
-					}
-				}
-			}
-		} else {
-			printf("Erro sintático, verifique.\n");
-		}
+        if (noerror) {
+            if (GLOBAL_PARSER.mode != 0) {
+                if (!GLOBAL_PARSER.conn_active) {
+                    printf("Você não está conectado. Utilize \\c <nome_banco> para conectar.\n");
+                } else {
+                    if (GLOBAL_PARSER.mode == 'I') {
+                        if (GLOBAL_PARSER.data->N > 0)
+                            insert(&GLOBAL_DATA);
+                    } else if (GLOBAL_PARSER.mode == 'S') {
+                        imprime(GLOBAL_DATA.tableName);
+                    }
+                }
+            }
+        } else {
+            printf("Erro sintático, verifique.\n");
+        }
 
-		pthread_create(&pth, NULL, (void*)clearGlobalStructs, NULL);
-		pthread_join(pth, NULL);
-	}
-	return 0;
+        pthread_create(&pth, NULL, (void*)clearGlobalStructs, NULL);
+        pthread_join(pth, NULL);
+    }
+    return 0;
 }
 
 
@@ -323,10 +323,10 @@ union YYSTYPE
 {
 #line 176 "yacc.y" /* yacc.c:355  */
 
-	int intval;
-	double floatval;
-	int subtok;
-	char *strval;
+    int intval;
+    double floatval;
+    int subtok;
+    char *strval;
 
 #line 332 "y.tab.c" /* yacc.c:355  */
 };
@@ -1483,13 +1483,13 @@ yyreduce:
   case 14:
 #line 207 "yacc.y" /* yacc.c:1646  */
     {
-	if (col_count == val_count || GLOBAL_DATA.columnName == NULL)
-		GLOBAL_DATA.N = val_count;
-	else {
-		printf("The column counter doesn't match the value counter.\n");
-		noerror=0;
-	}
-	return 0;
+    if (col_count == val_count || GLOBAL_DATA.columnName == NULL)
+        GLOBAL_DATA.N = val_count;
+    else {
+        printf("The column counter doesn't match the value counter.\n");
+        noerror=0;
+    }
+    return 0;
 }
 #line 1495 "y.tab.c" /* yacc.c:1646  */
     break;
@@ -1551,11 +1551,11 @@ yyreduce:
   case 38:
 #line 251 "yacc.y" /* yacc.c:1646  */
     {
-	if(GLOBAL_PARSER->conn_active)
-		printTable(yylval.strval);
-	else
-		printf("Você não está conectado\n");
-	return 0;
+    if(GLOBAL_PARSER->conn_active)
+        printTable(yylval.strval);
+    else
+        printf("Você não está conectado\n");
+    return 0;
 }
 #line 1561 "y.tab.c" /* yacc.c:1646  */
     break;
@@ -1563,11 +1563,11 @@ yyreduce:
   case 39:
 #line 260 "yacc.y" /* yacc.c:1646  */
     {
-	if(GLOBAL_PARSER->conn_active)
-		printTable(NULL);
-	else
-		printf("Você não está conectado\n");
-	return 0;
+    if(GLOBAL_PARSER->conn_active)
+        printTable(NULL);
+    else
+        printf("Você não está conectado\n");
+    return 0;
 }
 #line 1573 "y.tab.c" /* yacc.c:1646  */
     break;

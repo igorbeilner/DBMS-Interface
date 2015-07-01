@@ -96,10 +96,10 @@ union YYSTYPE
 {
 #line 176 "yacc.y" /* yacc.c:1909  */
 
-	int intval;
-	double floatval;
-	int subtok;
-	char *strval;
+    int intval;
+    double floatval;
+    int subtok;
+    char *strval;
 
 #line 105 "y.tab.h" /* yacc.c:1909  */
 };

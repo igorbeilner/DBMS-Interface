@@ -10,7 +10,6 @@
 (?i:INSERT)						return INSERT;
 (?i:INTO)						return INTO;
 (?i:VALUES)						return VALUES;
-(?i:CONNECT)					return CONNECT;
 (?i:SELECT)						return SELECT;
 (?i:FROM)						return FROM;
 (?i:CREATE)						return CREATE;
@@ -39,6 +38,8 @@
 								 	else
 								 		printf(">");
 								};
+
+[\\][c]+						return CONNECT;
 [\\][q]+						return QUIT;
 [\\][d]+						return LIST_TABLES;
 [\\][d]+[t]+					return LIST_TABLE;

@@ -151,7 +151,7 @@ int interface() {
         if (noerror) {
             if (GLOBAL_PARSER.mode != 0) {
                 if (!GLOBAL_PARSER.conn_active) {
-                    printf("Você não está conectado. Utilize CONNECT para conectar.\n");
+                    printf("Você não está conectado. Utilize \\c <nome_banco> para conectar.\n");
                 } else {
                     if (GLOBAL_PARSER.mode == 'I') {
                         if (GLOBAL_PARSER.data->N > 0)

@@ -44,8 +44,8 @@ int main(){
             finalizaTabela(tab[2]);
         }
     }
-    
-    printf("Bem-vindo! Utilize CONNECT para conectar-se ao banco.\n");
+
+    printf("Bem-vindo! Utilize \\c <nome_banco> para conectar.\n");
     interface();
     printf("Desconectado.\n");
 
