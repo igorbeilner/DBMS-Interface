@@ -549,8 +549,10 @@ char *yytext;
 #line 1 "lex.l"
 #line 2 "lex.l"
 #include <stdio.h>
+#include "../buffend.h"
 #include "y.tab.h"
-#line 554 "lex.yy.c"
+#define YY_DECL int yylex(rc_parser *parser)
+#line 556 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -737,10 +739,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 6 "lex.l"
+#line 8 "lex.l"
 
 
-#line 744 "lex.yy.c"
+#line 746 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -825,142 +827,149 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 8 "lex.l"
+#line 10 "lex.l"
 return INSERT;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 9 "lex.l"
+#line 11 "lex.l"
 return INTO;
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 10 "lex.l"
+#line 12 "lex.l"
 return VALUES;
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 11 "lex.l"
+#line 13 "lex.l"
 return CONNECT;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 12 "lex.l"
+#line 14 "lex.l"
 return SELECT;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 13 "lex.l"
+#line 15 "lex.l"
 return FROM;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 14 "lex.l"
+#line 16 "lex.l"
 return CREATE;
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 15 "lex.l"
+#line 17 "lex.l"
 return TABLE;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 16 "lex.l"
+#line 18 "lex.l"
 return INT;
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 17 "lex.l"
+#line 19 "lex.l"
 return TEXT;
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 18 "lex.l"
+#line 20 "lex.l"
 return DOUBLE;
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 19 "lex.l"
+#line 21 "lex.l"
 return PRIMARY;
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 20 "lex.l"
+#line 22 "lex.l"
 return KEY;
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 22 "lex.l"
+#line 24 "lex.l"
 return *yytext;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 23 "lex.l"
+#line 25 "lex.l"
 return *yytext;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 24 "lex.l"
+#line 26 "lex.l"
 return *yytext;
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 25 "lex.l"
+#line 27 "lex.l"
 return *yytext;
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 26 "lex.l"
+#line 28 "lex.l"
 return *yytext;
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 28 "lex.l"
+#line 30 "lex.l"
 {yylval.strval = yytext; return STRING;};
 	YY_BREAK
 case 20:
 /* rule 20 can match eol */
 YY_RULE_SETUP
-#line 29 "lex.l"
+#line 31 "lex.l"
 {yylval.strval = yytext; return ALPHANUM;};
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 30 "lex.l"
+#line 32 "lex.l"
 {yylval.strval = yytext; return VALUE;};
 	YY_BREAK
 case 22:
 /* rule 22 can match eol */
 YY_RULE_SETUP
-#line 32 "lex.l"
-/* imprimir algo? */;
+#line 34 "lex.l"
+{
+									if (parser->mode != 0)
+										printf("database-# ");
+								 	else if (parser->conn_active)
+								 		printf("database=# ");
+								 	else
+								 		printf(">");
+								};
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 33 "lex.l"
+#line 42 "lex.l"
 return QUIT;
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 34 "lex.l"
+#line 43 "lex.l"
 return LIST_TABLES;
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 35 "lex.l"
+#line 44 "lex.l"
 return LIST_TABLE;
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 36 "lex.l"
+#line 45 "lex.l"
 /* ignore whitespace */;
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 37 "lex.l"
+#line 46 "lex.l"
 ECHO;
 	YY_BREAK
-#line 964 "lex.yy.c"
+#line 973 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1958,6 +1967,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 37 "lex.l"
+#line 46 "lex.l"
 
 

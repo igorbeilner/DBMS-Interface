@@ -11,14 +11,14 @@ extern char* yytext[];
 extern FILE * yyin;
 extern FILE* outFile_p;
 int noerror, col_count, val_count;
-int yyparse();
-int yylex();
+int yyparse(rc_parser *parser);
+int yylex(rc_parser *parser);
 int yylex_destroy();
 
 rc_insert GLOBAL_DATA;
 rc_parser GLOBAL_PARSER;
 
-void yyerror(char *s, ...) {
+void yyerror(rc_parser *GLOBAL_PARSER, char *s, ...) {
 	noerror = 0;
 	/*extern yylineno;
 
@@ -36,18 +36,13 @@ int yywrap() {
 }
 
 void setTable(char **nome) {
-	char **dest;
-
 	if (GLOBAL_PARSER.mode != 0) {
-		dest = &GLOBAL_PARSER.data->tableName;
-	} else {
+		GLOBAL_PARSER.data->tableName = malloc(sizeof(char)*((strlen(*nome)+1)));
+
+		strcpy(GLOBAL_PARSER.data->tableName, *nome);
+		GLOBAL_PARSER.data->tableName[strlen(*nome)] = '\0';
+	} else
 		return;
-	}
-
-	*dest = malloc(sizeof(char)*((strlen(*nome)+1)));
-
-	strcpy(*dest, *nome);
-	dest[strlen(*nome)] = '\0';
 }
 
 void setColumn(char **nome) {
@@ -136,7 +131,7 @@ int interface() {
 			printf("database=# ");
 		}
 
-		pthread_create(&pth, NULL, (void*)yyparse, NULL);
+		pthread_create(&pth, NULL, (void*)yyparse, &GLOBAL_PARSER);
 		pthread_join(pth, NULL);
 
 		if (noerror) {
@@ -171,6 +166,9 @@ int interface() {
 	char *strval;
 }
 
+%parse-param { rc_parser *GLOBAL_PARSER }
+%lex-param { rc_parser *GLOBAL_PARSER }
+
 %%
 
 %token  INSERT		INTO		VALUES		SELECT		FROM
@@ -182,7 +180,7 @@ int interface() {
 start: insert | select | create_table | table_attr | list_tables | connection | exit_program | semicolon {return 0;} | /*nothing*/;
 
 /* CONNECTION */
-connection: CONNECT {GLOBAL_PARSER.conn_active = 1; return 0;};
+connection: CONNECT {GLOBAL_PARSER->conn_active = 1; return 0;};
 
 /* EXIT */
 exit_program: QUIT {exit(0);};
@@ -202,7 +200,7 @@ insert: INSERT INTO {setMode('I');} table opt_column_list VALUES '(' value_list 
 	return 0;
 };
 
-semicolon: {GLOBAL_PARSER.wait_semicolon=1;} ';' {GLOBAL_PARSER.wait_semicolon=0;};
+semicolon: ';';
 
 table: STRING {setTable(yytext);};
 
@@ -237,7 +235,7 @@ special: /*optional*/ | PRIMARY KEY;
 /*--------------------------------------------------*/
 /* TABLE ATTRIBUTES */
 table_attr: LIST_TABLE STRING {
-	if(GLOBAL_PARSER.conn_active)
+	if(GLOBAL_PARSER->conn_active)
 		printTable(yylval.strval);
 	else
 		printf("Você não está conectado\n");
@@ -246,7 +244,7 @@ table_attr: LIST_TABLE STRING {
 
 /* LIST TABLES */
 list_tables: LIST_TABLES {
-	if(GLOBAL_PARSER.conn_active)
+	if(GLOBAL_PARSER->conn_active)
 		printTable(NULL);
 	else
 		printf("Você não está conectado\n");

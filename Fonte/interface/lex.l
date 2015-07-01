@@ -1,6 +1,8 @@
 %{
 #include <stdio.h>
+#include "../buffend.h"
 #include "y.tab.h"
+#define YY_DECL int yylex(rc_parser *parser)
 %}
 
 %%
@@ -29,7 +31,14 @@
 [\']([^'])+[\']			  		{yylval.strval = yytext; return ALPHANUM;};
 [0-9]*\.?[0-9]*					{yylval.strval = yytext; return VALUE;};
 
-\n								/* imprimir algo? */;
+\n								{
+									if (parser->mode != 0)
+										printf("database-# ");
+								 	else if (parser->conn_active)
+								 		printf("database=# ");
+								 	else
+								 		printf(">");
+								};
 [\\][q]+						return QUIT;
 [\\][d]+						return LIST_TABLES;
 [\\][d]+[t]+					return LIST_TABLE;

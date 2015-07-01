@@ -94,7 +94,7 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 163 "yacc.y" /* yacc.c:1909  */
+#line 162 "yacc.y" /* yacc.c:1909  */
 
 	int intval;
 	double floatval;
@@ -110,6 +110,6 @@ union YYSTYPE
 
 extern YYSTYPE yylval;
 
-int yyparse (void);
+int yyparse (rc_parser *GLOBAL_PARSER);
 
 #endif /* !YY_YY_Y_TAB_H_INCLUDED  */
