@@ -45,10 +45,10 @@ void setTable(char **nome) {
 		dest = &GLOBAL_PARSER.select->tableName;
 	}
 
-	*dest = malloc(sizeof(char)*(strlen(*nome)+1));
+	*dest = malloc(sizeof(char)*((strlen(*nome)+1)));
 
 	strcpy(*dest, *nome);
-	*dest[strlen(*nome)] = '\0';
+	dest[strlen(*nome)] = '\0';
 }
 
 void setColumn(char **nome) {
@@ -131,13 +131,16 @@ int interface() {
 		if (!GLOBAL_PARSER.conn_active) {
 			printf(">");
 		} else {
-			printf("database=# ");
+			if (GLOBAL_PARSER.wait_semicolon)
+				printf("database;# ");
+			else
+				printf("database=# ");
 		}
 
 		pthread_create(&pth, NULL, (void*)yyparse, NULL);
 		pthread_join(pth, NULL);
 
-		if (noerror) {
+		if (noerror && !GLOBAL_PARSER.wait_semicolon) {
 			if (GLOBAL_PARSER.mode != 0) {
 				if (!GLOBAL_PARSER.conn_active) {
 					printf("Você não está conectado. Utilize CONNECT para conectar.\n");
@@ -151,11 +154,17 @@ int interface() {
 				}
 			}
 		} else {
-			printf("Erro sintático, verifique.\n");
+			if (!GLOBAL_PARSER.wait_semicolon) {
+				printf("Erro sintático, verifique.\n");
+			}
 		}
 
-		pthread_create(&pth, NULL, (void*)clearGlobalStructs, NULL);
-		pthread_join(pth, NULL);
+		if (!GLOBAL_PARSER.wait_semicolon) {
+			pthread_create(&pth, NULL, (void*)clearGlobalStructs, NULL);
+			pthread_join(pth, NULL);
+		} else {
+			noerror = 1;
+		}
 	}
 	return 0;
 }
@@ -175,10 +184,10 @@ int interface() {
 		STRING		NUMBER		VALUE		QUIT		LIST_TABLES
 		LIST_TABLE 	ALPHANUM 	CONNECT;
 
-start: insert | select | table_attr | list_tables | connection | exit_program | /*nothing*/;
+start: insert | select | table_attr | list_tables | connection | exit_program | semicolon | /*nothing*/;
 
 /* CONNECTION */
-connection: CONNECT {GLOBAL_PARSER.conn_active = 1; return 0;};
+connection: CONNECT {GLOBAL_PARSER.conn_active = 1;};
 
 /* EXIT */
 exit_program: QUIT {exit(0);};
@@ -188,7 +197,7 @@ exit_program: QUIT {exit(0);};
 /*--------------------------------------------------*/
 
 /* INSERT */
-insert: INSERT INTO {GLOBAL_PARSER.mode = 'I';} table opt_column_list VALUES '(' value_list ')' ';' {
+insert: INSERT INTO {GLOBAL_PARSER.mode = 'I';} table opt_column_list VALUES '(' value_list ')' semicolon {
 	if (col_count == val_count || GLOBAL_INS.columnName == NULL)
 		GLOBAL_INS.N = val_count;
 	else {
@@ -196,6 +205,8 @@ insert: INSERT INTO {GLOBAL_PARSER.mode = 'I';} table opt_column_list VALUES '('
 		noerror=0;
 	}
 };
+
+semicolon: {GLOBAL_PARSER.wait_semicolon=1;} ';' {GLOBAL_PARSER.wait_semicolon=0;};
 
 table: STRING {setTable(yytext);};
 
@@ -212,7 +223,7 @@ value: VALUE {setValue(yylval.strval, 'I');}
 
 
 /* SELECT */
-select: SELECT {GLOBAL_PARSER.mode = 'S';} '*' FROM table_select ';';
+select: SELECT {GLOBAL_PARSER.mode = 'S';} '*' FROM table_select semicolon;
 
 table_select: STRING {setTable(yytext);};
 
