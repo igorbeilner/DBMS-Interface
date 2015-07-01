@@ -55,6 +55,18 @@ typedef struct rc_insert {
     char 	*type;				// Tipo do dado
 }rc_insert;
 
+typedef struct rc_select {
+    char    *tableName;         // Nome da tabela
+}rc_select;
+
+typedef struct rc_parser {
+    rc_insert *insert;
+    rc_select *select;
+    char mode;
+    int wait_semicolon;
+    int conn_active;
+}rc_parser;
+
 // Union's utilizados na conversão de variáveis do tipo inteiro e double.
 
 union c_double{

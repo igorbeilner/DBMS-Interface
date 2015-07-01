@@ -16,7 +16,8 @@ int yylex();
 int yylex_destroy();
 
 rc_insert GLOBAL_INS;
-int CONN_ACTIVE = 0;
+rc_select GLOBAL_SEL;
+rc_parser GLOBAL_PARSER;
 
 void yyerror(char *s, ...) {
 	noerror = 0;
@@ -36,10 +37,18 @@ int yywrap() {
 }
 
 void setTable(char **nome) {
-	GLOBAL_INS.tableName = malloc(sizeof(char)*(strlen(*nome)+1));
+	char **dest;
 
-	strcpy(GLOBAL_INS.tableName, *nome);
-	GLOBAL_INS.tableName[strlen(*nome)] = '\0';
+	if (GLOBAL_PARSER.mode == 'I') {
+		dest = &GLOBAL_PARSER.insert->tableName;
+	} else if (GLOBAL_PARSER.mode == 'S') {
+		dest = &GLOBAL_PARSER.select->tableName;
+	}
+
+	*dest = malloc(sizeof(char)*(strlen(*nome)+1));
+
+	strcpy(*dest, *nome);
+	*dest[strlen(*nome)] = '\0';
 }
 
 void setColumn(char **nome) {
@@ -74,12 +83,16 @@ void setValue(char *nome, char type) {
 	val_count++;
 }
 
-void clearGlobalIns() {
+void clearGlobalStructs() {
 	int i;
 
 	if (GLOBAL_INS.tableName)
 		free(GLOBAL_INS.tableName);
 	GLOBAL_INS.tableName = (char *)malloc(sizeof(char *));
+
+	if (GLOBAL_SEL.tableName)
+		free(GLOBAL_SEL.tableName);
+	GLOBAL_SEL.tableName = (char *)malloc(sizeof(char *));
 
 	for (i = 0; i < GLOBAL_INS.N; i++ ) {
 		if (GLOBAL_INS.columnName)
@@ -99,16 +112,23 @@ void clearGlobalIns() {
 	val_count = col_count = GLOBAL_INS.N = 0;
 	yylex_destroy();
 	noerror = 1;
+
+	GLOBAL_PARSER.insert 		= &GLOBAL_INS;
+	GLOBAL_PARSER.select 		= &GLOBAL_SEL;
+	GLOBAL_PARSER.mode			= 0;
+	GLOBAL_PARSER.wait_semicolon= 0;
 }
 
 int interface() {
 	pthread_t pth;
 
-	pthread_create(&pth, NULL, (void*)clearGlobalIns, NULL);
+	pthread_create(&pth, NULL, (void*)clearGlobalStructs, NULL);
 	pthread_join(pth, NULL);
 
+	GLOBAL_PARSER.conn_active = 0;
+
 	while(1){
-		if (!CONN_ACTIVE) {
+		if (!GLOBAL_PARSER.conn_active) {
 			printf(">");
 		} else {
 			printf("database=# ");
@@ -118,18 +138,23 @@ int interface() {
 		pthread_join(pth, NULL);
 
 		if (noerror) {
-			if (GLOBAL_INS.N > 0) {
-				if (CONN_ACTIVE) {
-					insert(&GLOBAL_INS);
-				} else {
+			if (GLOBAL_PARSER.mode != 0) {
+				if (!GLOBAL_PARSER.conn_active) {
 					printf("Você não está conectado. Utilize CONNECT para conectar.\n");
+				} else {
+					if (GLOBAL_PARSER.mode == 'I') {
+						if (GLOBAL_PARSER.insert->N > 0)
+							insert(&GLOBAL_INS);
+					} else if (GLOBAL_PARSER.mode == 'S') {
+						imprime(GLOBAL_SEL.tableName);
+					}
 				}
 			}
 		} else {
 			printf("Erro sintático, verifique.\n");
 		}
 
-		pthread_create(&pth, NULL, (void*)clearGlobalIns, NULL);
+		pthread_create(&pth, NULL, (void*)clearGlobalStructs, NULL);
 		pthread_join(pth, NULL);
 	}
 	return 0;
@@ -150,48 +175,29 @@ int interface() {
 		STRING		NUMBER		VALUE		QUIT		LIST_TABLES
 		LIST_TABLE 	ALPHANUM 	CONNECT;
 
-line: insert into tabela values ';' {
-			if (col_count == val_count || GLOBAL_INS.columnName == NULL)
-				GLOBAL_INS.N = val_count;
-			else {
-				printf("The column counter doesn't match the value counter.\n");
-				noerror=0;
-			}
-		};
+start: insert | select | table_attr | list_tables | connection | exit_program | /*nothing*/;
 
-	| SELECT '*' FROM STRING {
-			if (CONN_ACTIVE)
-				imprime(yylval.strval);
-			else
-				printf("Você não está conectado\n");
-			return 0;
-		} ';';
+/* CONNECTION */
+connection: CONNECT {GLOBAL_PARSER.conn_active = 1; return 0;};
 
-	| LIST_TABLE STRING {
-			if(CONN_ACTIVE)
-				printTable(yylval.strval);
-			else
-				printf("Você não está conectado\n");
-			return 0;
-		};
+/* EXIT */
+exit_program: QUIT {exit(0);};
 
-	| LIST_TABLES {
-			if(CONN_ACTIVE)
-				printTable(NULL);
-			else
-				printf("Você não está conectado\n");
-			return 0;
-		};
+/*--------------------------------------------------*/
+/****************** SQL STATEMENTS ******************/
+/*--------------------------------------------------*/
 
-	| CONNECT {CONN_ACTIVE = 1; return 0;};
-	| QUIT {exit(0);};
-	| ;
+/* INSERT */
+insert: INSERT INTO {GLOBAL_PARSER.mode = 'I';} table opt_column_list VALUES '(' value_list ')' ';' {
+	if (col_count == val_count || GLOBAL_INS.columnName == NULL)
+		GLOBAL_INS.N = val_count;
+	else {
+		printf("The column counter doesn't match the value counter.\n");
+		noerror=0;
+	}
+};
 
-insert: INSERT;
-
-into: INTO;
-
-tabela: STRING {setTable(yytext);} opt_column_list;
+table: STRING {setTable(yytext);};
 
 opt_column_list: /*optional*/ | '(' column_list ')';
 
@@ -199,11 +205,36 @@ column_list: column | column ',' column_list;
 
 column: STRING {setColumn(yytext);};
 
-values: VALUES '(' value_list ')';
-
 value_list: value | value ',' value_list;
 
 value: VALUE {setValue(yylval.strval, 'I');}
 	 | ALPHANUM {setValue(yylval.strval, 'S');};
+
+
+/* SELECT */
+select: SELECT {GLOBAL_PARSER.mode = 'S';} '*' FROM table_select ';';
+
+table_select: STRING {setTable(yytext);};
+
+/*--------------------------------------------------*/
+/**************** GENERAL FUNCTIONS *****************/
+/*--------------------------------------------------*/
+/* TABLE ATTRIBUTES */
+table_attr: LIST_TABLE STRING {
+	if(GLOBAL_PARSER.conn_active)
+		printTable(yylval.strval);
+	else
+		printf("Você não está conectado\n");
+	return 0;
+};
+
+/* LIST TABLES */
+list_tables: LIST_TABLES {
+	if(GLOBAL_PARSER.conn_active)
+		printTable(NULL);
+	else
+		printf("Você não está conectado\n");
+	return 0;
+};
 
 %%
