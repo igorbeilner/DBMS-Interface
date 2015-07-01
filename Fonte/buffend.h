@@ -53,14 +53,14 @@ typedef struct rc_insert {
     char   **values;            // Valores da inserção
     int      N;                 // Número de colunas de valores
     char 	*type;				// Tipo do dado
-    char    *special;           // Por enquanto só serve pra marcar se é PK
+    char    *attribute;         // Por enquanto só serve pra marcar se é PK
 }rc_insert;
 
 typedef struct rc_parser {
-    rc_insert *data;
-    char mode;
-    int wait_semicolon;
-    int conn_active;
+    rc_insert   *data;
+    char        *db_name;
+    int          conn_active;
+    char         mode;
 }rc_parser;
 
 // Union's utilizados na conversão de variáveis do tipo inteiro e double.

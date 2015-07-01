@@ -33,9 +33,9 @@
 
 \n								{
 									if (parser->mode != 0)
-										printf("database-# ");
+										printf("%s-# ", parser->db_name);
 								 	else if (parser->conn_active)
-								 		printf("database=# ");
+								 		printf("%s=# ", parser->db_name);
 								 	else
 								 		printf(">");
 								};
