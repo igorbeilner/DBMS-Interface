@@ -131,16 +131,13 @@ int interface() {
 		if (!GLOBAL_PARSER.conn_active) {
 			printf(">");
 		} else {
-			if (GLOBAL_PARSER.wait_semicolon)
-				printf("database;# ");
-			else
-				printf("database=# ");
+			printf("database=# ");
 		}
 
 		pthread_create(&pth, NULL, (void*)yyparse, NULL);
 		pthread_join(pth, NULL);
 
-		if (noerror && !GLOBAL_PARSER.wait_semicolon) {
+		if (noerror) {
 			if (GLOBAL_PARSER.mode != 0) {
 				if (!GLOBAL_PARSER.conn_active) {
 					printf("Você não está conectado. Utilize CONNECT para conectar.\n");
@@ -154,17 +151,11 @@ int interface() {
 				}
 			}
 		} else {
-			if (!GLOBAL_PARSER.wait_semicolon) {
-				printf("Erro sintático, verifique.\n");
-			}
+			printf("Erro sintático, verifique.\n");
 		}
 
-		if (!GLOBAL_PARSER.wait_semicolon) {
-			pthread_create(&pth, NULL, (void*)clearGlobalStructs, NULL);
-			pthread_join(pth, NULL);
-		} else {
-			noerror = 1;
-		}
+		pthread_create(&pth, NULL, (void*)clearGlobalStructs, NULL);
+		pthread_join(pth, NULL);
 	}
 	return 0;
 }
@@ -184,10 +175,10 @@ int interface() {
 		STRING		NUMBER		VALUE		QUIT		LIST_TABLES
 		LIST_TABLE 	ALPHANUM 	CONNECT;
 
-start: insert | select | table_attr | list_tables | connection | exit_program | semicolon | /*nothing*/;
+start: insert | select | table_attr | list_tables | connection | exit_program | semicolon {return 0;} | /*nothing*/;
 
 /* CONNECTION */
-connection: CONNECT {GLOBAL_PARSER.conn_active = 1;};
+connection: CONNECT {GLOBAL_PARSER.conn_active = 1; return 0;};
 
 /* EXIT */
 exit_program: QUIT {exit(0);};
@@ -204,6 +195,7 @@ insert: INSERT INTO {GLOBAL_PARSER.mode = 'I';} table opt_column_list VALUES '('
 		printf("The column counter doesn't match the value counter.\n");
 		noerror=0;
 	}
+	return 0;
 };
 
 semicolon: {GLOBAL_PARSER.wait_semicolon=1;} ';' {GLOBAL_PARSER.wait_semicolon=0;};
@@ -223,7 +215,7 @@ value: VALUE {setValue(yylval.strval, 'I');}
 
 
 /* SELECT */
-select: SELECT {GLOBAL_PARSER.mode = 'S';} '*' FROM table_select semicolon;
+select: SELECT {GLOBAL_PARSER.mode = 'S';} '*' FROM table_select semicolon {return 0;};
 
 table_select: STRING {setTable(yytext);};
 

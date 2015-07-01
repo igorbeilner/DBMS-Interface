@@ -868,7 +868,7 @@ case 15:
 /* rule 15 can match eol */
 YY_RULE_SETUP
 #line 25 "lex.l"
-return 0;
+/* imprimir algo? */;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP

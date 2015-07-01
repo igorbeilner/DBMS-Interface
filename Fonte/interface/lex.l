@@ -22,7 +22,7 @@
 [\']([^'])+[\']			  		{yylval.strval = yytext; return ALPHANUM;};
 [0-9]*\.?[0-9]*					{yylval.strval = yytext; return VALUE;};
 
-\n								return 0;
+\n								/* imprimir algo? */;
 [\\][q]+						return QUIT;
 [\\][d]+						return LIST_TABLES;
 [\\][d]+[t]+					return LIST_TABLE;
