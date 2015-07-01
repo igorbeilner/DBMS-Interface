@@ -11,6 +11,13 @@
 (?i:CONNECT)					return CONNECT;
 (?i:SELECT)						return SELECT;
 (?i:FROM)						return FROM;
+(?i:CREATE)						return CREATE;
+(?i:TABLE)						return TABLE;
+(?i:INT)						return INT;
+(?i:TEXT)						return TEXT;
+(?i:DOUBLE)						return DOUBLE;
+(?i:PRIMARY)					return PRIMARY;
+(?i:KEY)						return KEY;
 
 [,]								return *yytext;
 [;]								return *yytext;

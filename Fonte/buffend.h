@@ -53,15 +53,11 @@ typedef struct rc_insert {
     char   **values;            // Valores da inserção
     int      N;                 // Número de colunas de valores
     char 	*type;				// Tipo do dado
+    char    *special;           // Por enquanto só serve pra marcar se é PK
 }rc_insert;
 
-typedef struct rc_select {
-    char    *tableName;         // Nome da tabela
-}rc_select;
-
 typedef struct rc_parser {
-    rc_insert *insert;
-    rc_select *select;
+    rc_insert *data;
     char mode;
     int wait_semicolon;
     int conn_active;

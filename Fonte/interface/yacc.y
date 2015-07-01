@@ -15,8 +15,7 @@ int yyparse();
 int yylex();
 int yylex_destroy();
 
-rc_insert GLOBAL_INS;
-rc_select GLOBAL_SEL;
+rc_insert GLOBAL_DATA;
 rc_parser GLOBAL_PARSER;
 
 void yyerror(char *s, ...) {
@@ -39,10 +38,10 @@ int yywrap() {
 void setTable(char **nome) {
 	char **dest;
 
-	if (GLOBAL_PARSER.mode == 'I') {
-		dest = &GLOBAL_PARSER.insert->tableName;
-	} else if (GLOBAL_PARSER.mode == 'S') {
-		dest = &GLOBAL_PARSER.select->tableName;
+	if (GLOBAL_PARSER.mode != 0) {
+		dest = &GLOBAL_PARSER.data->tableName;
+	} else {
+		return;
 	}
 
 	*dest = malloc(sizeof(char)*((strlen(*nome)+1)));
@@ -52,33 +51,33 @@ void setTable(char **nome) {
 }
 
 void setColumn(char **nome) {
-	GLOBAL_INS.columnName = realloc(GLOBAL_INS.columnName, (col_count+1)*sizeof(char *));
+	GLOBAL_DATA.columnName = realloc(GLOBAL_DATA.columnName, (col_count+1)*sizeof(char *));
 
-	GLOBAL_INS.columnName[col_count] = malloc(sizeof(char)*(strlen(*nome)+1));
-	strcpy(GLOBAL_INS.columnName[col_count], *nome);
-	GLOBAL_INS.columnName[col_count][strlen(*nome)] = '\0';
+	GLOBAL_DATA.columnName[col_count] = malloc(sizeof(char)*(strlen(*nome)+1));
+	strcpy(GLOBAL_DATA.columnName[col_count], *nome);
+	GLOBAL_DATA.columnName[col_count][strlen(*nome)] = '\0';
 
 	col_count++;
 }
 
 void setValue(char *nome, char type) {
 	int i;
-	GLOBAL_INS.values = realloc(GLOBAL_INS.values, (val_count+1)*sizeof(char *));
-	GLOBAL_INS.type = realloc(GLOBAL_INS.type, (val_count+1)*sizeof(char));
+	GLOBAL_DATA.values = realloc(GLOBAL_DATA.values, (val_count+1)*sizeof(char *));
+	GLOBAL_DATA.type = realloc(GLOBAL_DATA.type, (val_count+1)*sizeof(char));
 
 	// Adiciona o valor no vetor de strings
-	GLOBAL_INS.values[val_count] = malloc(sizeof(char)*(strlen(nome)+1));
+	GLOBAL_DATA.values[val_count] = malloc(sizeof(char)*(strlen(nome)+1));
 	if (type == 'I') {
-		strcpy(GLOBAL_INS.values[val_count], nome);
-		GLOBAL_INS.values[val_count][strlen(nome)] = '\0';
+		strcpy(GLOBAL_DATA.values[val_count], nome);
+		GLOBAL_DATA.values[val_count][strlen(nome)] = '\0';
 	} else if (type == 'S') {
 		for (i = 1; i < strlen(nome)-1; i++) {
-			GLOBAL_INS.values[val_count][i-1] = nome[i];
+			GLOBAL_DATA.values[val_count][i-1] = nome[i];
 		}
-		GLOBAL_INS.values[val_count][strlen(nome)-2] = '\0';
+		GLOBAL_DATA.values[val_count][strlen(nome)-2] = '\0';
 	}
 
-	GLOBAL_INS.type[val_count] = type;
+	GLOBAL_DATA.type[val_count] = type;
 
 	val_count++;
 }
@@ -86,37 +85,40 @@ void setValue(char *nome, char type) {
 void clearGlobalStructs() {
 	int i;
 
-	if (GLOBAL_INS.tableName)
-		free(GLOBAL_INS.tableName);
-	GLOBAL_INS.tableName = (char *)malloc(sizeof(char *));
+	if (GLOBAL_DATA.tableName)
+		free(GLOBAL_DATA.tableName);
+	GLOBAL_DATA.tableName = (char *)malloc(sizeof(char *));
 
-	if (GLOBAL_SEL.tableName)
-		free(GLOBAL_SEL.tableName);
-	GLOBAL_SEL.tableName = (char *)malloc(sizeof(char *));
-
-	for (i = 0; i < GLOBAL_INS.N; i++ ) {
-		if (GLOBAL_INS.columnName)
-			free(GLOBAL_INS.columnName[i]);
-		free(GLOBAL_INS.values[i]);
+	for (i = 0; i < GLOBAL_DATA.N; i++ ) {
+		if (GLOBAL_DATA.columnName)
+			free(GLOBAL_DATA.columnName[i]);
+		free(GLOBAL_DATA.values[i]);
 	}
 
-	free(GLOBAL_INS.columnName);
-	GLOBAL_INS.columnName = (char **)malloc(sizeof(char **));
-	GLOBAL_INS.columnName = NULL;
+	free(GLOBAL_DATA.columnName);
+	GLOBAL_DATA.columnName = (char **)malloc(sizeof(char **));
+	GLOBAL_DATA.columnName = NULL;
 
-	free(GLOBAL_INS.values);
-	GLOBAL_INS.values = (char **)malloc(sizeof(char **));
+	free(GLOBAL_DATA.values);
+	GLOBAL_DATA.values = (char **)malloc(sizeof(char **));
 
-	free(GLOBAL_INS.type);
-	GLOBAL_INS.type = (char *)malloc(sizeof(char));
-	val_count = col_count = GLOBAL_INS.N = 0;
+	free(GLOBAL_DATA.type);
+	GLOBAL_DATA.type = (char *)malloc(sizeof(char));
+	val_count = col_count = GLOBAL_DATA.N = 0;
+
+	free(GLOBAL_DATA.special);
+	GLOBAL_DATA.special = (char *)malloc(sizeof(char));
+
 	yylex_destroy();
 	noerror = 1;
 
-	GLOBAL_PARSER.insert 		= &GLOBAL_INS;
-	GLOBAL_PARSER.select 		= &GLOBAL_SEL;
-	GLOBAL_PARSER.mode			= 0;
-	GLOBAL_PARSER.wait_semicolon= 0;
+	GLOBAL_PARSER.data 				= &GLOBAL_DATA;
+	GLOBAL_PARSER.mode				= 0;
+	GLOBAL_PARSER.wait_semicolon	= 0;
+}
+
+void setMode(char mode) {
+	GLOBAL_PARSER.mode = mode;
 }
 
 int interface() {
@@ -143,10 +145,10 @@ int interface() {
 					printf("Você não está conectado. Utilize CONNECT para conectar.\n");
 				} else {
 					if (GLOBAL_PARSER.mode == 'I') {
-						if (GLOBAL_PARSER.insert->N > 0)
-							insert(&GLOBAL_INS);
+						if (GLOBAL_PARSER.data->N > 0)
+							insert(&GLOBAL_DATA);
 					} else if (GLOBAL_PARSER.mode == 'S') {
-						imprime(GLOBAL_SEL.tableName);
+						imprime(GLOBAL_DATA.tableName);
 					}
 				}
 			}
@@ -172,10 +174,12 @@ int interface() {
 %%
 
 %token  INSERT		INTO		VALUES		SELECT		FROM
+		CREATE		TABLE		INT			TEXT		DOUBLE
+		PRIMARY		KEY
 		STRING		NUMBER		VALUE		QUIT		LIST_TABLES
 		LIST_TABLE 	ALPHANUM 	CONNECT;
 
-start: insert | select | table_attr | list_tables | connection | exit_program | semicolon {return 0;} | /*nothing*/;
+start: insert | select | create_table | table_attr | list_tables | connection | exit_program | semicolon {return 0;} | /*nothing*/;
 
 /* CONNECTION */
 connection: CONNECT {GLOBAL_PARSER.conn_active = 1; return 0;};
@@ -188,9 +192,9 @@ exit_program: QUIT {exit(0);};
 /*--------------------------------------------------*/
 
 /* INSERT */
-insert: INSERT INTO {GLOBAL_PARSER.mode = 'I';} table opt_column_list VALUES '(' value_list ')' semicolon {
-	if (col_count == val_count || GLOBAL_INS.columnName == NULL)
-		GLOBAL_INS.N = val_count;
+insert: INSERT INTO {setMode('I');} table opt_column_list VALUES '(' value_list ')' semicolon {
+	if (col_count == val_count || GLOBAL_DATA.columnName == NULL)
+		GLOBAL_DATA.N = val_count;
 	else {
 		printf("The column counter doesn't match the value counter.\n");
 		noerror=0;
@@ -215,9 +219,18 @@ value: VALUE {setValue(yylval.strval, 'I');}
 
 
 /* SELECT */
-select: SELECT {GLOBAL_PARSER.mode = 'S';} '*' FROM table_select semicolon {return 0;};
+select: SELECT {setMode('S');} '*' FROM table_select semicolon {return 0;};
 
 table_select: STRING {setTable(yytext);};
+
+/* CREATE TABLE */
+create_table: CREATE TABLE {setMode('C');} table '(' table_column_attr ')' semicolon {return 0;};
+
+table_column_attr: column type special | column type special ',' table_column_attr;
+
+type: INT | TEXT | DOUBLE;
+
+special: /*optional*/ | PRIMARY KEY;
 
 /*--------------------------------------------------*/
 /**************** GENERAL FUNCTIONS *****************/

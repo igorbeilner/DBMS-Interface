@@ -50,14 +50,21 @@ extern int yydebug;
     VALUES = 260,
     SELECT = 261,
     FROM = 262,
-    STRING = 263,
-    NUMBER = 264,
-    VALUE = 265,
-    QUIT = 266,
-    LIST_TABLES = 267,
-    LIST_TABLE = 268,
-    ALPHANUM = 269,
-    CONNECT = 270
+    CREATE = 263,
+    TABLE = 264,
+    INT = 265,
+    TEXT = 266,
+    DOUBLE = 267,
+    PRIMARY = 268,
+    KEY = 269,
+    STRING = 270,
+    NUMBER = 271,
+    VALUE = 272,
+    QUIT = 273,
+    LIST_TABLES = 274,
+    LIST_TABLE = 275,
+    ALPHANUM = 276,
+    CONNECT = 277
   };
 #endif
 /* Tokens.  */
@@ -66,28 +73,35 @@ extern int yydebug;
 #define VALUES 260
 #define SELECT 261
 #define FROM 262
-#define STRING 263
-#define NUMBER 264
-#define VALUE 265
-#define QUIT 266
-#define LIST_TABLES 267
-#define LIST_TABLE 268
-#define ALPHANUM 269
-#define CONNECT 270
+#define CREATE 263
+#define TABLE 264
+#define INT 265
+#define TEXT 266
+#define DOUBLE 267
+#define PRIMARY 268
+#define KEY 269
+#define STRING 270
+#define NUMBER 271
+#define VALUE 272
+#define QUIT 273
+#define LIST_TABLES 274
+#define LIST_TABLE 275
+#define ALPHANUM 276
+#define CONNECT 277
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 165 "yacc.y" /* yacc.c:1909  */
+#line 163 "yacc.y" /* yacc.c:1909  */
 
 	int intval;
 	double floatval;
 	int subtok;
 	char *strval;
 
-#line 91 "y.tab.h" /* yacc.c:1909  */
+#line 105 "y.tab.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
