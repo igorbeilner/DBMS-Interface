@@ -36,7 +36,7 @@ int yywrap() {
 }
 
 void connect(char **nome) {
-    if (GLOBAL_PARSER.mode != 0) {
+    if (GLOBAL_PARSER.conn_active) {
         printf("Você já está conectado!\n");
         return;
     } else {
@@ -59,7 +59,7 @@ void setTable(char **nome) {
         return;
 }
 
-void setColumn(char **nome) {
+void setColumnInsert(char **nome) {
     GLOBAL_DATA.columnName = realloc(GLOBAL_DATA.columnName, (col_count+1)*sizeof(char *));
 
     GLOBAL_DATA.columnName[col_count] = malloc(sizeof(char)*(strlen(*nome)+1));
@@ -69,10 +69,63 @@ void setColumn(char **nome) {
     col_count++;
 }
 
-void setValue(char *nome, char type) {
+void setColumnCreate(char **nome) {
+    GLOBAL_DATA.columnName  = realloc(GLOBAL_DATA.columnName, (col_count+1)*sizeof(char *));
+    GLOBAL_DATA.attribute   = realloc(GLOBAL_DATA.attribute, (col_count+1)*sizeof(char *));
+    GLOBAL_DATA.fkColumn    = realloc(GLOBAL_DATA.fkColumn, (col_count+1)*sizeof(char *));
+    GLOBAL_DATA.fkTable     = realloc(GLOBAL_DATA.fkTable, (col_count+1)*sizeof(char *));
+    GLOBAL_DATA.values      = realloc(GLOBAL_DATA.values, (col_count+1)*sizeof(char *));
+    GLOBAL_DATA.type        = realloc(GLOBAL_DATA.type, (col_count+1)*sizeof(char *));
+
+    GLOBAL_DATA.values[col_count] = malloc(sizeof(char));
+    GLOBAL_DATA.values[col_count] = 0;
+
+    GLOBAL_DATA.fkTable[col_count] = malloc(sizeof(char));
+    GLOBAL_DATA.fkTable[col_count] = 0;
+
+    GLOBAL_DATA.fkColumn[col_count] = malloc(sizeof(char));
+    GLOBAL_DATA.fkColumn[col_count] = 0;
+
+    GLOBAL_DATA.columnName[col_count] = malloc(sizeof(char)*(strlen(*nome)+1));
+    strcpy(GLOBAL_DATA.columnName[col_count], *nome);
+    GLOBAL_DATA.columnName[col_count][strlen(*nome)] = '\0';
+    GLOBAL_DATA.type[col_count] = 0;
+    GLOBAL_DATA.attribute[col_count] = 'N';
+
+    col_count++;
+}
+
+void setColumnTypeCreate(char type) {
+    GLOBAL_DATA.type[col_count-1] = type;
+}
+
+void setColumnSizeCreate(char *size) {
+    GLOBAL_DATA.values[col_count-1] = realloc(GLOBAL_DATA.values[col_count-1], sizeof(char)*(strlen(size)+1));
+    strcpy(GLOBAL_DATA.values[col_count-1], size);
+    GLOBAL_DATA.values[col_count-1][strlen(size)-1] = '\0';
+}
+
+void setColumnPKCreate() {
+    GLOBAL_DATA.attribute[col_count-1] = 'P';
+}
+
+void setColumnFKTableCreate(char **nome) {
+    GLOBAL_DATA.fkTable[col_count-1] = realloc(GLOBAL_DATA.fkTable[col_count-1], sizeof(char)*(strlen(*nome)+1));
+    strcpy(GLOBAL_DATA.fkTable[col_count-1], *nome);
+    GLOBAL_DATA.fkTable[col_count-1][strlen(*nome)] = '\0';
+    GLOBAL_DATA.attribute[col_count-1] = 'F';
+}
+
+void setColumnFKColumnCreate(char **nome) {
+    GLOBAL_DATA.fkColumn[col_count-1] = realloc(GLOBAL_DATA.fkColumn[col_count-1], sizeof(char)*(strlen(*nome)+1));
+    strcpy(GLOBAL_DATA.fkColumn[col_count-1], *nome);
+    GLOBAL_DATA.fkColumn[col_count-1][strlen(*nome)] = '\0';
+}
+
+void setValueInsert(char *nome, char type) {
     int i;
-    GLOBAL_DATA.values = realloc(GLOBAL_DATA.values, (val_count+1)*sizeof(char *));
-    GLOBAL_DATA.type = realloc(GLOBAL_DATA.type, (val_count+1)*sizeof(char));
+    GLOBAL_DATA.values  = realloc(GLOBAL_DATA.values, (val_count+1)*sizeof(char *));
+    GLOBAL_DATA.type    = realloc(GLOBAL_DATA.type, (val_count+1)*sizeof(char));
 
     // Adiciona o valor no vetor de strings
     GLOBAL_DATA.values[val_count] = malloc(sizeof(char)*(strlen(nome)+1));
@@ -103,6 +156,10 @@ void clearGlobalStructs() {
             free(GLOBAL_DATA.columnName[i]);
         if (GLOBAL_DATA.values)
             free(GLOBAL_DATA.values[i]);
+        if (GLOBAL_DATA.fkTable)
+            free(GLOBAL_DATA.fkTable[i]);
+        if (GLOBAL_DATA.fkColumn)
+            free(GLOBAL_DATA.fkColumn[i]);
     }
 
     free(GLOBAL_DATA.columnName);
@@ -113,9 +170,16 @@ void clearGlobalStructs() {
     GLOBAL_DATA.values = (char **)malloc(sizeof(char **));
     GLOBAL_DATA.values = NULL;
 
+    free(GLOBAL_DATA.fkTable);
+    GLOBAL_DATA.fkTable = (char **)malloc(sizeof(char **));
+    GLOBAL_DATA.fkTable = NULL;
+
+    free(GLOBAL_DATA.fkColumn);
+    GLOBAL_DATA.fkColumn = (char **)malloc(sizeof(char **));
+    GLOBAL_DATA.fkColumn = NULL;
+
     free(GLOBAL_DATA.type);
     GLOBAL_DATA.type = (char *)malloc(sizeof(char));
-    val_count = col_count = GLOBAL_DATA.N = 0;
 
     free(GLOBAL_DATA.attribute);
     GLOBAL_DATA.attribute = (char *)malloc(sizeof(char));
@@ -123,12 +187,23 @@ void clearGlobalStructs() {
     yylex_destroy();
     noerror = 1;
 
+    val_count = col_count = GLOBAL_DATA.N = 0;
+
     GLOBAL_PARSER.data              = &GLOBAL_DATA;
     GLOBAL_PARSER.mode              = 0;
 }
 
 void setMode(char mode) {
     GLOBAL_PARSER.mode = mode;
+}
+
+void createTable(rc_insert *table) {
+    int i;
+    printf("Table name: %s\n--------\n", table->tableName);
+    for (i = 0; i < table->N; i++) {
+        printf("Column: %10s | Type: %c | Size: %5s | Attribute: %c | FK Table: %10s | FK Column: %10s\n",
+                table->columnName[i], table->type[i], table->values[i], table->attribute[i], table->fkTable[i], table->fkColumn[i]);
+    }
 }
 
 
@@ -160,6 +235,8 @@ int interface() {
                             insert(&GLOBAL_DATA);
                     } else if (GLOBAL_PARSER.mode == 'S') {
                         imprime(GLOBAL_DATA.tableName);
+                    } else if (GLOBAL_PARSER.mode == 'C') {
+                        createTable(&GLOBAL_DATA);
                     }
                 }
             }
@@ -189,17 +266,40 @@ int interface() {
 
 %token  INSERT      INTO        VALUES      SELECT      FROM
         CREATE      TABLE       INTEGER     VARCHAR     DOUBLE
-        PRIMARY     KEY         FOREIGN     REFERENCES
+        PRIMARY     KEY         REFERENCES  DATABASE
         STRING      NUMBER      VALUE       QUIT        LIST_TABLES
         LIST_TABLE  ALPHANUM    CONNECT;
 
 start: insert | select | create_table | table_attr | list_tables | connection | exit_program | semicolon {return 0;} | /*nothing*/;
+
+/*--------------------------------------------------*/
+/**************** GENERAL FUNCTIONS *****************/
+/*--------------------------------------------------*/
 
 /* CONNECTION */
 connection: CONNECT STRING {connect(yytext); return 0;};
 
 /* EXIT */
 exit_program: QUIT {exit(0);};
+
+/* TABLE ATTRIBUTES */
+table_attr: LIST_TABLE STRING {
+    if(GLOBAL_PARSER->conn_active)
+        printTable(yylval.strval);
+    else
+        printf("Você não está conectado\n");
+    return 0;
+};
+
+/* LIST TABLES */
+list_tables: LIST_TABLES {
+    if(GLOBAL_PARSER->conn_active)
+        printTable(NULL);
+    else
+        printf("Você não está conectado\n");
+    return 0;
+};
+
 
 /*--------------------------------------------------*/
 /****************** SQL STATEMENTS ******************/
@@ -224,19 +324,13 @@ opt_column_list: /*optional*/ | '(' column_list ')';
 
 column_list: column | column ',' column_list;
 
-column: STRING {setColumn(yytext);};
+column: STRING {setColumnInsert(yytext);};
 
 value_list: value | value ',' value_list;
 
-value: VALUE {setValue(yylval.strval, 'I');}
-     | NUMBER {setValue(yylval.strval, 'I');}
-     | ALPHANUM {setValue(yylval.strval, 'S');};
-
-
-/* SELECT */
-select: SELECT {setMode('S');} '*' FROM table_select semicolon {return 0;};
-
-table_select: STRING {setTable(yytext);};
+value: VALUE {setValueInsert(yylval.strval, 'I');}
+     | NUMBER {setValueInsert(yylval.strval, 'I');}
+     | ALPHANUM {setValueInsert(yylval.strval, 'S');};
 
 /* CREATE TABLE */
 create_table: CREATE TABLE {setMode('C');} table '(' table_column_attr ')' semicolon {
@@ -246,36 +340,26 @@ create_table: CREATE TABLE {setMode('C');} table '(' table_column_attr ')' semic
     return 0;
 };
 
-table_column_attr: column type special | column type special ',' table_column_attr;
+table_column_attr: column_create type attribute | column_create type attribute ',' table_column_attr;
 
-type: INTEGER | VARCHAR'(' NUMBER ')' | DOUBLE;
+type: INTEGER {setColumnTypeCreate('I');}
+    | VARCHAR {setColumnTypeCreate('S');}'(' NUMBER ')' {setColumnSizeCreate(yylval.strval);}
+    | DOUBLE {setColumnTypeCreate('D');};
 
-special: /*optional*/ | PRIMARY KEY | FOREIGN KEY REFERENCES table_fk '(' column_fk ')';
+column_create: STRING {setColumnCreate(yytext);};
 
-table_fk: STRING;
+attribute: /*optional*/
+         | PRIMARY KEY {setColumnPKCreate();}
+         | REFERENCES table_fk '(' column_fk ')';
 
-column_fk: STRING;
+table_fk: STRING {setColumnFKTableCreate(yytext);};
 
+column_fk: STRING {setColumnFKColumnCreate(yytext);};
 
-/*--------------------------------------------------*/
-/**************** GENERAL FUNCTIONS *****************/
-/*--------------------------------------------------*/
-/* TABLE ATTRIBUTES */
-table_attr: LIST_TABLE STRING {
-    if(GLOBAL_PARSER->conn_active)
-        printTable(yylval.strval);
-    else
-        printf("Você não está conectado\n");
-    return 0;
-};
+/* SELECT */
+select: SELECT {setMode('S');} '*' FROM table_select semicolon {return 0;};
 
-/* LIST TABLES */
-list_tables: LIST_TABLES {
-    if(GLOBAL_PARSER->conn_active)
-        printTable(NULL);
-    else
-        printf("Você não está conectado\n");
-    return 0;
-};
+table_select: STRING {setTable(yytext);};
 
+/* END */
 %%

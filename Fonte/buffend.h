@@ -3,48 +3,48 @@
 #include <string.h>
 #include "erros.h"
 
-#define SIZE 512 				// Tamanho da página.
-#define PAGES 1024 				// Número de páginas.
-#define TAMANHO_NOME_CAMPO 40 	// Tamanho do nome dos campos de uma tabela.
-#define TAMANHO_NOME_TABELA 20 	// Tamanho do nome da tabela.
+#define SIZE 512                // Tamanho da página.
+#define PAGES 1024              // Número de páginas.
+#define TAMANHO_NOME_CAMPO 40   // Tamanho do nome dos campos de uma tabela.
+#define TAMANHO_NOME_TABELA 20  // Tamanho do nome da tabela.
 #define TAMANHO_NOME_ARQUIVO 20 // Tamanho do nome do arquivo.
 
 
 struct fs_objects { // Estrutura usada para carregar fs_objects.dat
-	char nome[TAMANHO_NOME_TABELA];		//  Nome da tabela.
-	int cod;							// Código da tabela.
-	char nArquivo[TAMANHO_NOME_ARQUIVO];// Nome do arquivo onde estão armazenados os dados da tabela.
-	int qtdCampos;						// Quantidade de campos da tabela.
+    char nome[TAMANHO_NOME_TABELA];     //  Nome da tabela.
+    int cod;                            // Código da tabela.
+    char nArquivo[TAMANHO_NOME_ARQUIVO];// Nome do arquivo onde estão armazenados os dados da tabela.
+    int qtdCampos;                      // Quantidade de campos da tabela.
 };
 
 typedef struct tp_table{ // Estrutura usada para carregar fs_schema.dat
-	char nome[TAMANHO_NOME_CAMPO];	// Nome do Campo.                    40bytes
-	char tipo;						// Tipo do Campo.                     1bytes
-	int tam;						// Tamanho do Campo.                  4bytes
-	int chave;						// Tipo da chave                      4bytes
-	char tabelaApt[TAMANHO_NOME_TABELA]; //Nome da Tabela Apontada        20bytes
-	char attApt[TAMANHO_NOME_CAMPO];	//Nome do Atributo Apontado       40bytes
-	struct tp_table *next;			// Encadeamento para o próximo campo.
+    char nome[TAMANHO_NOME_CAMPO];  // Nome do Campo.                    40bytes
+    char tipo;                      // Tipo do Campo.                     1bytes
+    int tam;                        // Tamanho do Campo.                  4bytes
+    int chave;                      // Tipo da chave                      4bytes
+    char tabelaApt[TAMANHO_NOME_TABELA]; //Nome da Tabela Apontada        20bytes
+    char attApt[TAMANHO_NOME_CAMPO];    //Nome do Atributo Apontado       40bytes
+    struct tp_table *next;          // Encadeamento para o próximo campo.
 }tp_table;
 
 typedef struct column{ // Estrutura utilizada para inserir em uma tabela, excluir uma tupla e retornar valores de uma página.
-	char tipoCampo;						// Tipo do Campo.
-	char nomeCampo[TAMANHO_NOME_CAMPO];	//Nome do Campo.
-	char *valorCampo;					// Valor do Campo.
-	struct column *next;				// Encadeamento para o próximo campo.
+    char tipoCampo;                     // Tipo do Campo.
+    char nomeCampo[TAMANHO_NOME_CAMPO]; //Nome do Campo.
+    char *valorCampo;                   // Valor do Campo.
+    struct column *next;                // Encadeamento para o próximo campo.
 }column;
 
 typedef struct table{ // Estrutura utilizada para criar uma tabela.
-	char nome[TAMANHO_NOME_TABELA]; // Nome da tabela.
-	tp_table *esquema;				// Esquema de campos da tabela.
+    char nome[TAMANHO_NOME_TABELA]; // Nome da tabela.
+    tp_table *esquema;              // Esquema de campos da tabela.
 }table;
 
 typedef struct tp_buffer{ // Estrutura utilizada para armazenar o buffer.
-   unsigned char db; 		//Dirty bit
-   unsigned char pc; 		//Pin counter
-   unsigned int nrec; 		//Número de registros armazenados na página.
-   char data[SIZE]; 		// Dados
-   unsigned int position; 	// Próxima posição válida na página.
+   unsigned char db;        //Dirty bit
+   unsigned char pc;        //Pin counter
+   unsigned int nrec;       //Número de registros armazenados na página.
+   char data[SIZE];         // Dados
+   unsigned int position;   // Próxima posição válida na página.
 }tp_buffer;
 
 typedef struct rc_insert {
@@ -52,8 +52,10 @@ typedef struct rc_insert {
     char   **columnName;        // Colunas da tabela
     char   **values;            // Valores da inserção ou tamanho das strings na criação
     int      N;                 // Número de colunas de valores
-    char 	*type;				// Tipo do dado da inserção ou criação de tabela
-    char    *attribute;         // Utilizado na criação ('P' = PK, 'F' = FK, 0 = NPK)
+    char    *type;              // Tipo do dado da inserção ou criação de tabela
+    char    *attribute;         // Utilizado na criação ('P' = PK, 'F' = FK, 'N' = NPK)
+    char   **fkTable;           // Recebe o nome da tabela FK
+    char   **fkColumn;          // Recebe o nome da coluna FK
 }rc_insert;
 
 typedef struct rc_parser {
@@ -67,14 +69,14 @@ typedef struct rc_parser {
 
 union c_double{
 
-	double dnum;
-	char double_cnum[sizeof(double)];
+    double dnum;
+    char double_cnum[sizeof(double)];
 };
 
 union c_int{
 
-	int  num;
-	char cnum[sizeof(int)];
+    int  num;
+    char cnum[sizeof(int)];
 };
 
 /************************************************************************************************
@@ -82,8 +84,8 @@ union c_int{
 
 tp_buffer * initbuffer();
 /*
-	Esta função tem por objetivo criar e inicializar uma estrutura do tipo tp_buffer
-	que será usada para carregar tuplas na memória
+    Esta função tem por objetivo criar e inicializar uma estrutura do tipo tp_buffer
+    que será usada para carregar tuplas na memória
 
 */
 
@@ -92,11 +94,11 @@ tp_buffer * initbuffer();
 
 struct fs_objects leObjeto(char *nTabela);
 /*
-	Esta função busca, no arquivo fs_object.dat, pelo nome da tabela retornando as informações que
+    Esta função busca, no arquivo fs_object.dat, pelo nome da tabela retornando as informações que
     estão no dicionário em uma estrutura fs_objects. Caso o nome da tabela não exista, o programa
     aborta.
 
-	*nTabela - Nome da tabela a ser buscado no dicionário de dados
+    *nTabela - Nome da tabela a ser buscado no dicionário de dados
 */
 
 /************************************************************************************************
