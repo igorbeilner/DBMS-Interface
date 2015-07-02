@@ -44,7 +44,7 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
 
         //strncpy(e->nomeCampo, nomeCampo,n);
 
-        n = strlen(valorCampo) + 1;
+        n = strlen(valorCampo);
 
         if (n > tam && tipo == 'S') {
             n = tam;
@@ -101,7 +101,7 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
 
                 //strncpy(e->nomeCampo, nomeCampo,n);
 
-                n = strlen(valorCampo) + 1;
+                n = strlen(valorCampo);
 
                 if (n > tam && tipo == 'S') {
                     n = tam;
