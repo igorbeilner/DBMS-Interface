@@ -29,7 +29,7 @@
 [(]								return *yytext;
 [)]								return *yytext;
 
-[a-zA-Z]+[0-9]*					{yylval.strval = yytext; return STRING;};
+[a-zA-Z]+[0-9]*					{yylval.strval = yytext; return OBJECT;};
 [\']([^'])+[\']			  		{yylval.strval = yytext; return ALPHANUM;};
 [0-9]*\.[0-9]*					{yylval.strval = yytext; return VALUE;};
 [0-9]+							{yylval.strval = yytext; return NUMBER;}

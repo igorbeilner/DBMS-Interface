@@ -949,7 +949,7 @@ return *yytext;
 case 21:
 YY_RULE_SETUP
 #line 32 "lex.l"
-{yylval.strval = yytext; return STRING;};
+{yylval.strval = yytext; return OBJECT;};
 	YY_BREAK
 case 22:
 /* rule 22 can match eol */

@@ -197,6 +197,7 @@ void setMode(char mode) {
     GLOBAL_PARSER.mode = mode;
 }
 
+/* TEMP */
 void createTable(rc_insert *table) {
     int i;
     printf("Table name: %s\n--------\n", table->tableName);
@@ -205,6 +206,11 @@ void createTable(rc_insert *table) {
                 table->columnName[i], table->type[i], table->values[i], table->attribute[i], table->fkTable[i], table->fkColumn[i]);
     }
 }
+
+void createDatabase(char **nome) {
+    printf("Banco de dados '%s' criado.\n", *nome);
+}
+/*--/temp--*/
 
 
 int interface() {
@@ -267,23 +273,24 @@ int interface() {
 %token  INSERT      INTO        VALUES      SELECT      FROM
         CREATE      TABLE       INTEGER     VARCHAR     DOUBLE
         PRIMARY     KEY         REFERENCES  DATABASE
-        STRING      NUMBER      VALUE       QUIT        LIST_TABLES
+        OBJECT      NUMBER      VALUE       QUIT        LIST_TABLES
         LIST_TABLE  ALPHANUM    CONNECT;
 
-start: insert | select | create_table | table_attr | list_tables | connection | exit_program | semicolon {return 0;} | /*nothing*/;
+start: insert | select | create_table | create_database
+     | table_attr | list_tables | connection | exit_program | semicolon {return 0;} | /*nothing*/;
 
 /*--------------------------------------------------*/
 /**************** GENERAL FUNCTIONS *****************/
 /*--------------------------------------------------*/
 
 /* CONNECTION */
-connection: CONNECT STRING {connect(yytext); return 0;};
+connection: CONNECT OBJECT {connect(yytext); return 0;};
 
 /* EXIT */
 exit_program: QUIT {exit(0);};
 
 /* TABLE ATTRIBUTES */
-table_attr: LIST_TABLE STRING {
+table_attr: LIST_TABLE OBJECT {
     if(GLOBAL_PARSER->conn_active)
         printTable(yylval.strval);
     else
@@ -318,13 +325,13 @@ insert: INSERT INTO {setMode('I');} table opt_column_list VALUES '(' value_list 
 
 semicolon: ';';
 
-table: STRING {setTable(yytext);};
+table: OBJECT {setTable(yytext);};
 
 opt_column_list: /*optional*/ | '(' column_list ')';
 
 column_list: column | column ',' column_list;
 
-column: STRING {setColumnInsert(yytext);};
+column: OBJECT {setColumnInsert(yytext);};
 
 value_list: value | value ',' value_list;
 
@@ -346,20 +353,23 @@ type: INTEGER {setColumnTypeCreate('I');}
     | VARCHAR {setColumnTypeCreate('S');}'(' NUMBER ')' {setColumnSizeCreate(yylval.strval);}
     | DOUBLE {setColumnTypeCreate('D');};
 
-column_create: STRING {setColumnCreate(yytext);};
+column_create: OBJECT {setColumnCreate(yytext);};
 
 attribute: /*optional*/
          | PRIMARY KEY {setColumnPKCreate();}
          | REFERENCES table_fk '(' column_fk ')';
 
-table_fk: STRING {setColumnFKTableCreate(yytext);};
+table_fk: OBJECT {setColumnFKTableCreate(yytext);};
 
-column_fk: STRING {setColumnFKColumnCreate(yytext);};
+column_fk: OBJECT {setColumnFKColumnCreate(yytext);};
+
+/* CREATE DATABASE */
+create_database: CREATE DATABASE OBJECT {createDatabase(yytext); return 0;}
 
 /* SELECT */
 select: SELECT {setMode('S');} '*' FROM table_select semicolon {return 0;};
 
-table_select: STRING {setTable(yytext);};
+table_select: OBJECT {setTable(yytext);};
 
 /* END */
 %%
