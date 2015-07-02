@@ -1,7 +1,7 @@
 //BufferPool
 #include "buffend.h"
 
-/* ---------------------------------------------------------------------------------------------- 
+/* ----------------------------------------------------------------------------------------------
     Objetivo:   Retorna vetor de esquemas com todos os atributos chaves (PK, FK e NPK)
     Parametros: Objeto da tabela.
     Retorno:    Vetor de esquemas vetEsqm
@@ -15,12 +15,13 @@ tp_table *procuraAtributoFK(struct fs_objects objeto){
     tp_table *vetEsqm = (tp_table *)malloc(sizeof(tp_table)*objeto.qtdCampos);
 
     if((schema = fopen("fs_schema.dat", "a+b")) == NULL){
-        printf("Erro GRAVE ao abrir o ESQUEMA.\n");
+        printf("error: Não foi possível ler o esquema.\n");
         free(tupla);
 		free(esquema);
 		free(vetEsqm);
+        return ERRO_ABRIR_ESQUEMA;
     }
-    
+
     while((fgetc (schema) != EOF) && i < objeto.qtdCampos){ // Varre o arquivo ate encontrar todos os campos com o codigo da tabela.
         fseek(schema, -1, 1);
 
@@ -29,17 +30,17 @@ tp_table *procuraAtributoFK(struct fs_objects objeto){
                 fread(tupla, sizeof(char), TAMANHO_NOME_CAMPO, schema);
                 strcpy(esquema[i].nome,tupla);                  // Copia dados do campo para o esquema.
 
-                fread(&esquema[i].tipo , sizeof(char), 1 , schema);      
-                fread(&esquema[i].tam  , sizeof(int) , 1 , schema);   
+                fread(&esquema[i].tipo , sizeof(char), 1 , schema);
+                fread(&esquema[i].tam  , sizeof(int) , 1 , schema);
                 fread(&chave, sizeof(int) , 1 , schema);
                 vetEsqm[i].tipo = esquema[i].tipo;
 
                 fread(tupla, sizeof(char), TAMANHO_NOME_TABELA, schema);
                 strcpy(esquema[i].tabelaApt,tupla);
 
-                fread(tupla, sizeof(char), TAMANHO_NOME_CAMPO, schema);           
+                fread(tupla, sizeof(char), TAMANHO_NOME_CAMPO, schema);
                 strcpy(esquema[i].attApt,tupla);
-                
+
                 strcpy(vetEsqm[i].tabelaApt, esquema[i].tabelaApt);
                 strcpy(vetEsqm[i].attApt, esquema[i].attApt);
                 strcpy(vetEsqm[i].nome, esquema[i].nome);

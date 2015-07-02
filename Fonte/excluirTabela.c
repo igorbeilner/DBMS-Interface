@@ -1,13 +1,13 @@
 //BufferPool
 #include "buffend.h"
 
-/* ---------------------------------------------------------------------------------------------- 
+/* ----------------------------------------------------------------------------------------------
     Objetivo:   Função para exclusão de tabelas.
-    Parametros: Nome da tabela (char).    
+    Parametros: Nome da tabela (char).
     Retorno:    INT
-                SUCCESS, 
-                ERRO_REMOVER_ARQUIVO_OBJECT, 
-                ERRO_REMOVER_ARQUIVO_SCHEMA, 
+                SUCCESS,
+                ERRO_REMOVER_ARQUIVO_OBJECT,
+                ERRO_REMOVER_ARQUIVO_SCHEMA,
                 ERRO_LEITURA_DADOS.
    ---------------------------------------------------------------------------------------------*/
 
@@ -15,11 +15,11 @@ int excluirTabela(char *nomeTabela) {
     struct fs_objects objeto, objeto1;
     tp_table *esquema, *esquema1;
     int x,erro, i, j, k, l, qtTable;
-    char str[20]; 
+    char str[20];
     char dat[5] = ".dat";
 
 
-    strcpy (str, nomeTabela); 
+    strcpy (str, nomeTabela);
     strcat (str, dat);              //Concatena e junta o nome com .dat
 
     abreTabela(nomeTabela, &objeto, &esquema);
@@ -50,7 +50,7 @@ int excluirTabela(char *nomeTabela) {
     }
 
     fclose(dicionario);
-    
+
     for(i = 0; i < objeto.qtdCampos; i++){
         if(tab2[i].chave == PK){
             for(j=0; j<qtTable; j++) {                      //se tiver chave primaria verifica se ela e chave
@@ -62,10 +62,10 @@ int excluirTabela(char *nomeTabela) {
                     tab3 = procuraAtributoFK(objeto1);
 
                     for(l=0; l<objeto1.qtdCampos; l++) {
-                        if(tab3[l].chave == FK) {                               //verifica se a outra tabela possui
-                            if(strcmp(nomeTabela, tab3[l].tabelaApt) == 0) {    //chave estrangeira
-                                printf("Exclusao nao permitida!\n");            //se sim, verifica se e da tabela
-                                return ERRO_CHAVE_ESTRANGEIRA;                  //anterior
+                        if(tab3[l].chave == FK) { //verifica se a outra tabela possui chave estrangeira. se sim, verifica se e da tabela anterior.
+                            if(strcmp(nomeTabela, tab3[l].tabelaApt) == 0) {
+                                printf("error: Não é possível excluir a tabela '%s'. Existem referências em outras tabelas!\n", nomeTabela);
+                                return ERRO_CHAVE_ESTRANGEIRA;
                             }
                         }
                     }
@@ -80,21 +80,21 @@ int excluirTabela(char *nomeTabela) {
     tp_buffer *bufferpoll = initbuffer();
 
     if(bufferpoll == ERRO_DE_ALOCACAO){
-        printf("Erro ao alocar memória para o buffer.\n");
+        printf("error: Memória insuficiente para o buffer.\n");
         return ERRO_LEITURA_DADOS;
     }
 
     erro = SUCCESS;
     for(x = 0; erro == SUCCESS; x++)
-        erro = colocaTuplaBuffer(bufferpoll, x, esquema, objeto);        
-    
+        erro = colocaTuplaBuffer(bufferpoll, x, esquema, objeto);
+
     if(procuraSchemaArquivo(objeto) != 0)
         return ERRO_REMOVER_ARQUIVO_SCHEMA;
 
     if(procuraObjectArquivo(nomeTabela) != 0)
        return ERRO_REMOVER_ARQUIVO_OBJECT;
-        
+
     remove(str);
-    
+
     return SUCCESS;
 }

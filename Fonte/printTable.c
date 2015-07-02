@@ -28,7 +28,7 @@ void printTable(char *tbl){
 	} else{               //mostra todos atributos da tabela *tbl
 
 		if(!verificaNomeTabela(tbl)) {
-			printf("Nome da tabela invalido!\n");
+			printf("error: A tabela '%s' não existe no banco de dados!\n", tbl);
 			return;
 		}
 
