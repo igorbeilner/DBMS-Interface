@@ -35,7 +35,7 @@ void insert(rc_insert *s_insert) {
 				if(typesCompatible(esquema->tipo,getInsertedType(s_insert, esquema->nome, tabela))) {
 					colunas = insereValor(tabela, colunas, esquema->nome, getInsertedValue(s_insert, esquema->nome, tabela));
 				} else {
-					printf("Tipo de dado inválido para a coluna '%s' da tabela '%s' (esperado: %c, recebido: %c). Nenhum registro inserido.\n", esquema->nome, tabela->nome, esquema->tipo, getInsertedType(s_insert, esquema->nome, tabela));
+					printf("error: Tipo de dado inválido para a coluna '%s' da tabela '%s' (esperado: %c, recebido: %c). Nenhum registro inserido.\n", esquema->nome, tabela->nome, esquema->tipo, getInsertedType(s_insert, esquema->nome, tabela));
 					flag=1;
 				}
 			}
@@ -59,12 +59,12 @@ void insert(rc_insert *s_insert) {
 				if(s_insert->type[i] == tabela->esquema[i].tipo)
 					colunas = insereValor(tabela, colunas, tabela->esquema[i].nome, s_insert->values[i]);
 				else {
-					printf("ERRO: Tipo de dado inválido para a coluna '%s' da tabela '%s' (esperado: %c, recebido: %c). Nenhum registro inserido.\n", tabela->esquema[i].nome, tabela->nome, tabela->esquema[i].tipo, s_insert->type[i]);
+					printf("error: Tipo de dado inválido para a coluna '%s' da tabela '%s' (esperado: %c, recebido: %c). Nenhum registro inserido.\n", tabela->esquema[i].nome, tabela->nome, tabela->esquema[i].tipo, s_insert->type[i]);
 					flag=1;
 				}
 			}
 		} else {
-			printf("ERRO: O número de valores da insersão não corresponde ao número de colunas da tabela. Nenhum registro inserido.\n");
+			printf("error: O número de valores da insersão não corresponde ao número de colunas da tabela. Nenhum registro inserido.\n");
 			flag = 1;
 		}
 	}
@@ -134,7 +134,7 @@ int allColumnsExists(rc_insert *s_insert, table *tabela) {
 
 	for (i = 0; i < s_insert->N; i++)
 		if (retornaTamanhoTipoDoCampo(s_insert->columnName[i], tabela) == 0) {
-			printf("A coluna '%s' não existe na tabela '%s'. Nenhum registro inserido.\n", s_insert->columnName[i], tabela->nome);
+			printf("error: A coluna '%s' não existe na tabela '%s'. Nenhum registro inserido.\n", s_insert->columnName[i], tabela->nome);
 			return 0;
 		}
 

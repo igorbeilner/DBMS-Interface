@@ -35,7 +35,7 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
          */
         if (n > TAMANHO_NOME_CAMPO) {
            n = TAMANHO_NOME_CAMPO;
-           printf("Warning: nome truncado devido ao limite de tamanho\n");
+           printf("warning: Nome do campo excedeu o limite de tamanho e foi truncado.\n");
         }
 
         int i;
@@ -48,10 +48,10 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
 
         if (n > tam && tipo == 'S') {
             n = tam;
-            printf("Warning: valor truncado devido ao limite de tamanho\n");
+            printf("warning: O valor inserido na coluna '%s' excedeu o limite de tamanho e foi truncado.\n", nomeCampo);
         }
 
-        for(i=0; i < n-1; i++) e->valorCampo[i] = valorCampo[i];
+        for(i=0; i < n; i++) e->valorCampo[i] = valorCampo[i];
             e->valorCampo[i] = '\0';
 
         //strncpy(e->valorCampo, valorCampo,n);
@@ -92,7 +92,7 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
                  */
                 if (n > TAMANHO_NOME_CAMPO) {
                    n = TAMANHO_NOME_CAMPO;
-                   printf("Warning: nome truncado devido ao limite de tamanho\n");
+                   printf("warning: Nome do campo excedeu o limite de tamanho e foi truncado.\n");
                 }
 
                 int i;
@@ -105,10 +105,10 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
 
                 if (n > tam && tipo == 'S') {
                     n = tam;
-                    printf("Warning: valor truncado devido ao limite de tamanho\n");
+                    printf("warning: O valor inserido na coluna '%s' excedeu o limite de tamanho e foi truncado.\n", nomeCampo);
                 }
 
-                for(i=0; i < n-1; i++) e->valorCampo[i] = valorCampo[i];
+                for(i=0; i < n; i++) e->valorCampo[i] = valorCampo[i];
                 e->valorCampo[i] = '\0';
 
                 //strncpy(e->valorCampo, valorCampo,n);

@@ -24,8 +24,8 @@ int finalizaInsert(char *nome, column *c){
 
             case PK:
                 erro = verificaChavePK(nome, temp , temp->nomeCampo, temp->valorCampo);
-                if(erro == ERRO_CHAVE_PRIMARIA){
-                    printf("Erro de chave primária. ('%s' duplicado: '%s')\n", temp->nomeCampo, temp->valorCampo);
+                if (erro == ERRO_CHAVE_PRIMARIA){
+                    printf("error: Chave primária duplicada na coluna '%s'. O valor '%s' já existe. Nenhum registro inserido.\n", temp->nomeCampo, temp->valorCampo);
                     free(c);    // Libera a memoria da estrutura.
 					free(auxT); // Libera a memoria da estrutura.
 					//free(temp); // Libera a memoria da estrutura.
@@ -37,12 +37,12 @@ int finalizaInsert(char *nome, column *c){
                 break;
 
             case FK:
-                if(tab2[j].chave == 2 && strlen(tab2[j].attApt) != 0 && strlen(tab2[j].tabelaApt) != 0){
+                if (tab2[j].chave == 2 && strlen(tab2[j].attApt) != 0 && strlen(tab2[j].tabelaApt) != 0){
 
                     erro = verificaChaveFK(nome, temp, tab2[j].nome, temp->valorCampo, tab2[j].tabelaApt, tab2[j].attApt);
 
-                    if(erro != SUCCESS){
-                        printf("Erro de chave estrangeira. (Não existe uma chave primária '%s.%s' com o valor '%s')\n", tab2[j].tabelaApt,tab2[j].attApt,temp->valorCampo);
+                    if (erro != SUCCESS){
+                        printf("error: Referência inválida para '%s.%s'. Não existe o valor '%s'. Nenhum registro inserido.\n", tab2[j].tabelaApt,tab2[j].attApt,temp->valorCampo);
                         free(c);    // Libera a memoria da estrutura.
 						free(auxT); // Libera a memoria da estrutura.
 						free(temp); // Libera a memoria da estrutura.
@@ -57,8 +57,8 @@ int finalizaInsert(char *nome, column *c){
     }
 
 
-    if(erro == ERRO_CHAVE_ESTRANGEIRA){
-        printf("Erro de chave estrangeira.\n");
+    if (erro == ERRO_CHAVE_ESTRANGEIRA){
+        printf("error: Erro desconhecido de chave estrangeira. Nenhum registro inserido.\n");
         free(c);    // Libera a memoria da estrutura.
 		free(auxT); // Libera a memoria da estrutura.
 		free(temp); // Libera a memoria da estrutura.
@@ -67,8 +67,8 @@ int finalizaInsert(char *nome, column *c){
         return ERRO_CHAVE_ESTRANGEIRA;
     }
 
-    if(erro == ERRO_CHAVE_PRIMARIA){
-        printf("Erro de chave Primaria.");
+    if (erro == ERRO_CHAVE_PRIMARIA){
+        printf("error: Erro desconhecido de chave primária. Nenhum registro inserido.\n");
         free(c);    // Libera a memoria da estrutura.
 		free(auxT); // Libera a memoria da estrutura.
 		free(temp); // Libera a memoria da estrutura.
@@ -76,8 +76,8 @@ int finalizaInsert(char *nome, column *c){
 		free(tab2); // Libera a memoria da estrutura.
         return ERRO_CHAVE_PRIMARIA;
     }
-    if(erro == ERRO_DE_PARAMETRO) {
-        printf("Erro de parametro.\n");
+    if (erro == ERRO_DE_PARAMETRO) {
+        printf("error: Parâmetro inválido. Nenhum registro inserido.\n");
         free(c);    // Libera a memoria da estrutura.
 		free(auxT); // Libera a memoria da estrutura.
 		free(temp); // Libera a memoria da estrutura.
@@ -89,6 +89,7 @@ int finalizaInsert(char *nome, column *c){
 
     if((dados = fopen(dicio.nArquivo,"a+b")) == NULL){
 		free(c);    // Libera a memoria da estrutura.
+        printf("error: Erro ao abrir arquivo. Nenhum registro inserido.\n");
 		free(auxT); // Libera a memoria da estrutura.
 		free(temp); // Libera a memoria da estrutura.
         free(tab); // Libera a memoria da estrutura.
@@ -98,12 +99,13 @@ int finalizaInsert(char *nome, column *c){
 	}
 
     for(auxC = c, t = 0; auxC != NULL; auxC = auxC->next, t++){
-        if(t >= dicio.qtdCampos)
+        if (t >= dicio.qtdCampos)
             t = 0;
 
-        if(auxT[t].tipo == 'S'){ // Grava um dado do tipo string.
+        if (auxT[t].tipo == 'S'){ // Grava um dado do tipo string.
 
-            if(sizeof(auxC->valorCampo) > auxT[t].tam && sizeof(auxC->valorCampo) != 8){
+            if (sizeof(auxC->valorCampo) > auxT[t].tam && sizeof(auxC->valorCampo) != 8){
+                printf("error: O tamanho da string não é válido. Nenhum registro inserido.\n");
 				free(tab); // Libera a memoria da estrutura.
 				free(tab2); // Libera a memoria da estrutura.
 				free(c);    // Libera a memoria da estrutura.
@@ -112,7 +114,9 @@ int finalizaInsert(char *nome, column *c){
 				fclose(dados);
                 return ERRO_NO_TAMANHO_STRING;
             }
-            if(strcmp(auxC->nomeCampo, auxT[t].nome) != 0){
+
+            if (strcmp(auxC->nomeCampo, auxT[t].nome) != 0){
+                printf("error: O nome do campo '%s' é inválido. Nenhum registro inserido.\n", auxC->nomeCampo);
 				free(tab); // Libera a memoria da estrutura.
 				free(tab2); // Libera a memoria da estrutura.
 				free(c);    // Libera a memoria da estrutura.
@@ -121,15 +125,17 @@ int finalizaInsert(char *nome, column *c){
 				fclose(dados);
                 return ERRO_NOME_CAMPO;
             }
+
             char valorCampo[auxT[t].tam];
             strcpy(valorCampo, auxC->valorCampo);
             strcat(valorCampo, "\0");
             fwrite(&valorCampo,sizeof(valorCampo),1,dados);
-        }
-        else if(auxT[t].tipo == 'I'){ // Grava um dado do tipo inteiro.
+
+        } else if (auxT[t].tipo == 'I'){ // Grava um dado do tipo inteiro.
             i = 0;
             while (i < strlen(auxC->valorCampo)){
-                if(auxC->valorCampo[i] < 48 || auxC->valorCampo[i] > 57){
+                if (auxC->valorCampo[i] < 48 || auxC->valorCampo[i] > 57){
+                    printf("error: Valor inteiro esperado para a coluna '%s'. Nenhum registro inserido.\n", auxC->nomeCampo);
 					free(tab); // Libera a memoria da estrutura.
 					free(tab2); // Libera a memoria da estrutura.
 					free(c);    // Libera a memoria da estrutura.
@@ -145,11 +151,12 @@ int finalizaInsert(char *nome, column *c){
 
             sscanf(auxC->valorCampo,"%d",&valorInteiro);
             fwrite(&valorInteiro,sizeof(valorInteiro),1,dados);
-        }
-        else if(auxT[t].tipo == 'D'){ // Grava um dado do tipo double.
+
+        } else if (auxT[t].tipo == 'D'){ // Grava um dado do tipo double.
             x = 0;
             while (x < strlen(auxC->valorCampo)){
                 if((auxC->valorCampo[x] < 48 || auxC->valorCampo[x] > 57) && (auxC->valorCampo[x] != 46)){
+                    printf("error: Valor do tipo double esperado para a coluna '%s'. Nenhum registro inserido.\n", auxC->nomeCampo);
 					free(tab); // Libera a memoria da estrutura.
 					free(tab2); // Libera a memoria da estrutura.
 					free(c);    // Libera a memoria da estrutura.
@@ -164,10 +171,10 @@ int finalizaInsert(char *nome, column *c){
             double valorDouble = convertD(auxC->valorCampo);
             fwrite(&valorDouble,sizeof(valorDouble),1,dados);
         }
-        else if(auxT[t].tipo == 'C'){ // Grava um dado do tipo char.
+        else if (auxT[t].tipo == 'C'){ // Grava um dado do tipo char.
 
-            if(strlen(auxC->valorCampo) > (sizeof(char)))
-            {
+            if (strlen(auxC->valorCampo) > (sizeof(char))) {
+                printf("error: Caractere único esperado para a coluna '%s'. Nenhum registro inserido.\n", auxC->nomeCampo);
 				free(tab); // Libera a memoria da estrutura.
 				free(tab2); // Libera a memoria da estrutura.
 				free(c);    // Libera a memoria da estrutura.
