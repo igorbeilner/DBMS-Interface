@@ -32,29 +32,31 @@ int verificaChavePK(char *nomeTabela, column *c, char *nomeCampo, char *valorCam
     page = 0;
     for (page = 0; page < PAGES; page++) {
         column *pagina = getPage(bufferpoll, tabela, objeto, page);
+        if (!pagina) break;
 
-        for(j = 0; j < objeto.qtdCampos * bufferpoll[0].nrec; j++){
+        for(j = 0; j < objeto.qtdCampos * bufferpoll[page].nrec; j++){
+            if (pagina[j].nomeCampo) {
+                if (strcmp(pagina[j].nomeCampo, nomeCampo) == 0) {
+                    if (pagina[j].tipoCampo == 'S') {
+                        if (strcmp(pagina[j].valorCampo, valorCampo) == 0){
+                            return ERRO_CHAVE_PRIMARIA;
+                        }
+                    } else if (pagina[j].tipoCampo == 'I') {
+                        int *n = (int *)&pagina[j].valorCampo[0];
 
-            if (strcmp(pagina[j].nomeCampo, nomeCampo) == 0) {
-                if (pagina[j].tipoCampo == 'S') {
-                    if (strcmp(pagina[j].valorCampo, valorCampo) == 0){
-                        return ERRO_CHAVE_PRIMARIA;
-                    }
-                } else if (pagina[j].tipoCampo == 'I') {
-                    int *n = (int *)&pagina[j].valorCampo[0];
+                        if (*n == atoi(valorCampo)) {
+                            return ERRO_CHAVE_PRIMARIA;
+                        }
+                    } else if (pagina[j].tipoCampo == 'D'){
+                        double *nn = (double *)&pagina[j].valorCampo[0];
 
-                    if (*n == atoi(valorCampo)) {
-                        return ERRO_CHAVE_PRIMARIA;
-                    }
-                } else if (pagina[j].tipoCampo == 'D'){
-                    double *nn = (double *)&pagina[j].valorCampo[0];
-
-                    if (*nn == atof(valorCampo)){
-                        return ERRO_CHAVE_PRIMARIA;
-                    }
-                } else if (pagina[j].tipoCampo == 'C'){
-                    if (pagina[j].valorCampo == valorCampo){
-                        return ERRO_CHAVE_PRIMARIA;
+                        if (*nn == atof(valorCampo)){
+                            return ERRO_CHAVE_PRIMARIA;
+                        }
+                    } else if (pagina[j].tipoCampo == 'C'){
+                        if (pagina[j].valorCampo == valorCampo){
+                            return ERRO_CHAVE_PRIMARIA;
+                        }
                     }
                 }
             }
