@@ -9,6 +9,7 @@ int finalizaTabela(table *t){
     tp_table *aux;
     int codTbl = quantidadeTabelas() + 1, qtdCampos = 0; // Conta a quantidade de tabelas já no dicionario e soma 1 no codigo dessa nova tabela.
     char nomeArquivo[TAMANHO_NOME_ARQUIVO];
+    memset(nomeArquivo, 0, TAMANHO_NOME_ARQUIVO);
 
     if((esquema = fopen("fs_schema.dat","a+b")) == NULL)
         return ERRO_ABRIR_ARQUIVO;
