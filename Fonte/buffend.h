@@ -421,3 +421,8 @@ int interface();
  *             \dt <Nome da tabela>
  */
 void printTable(char *tbl);
+
+/* help: Ajuda do programa
+ *
+ */
+void help();

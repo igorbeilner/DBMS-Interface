@@ -22,6 +22,10 @@
 (?i:KEY)						return KEY;
 (?i:REFERENCES)					return REFERENCES;
 (?i:DATABASE)					return DATABASE;
+(?i:DROP)						return DROP;
+help							return HELP;
+[\\][h]+						return HELP;
+[\\][\?]+						return HELP;
 
 [,]								return *yytext;
 [;]								return *yytext;

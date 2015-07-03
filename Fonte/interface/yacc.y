@@ -274,10 +274,11 @@ int interface() {
         CREATE      TABLE       INTEGER     VARCHAR     DOUBLE
         PRIMARY     KEY         REFERENCES  DATABASE
         OBJECT      NUMBER      VALUE       QUIT        LIST_TABLES
-        LIST_TABLE  ALPHANUM    CONNECT;
+        LIST_TABLE  ALPHANUM    CONNECT     HELP;
 
 start: insert | select | create_table | create_database
-     | table_attr | list_tables | connection | exit_program | semicolon {return 0;} | /*nothing*/;
+     | table_attr | list_tables | connection | exit_program | semicolon {return 0;}
+     | help_pls | /*nothing*/;
 
 /*--------------------------------------------------*/
 /**************** GENERAL FUNCTIONS *****************/
@@ -307,6 +308,8 @@ list_tables: LIST_TABLES {
     return 0;
 };
 
+/* HELP */
+help_pls: HELP {help(); return 0;}
 
 /*--------------------------------------------------*/
 /****************** SQL STATEMENTS ******************/
