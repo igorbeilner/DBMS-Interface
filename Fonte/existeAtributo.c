@@ -12,6 +12,7 @@
 int existeAtributo(char *nomeTabela, column *c){
     int erro, x, count;
     struct fs_objects objeto;
+    memset(&objeto, 0, sizeof(struct fs_objects));
     tp_table *tabela;
     tp_buffer *bufferpoll;
     column *aux;

@@ -24,6 +24,7 @@ void insert(rc_insert *s_insert) {
 	column *colunas = NULL;
 	tp_table *esquema;
 	struct fs_objects objeto;
+	memset(&objeto, 0, sizeof(struct fs_objects));
 	char  flag=0;
 
 	abreTabela(s_insert->tableName, &objeto, &tabela->esquema); //retorna o esquema para a insere valor

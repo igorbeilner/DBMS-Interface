@@ -3,8 +3,10 @@
 
 // INICIALIZACAO DO BUFFER
 tp_buffer * initbuffer(){
-    
+
     tp_buffer *bp = (tp_buffer*)malloc(sizeof(tp_buffer)*PAGES);
+    memset(bp, 0, sizeof(tp_buffer)*PAGES);
+
     int i;
     tp_buffer *temp = bp;
 

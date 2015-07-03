@@ -6,8 +6,12 @@ tp_table *leSchema (struct fs_objects objeto){
     FILE *schema;
     int i = 0, cod = 0;
     char *tupla = (char *)malloc(sizeof(char)*TAMANHO_NOME_CAMPO);
+    memset(tupla, 0, TAMANHO_NOME_CAMPO);
     char *tuplaT = (char *)malloc(sizeof(char)*TAMANHO_NOME_TABELA+1);
-    tp_table *esquema = (tp_table *)malloc(sizeof(tp_table)*objeto.qtdCampos); // Aloca esquema com a quantidade de campos necessarios.
+    memset(tuplaT, 0, TAMANHO_NOME_TABELA+1);
+
+    tp_table *esquema = (tp_table *)malloc(sizeof(tp_table)*(objeto.qtdCampos+1)); // Aloca esquema com a quantidade de campos necessarios.
+    memset(esquema, 0, sizeof(tp_table)*(objeto.qtdCampos+1));
 
     if(esquema == NULL){
         free(tupla);
