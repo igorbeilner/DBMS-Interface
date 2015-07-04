@@ -1,6 +1,34 @@
 #include "buffend.h"
 
-char createDatabase(char *db_name) {
+char connectDB(char *db_name) {
+	FILE *DB;
+	int i;
+	char vec_name 				[QTD_DB][LEN_DB_NAME],
+		 vec_directory 			[QTD_DB][LEN_DB_NAME];
+
+    if((DB = fopen("DB.dat","rb")) == NULL) {
+       	return ERRO_ABRIR_ARQUIVO;
+    }
+
+    for(i=0; fgetc (DB) != EOF; i++) {
+    	fseek(DB, -1, 1);
+
+        fread(vec_name[i]  		,sizeof(char), LEN_DB_NAME, DB);
+        fread(vec_directory[i] 	,sizeof(char), LEN_DB_NAME, DB);
+
+        if(strcmp(vec_name[i], db_name) == 0) {
+        	strcpy(connected.db_directory, vec_directory[i]);
+        	fclose(DB);
+        	return SUCCESS;
+        }
+    }
+    fclose(DB);
+
+    return DB_NOT_EXISTS;
+
+}
+
+char createDB(char *db_name) {
 	FILE *DB;
 	int i, len;
 	char vec_name 				[QTD_DB][LEN_DB_NAME],

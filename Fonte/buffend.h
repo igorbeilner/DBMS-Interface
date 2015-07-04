@@ -71,8 +71,12 @@ typedef struct rc_parser {
 
 typedef struct data_base {
 	char 		db_name[LEN_DB_NAME];
-	char 		db_directory[LEN_DB_NAME];
+	char 		db_directory[LEN_DB_NAME+1];
 }data_base;
+
+typedef struct db_connected {
+	char db_directory[LEN_DB_NAME];
+}db_connected;
 
 // Union's utilizados na conversão de variáveis do tipo inteiro e double.
 
@@ -91,6 +95,7 @@ union c_int{
 /************************************************************************************************
 **************************************  VARIAVEIS GLOBAIS  **************************************/
 
+db_connected connected;
 
 /************************************************************************************************
  ************************************************************************************************/
@@ -452,4 +457,6 @@ void strncpylower(char *dest, char *src, int length);
 
 void createTable(rc_insert *t);
 
-char createDatabase(char *db_name);
+char createDB(char *db_name);
+
+char connectDB(char *db_name);
