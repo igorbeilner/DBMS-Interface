@@ -101,7 +101,7 @@ void setColumnTypeCreate(char type) {
 
 void setColumnSizeCreate(char *size) {
     GLOBAL_DATA.values[col_count-1] = realloc(GLOBAL_DATA.values[col_count-1], sizeof(char)*(strlen(size)+1));
-    strcpylower(GLOBAL_DATA.values[col_count-1], size);
+    strcpy(GLOBAL_DATA.values[col_count-1], size);
     GLOBAL_DATA.values[col_count-1][strlen(size)-1] = '\0';
 }
 
@@ -130,7 +130,7 @@ void setValueInsert(char *nome, char type) {
     // Adiciona o valor no vetor de strings
     GLOBAL_DATA.values[val_count] = malloc(sizeof(char)*(strlen(nome)+1));
     if (type == 'I') {
-        strcpylower(GLOBAL_DATA.values[val_count], nome);
+        strcpy(GLOBAL_DATA.values[val_count], nome);
         GLOBAL_DATA.values[val_count][strlen(nome)] = '\0';
     } else if (type == 'S') {
         for (i = 1; i < strlen(nome)-1; i++) {

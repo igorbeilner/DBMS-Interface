@@ -127,7 +127,7 @@ int finalizaInsert(char *nome, column *c){
             }
 
             char valorCampo[auxT[t].tam];
-            strncpylower(valorCampo, auxC->valorCampo, auxT[t].tam);
+            strncpy(valorCampo, auxC->valorCampo, auxT[t].tam);
             strcat(valorCampo, "\0");
             fwrite(&valorCampo,sizeof(valorCampo),1,dados);
 
