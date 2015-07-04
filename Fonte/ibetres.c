@@ -10,6 +10,8 @@ int main(){
     table  *tab[nrTabelas];
     int object, schema;
 
+    dbInit();
+
     object      = existeArquivo("fs_object.dat");
     schema      = existeArquivo("fs_schema.dat");
     nTabela[0]  = existeArquivo("Aluno.dat");

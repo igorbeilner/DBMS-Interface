@@ -460,3 +460,5 @@ void createTable(rc_insert *t);
 char createDB(char *db_name);
 
 char connectDB(char *db_name);
+
+void dbInit();
