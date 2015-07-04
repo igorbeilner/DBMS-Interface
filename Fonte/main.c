@@ -13,8 +13,8 @@ int main(){
     object      = existeArquivo("fs_object.dat");
     schema      = existeArquivo("fs_schema.dat");
     nTabela[0]  = existeArquivo("Aluno.dat");
-    nTabela[1]  = existeArquivo("Inst.dat");
-    nTabela[2]  = existeArquivo("Inscri.dat");
+    nTabela[1]  = existeArquivo("inst.dat");
+    nTabela[2]  = existeArquivo("inscri.dat");
 
 
      if(!object || !schema){
@@ -28,7 +28,7 @@ int main(){
             finalizaTabela(tab[0]);
          }
          if(!nTabela[1]){
-            tab[1] = iniciaTabela("Inst");
+            tab[1] = iniciaTabela("inst");
             tab[1] = adicionaCampo(tab[1], "CodInst"  , 'I', (sizeof(int))   ,PK , "","");
             tab[1] = adicionaCampo(tab[1], "Nome"     , 'S', 20              ,NPK, "","");
             tab[1] = adicionaCampo(tab[1], "Endereco" , 'S', 20              ,NPK, "","");
@@ -36,10 +36,10 @@ int main(){
             finalizaTabela(tab[1]);
         }
         if(!nTabela[2]){
-            tab[2] = iniciaTabela("Inscri");
+            tab[2] = iniciaTabela("inscri");
             tab[2] = adicionaCampo(tab[2], "CodMat"     , 'I', (sizeof(int))  ,PK, "","");
-            tab[2] = adicionaCampo(tab[2], "CPF"        , 'I', (sizeof(int))  ,FK, "Aluno","CPF");
-            tab[2] = adicionaCampo(tab[2], "CodInst"    , 'I', (sizeof(int))  ,FK , "Inst","CodInst");
+            tab[2] = adicionaCampo(tab[2], "CPF"        , 'I', (sizeof(int))  ,FK, "aluno","CPF");
+            tab[2] = adicionaCampo(tab[2], "CodInst"    , 'I', (sizeof(int))  ,FK , "inst","CodInst");
             tab[2] = adicionaCampo(tab[2], "Curso"   , 'S',  20  ,NPK, "","");
             finalizaTabela(tab[2]);
         }

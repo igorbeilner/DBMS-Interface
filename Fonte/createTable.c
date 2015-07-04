@@ -1,8 +1,8 @@
 //cria tabela
 #include "buffend.h"
 
-void createTable(rc_insert *t){
-    tolower(t->tableName, t->tableName);        //muda pra minúsculo
+void createTable(rc_insert *t) {
+    strcpylower(t->tableName, t->tableName);        //muda pra minúsculo
     char *tableName = t->tableName;
 
     strcat(tableName, ".dat");                  //tableName.dat

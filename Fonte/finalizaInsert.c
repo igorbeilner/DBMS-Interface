@@ -115,7 +115,7 @@ int finalizaInsert(char *nome, column *c){
                 return ERRO_NO_TAMANHO_STRING;
             }
 
-            if (strcmp(auxC->nomeCampo, auxT[t].nome) != 0){
+            if (objcmp(auxC->nomeCampo, auxT[t].nome) != 0){
                 printf("error: O nome do campo '%s' é inválido. Nenhum registro inserido.\n", auxC->nomeCampo);
 				free(tab); // Libera a memoria da estrutura.
 				free(tab2); // Libera a memoria da estrutura.
@@ -127,7 +127,7 @@ int finalizaInsert(char *nome, column *c){
             }
 
             char valorCampo[auxT[t].tam];
-            strncpy(valorCampo, auxC->valorCampo, auxT[t].tam);
+            strncpylower(valorCampo, auxC->valorCampo, auxT[t].tam);
             strcat(valorCampo, "\0");
             fwrite(&valorCampo,sizeof(valorCampo),1,dados);
 

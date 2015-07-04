@@ -42,7 +42,7 @@ void connect(char **nome) {
     } else {
         GLOBAL_PARSER.db_name = malloc(sizeof(char)*((strlen(*nome)+1)));
 
-        strcpy(GLOBAL_PARSER.db_name, *nome);
+        strcpylower(GLOBAL_PARSER.db_name, *nome);
         GLOBAL_PARSER.db_name[strlen(*nome)] = '\0';
 
         GLOBAL_PARSER.conn_active = 1;
@@ -53,7 +53,7 @@ void setTable(char **nome) {
     if (GLOBAL_PARSER.mode != 0) {
         GLOBAL_PARSER.data->tableName = malloc(sizeof(char)*((strlen(*nome)+1)));
 
-        strcpy(GLOBAL_PARSER.data->tableName, *nome);
+        strcpylower(GLOBAL_PARSER.data->tableName, *nome);
         GLOBAL_PARSER.data->tableName[strlen(*nome)] = '\0';
     } else
         return;
@@ -63,7 +63,7 @@ void setColumnInsert(char **nome) {
     GLOBAL_DATA.columnName = realloc(GLOBAL_DATA.columnName, (col_count+1)*sizeof(char *));
 
     GLOBAL_DATA.columnName[col_count] = malloc(sizeof(char)*(strlen(*nome)+1));
-    strcpy(GLOBAL_DATA.columnName[col_count], *nome);
+    strcpylower(GLOBAL_DATA.columnName[col_count], *nome);
     GLOBAL_DATA.columnName[col_count][strlen(*nome)] = '\0';
 
     col_count++;
@@ -87,7 +87,7 @@ void setColumnCreate(char **nome) {
     GLOBAL_DATA.fkColumn[col_count] = 0;
 
     GLOBAL_DATA.columnName[col_count] = malloc(sizeof(char)*(strlen(*nome)+1));
-    strcpy(GLOBAL_DATA.columnName[col_count], *nome);
+    strcpylower(GLOBAL_DATA.columnName[col_count], *nome);
     GLOBAL_DATA.columnName[col_count][strlen(*nome)] = '\0';
     GLOBAL_DATA.type[col_count] = 0;
     GLOBAL_DATA.attribute[col_count] = 'N';
@@ -101,7 +101,7 @@ void setColumnTypeCreate(char type) {
 
 void setColumnSizeCreate(char *size) {
     GLOBAL_DATA.values[col_count-1] = realloc(GLOBAL_DATA.values[col_count-1], sizeof(char)*(strlen(size)+1));
-    strcpy(GLOBAL_DATA.values[col_count-1], size);
+    strcpylower(GLOBAL_DATA.values[col_count-1], size);
     GLOBAL_DATA.values[col_count-1][strlen(size)-1] = '\0';
 }
 
@@ -111,14 +111,14 @@ void setColumnPKCreate() {
 
 void setColumnFKTableCreate(char **nome) {
     GLOBAL_DATA.fkTable[col_count-1] = realloc(GLOBAL_DATA.fkTable[col_count-1], sizeof(char)*(strlen(*nome)+1));
-    strcpy(GLOBAL_DATA.fkTable[col_count-1], *nome);
+    strcpylower(GLOBAL_DATA.fkTable[col_count-1], *nome);
     GLOBAL_DATA.fkTable[col_count-1][strlen(*nome)] = '\0';
     GLOBAL_DATA.attribute[col_count-1] = 'F';
 }
 
 void setColumnFKColumnCreate(char **nome) {
     GLOBAL_DATA.fkColumn[col_count-1] = realloc(GLOBAL_DATA.fkColumn[col_count-1], sizeof(char)*(strlen(*nome)+1));
-    strcpy(GLOBAL_DATA.fkColumn[col_count-1], *nome);
+    strcpylower(GLOBAL_DATA.fkColumn[col_count-1], *nome);
     GLOBAL_DATA.fkColumn[col_count-1][strlen(*nome)] = '\0';
 }
 
@@ -130,7 +130,7 @@ void setValueInsert(char *nome, char type) {
     // Adiciona o valor no vetor de strings
     GLOBAL_DATA.values[val_count] = malloc(sizeof(char)*(strlen(nome)+1));
     if (type == 'I') {
-        strcpy(GLOBAL_DATA.values[val_count], nome);
+        strcpylower(GLOBAL_DATA.values[val_count], nome);
         GLOBAL_DATA.values[val_count][strlen(nome)] = '\0';
     } else if (type == 'S') {
         for (i = 1; i < strlen(nome)-1; i++) {
@@ -197,7 +197,7 @@ void setMode(char mode) {
     GLOBAL_PARSER.mode = mode;
 }
 
-/* TEMP */
+/*
 void createTable(rc_insert *table) {
     int i;
     printf("Table name: %s\n--------\n", table->tableName);
@@ -206,7 +206,7 @@ void createTable(rc_insert *table) {
                 table->columnName[i], table->type[i], table->values[i], table->attribute[i], table->fkTable[i], table->fkColumn[i]);
     }
 }
-
+*/
 void createDatabase(char **nome) {
     printf("Banco de dados '%s' criado.\n", *nome);
 }
@@ -272,7 +272,7 @@ int interface() {
 
 %token  INSERT      INTO        VALUES      SELECT      FROM
         CREATE      TABLE       INTEGER     VARCHAR     DOUBLE
-        PRIMARY     KEY         REFERENCES  DATABASE
+        PRIMARY     KEY         REFERENCES  DATABASE    DROP
         OBJECT      NUMBER      VALUE       QUIT        LIST_TABLES
         LIST_TABLE  ALPHANUM    CONNECT     HELP;
 

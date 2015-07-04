@@ -19,8 +19,8 @@ int excluirTabela(char *nomeTabela) {
     char dat[5] = ".dat";
 
 
-    strcpy (str, nomeTabela);
-    strcat (str, dat);              //Concatena e junta o nome com .dat
+    strcpylower(str, nomeTabela);
+    strcat(str, dat);              //Concatena e junta o nome com .dat
 
     abreTabela(nomeTabela, &objeto, &esquema);
     qtTable = quantidadeTabelas();
@@ -54,7 +54,7 @@ int excluirTabela(char *nomeTabela) {
     for(i = 0; i < objeto.qtdCampos; i++){
         if(tab2[i].chave == PK){
             for(j=0; j<qtTable; j++) {                      //se tiver chave primaria verifica se ela e chave
-                if(strcmp(tupla[j], nomeTabela) != 0) {     //estrangeira em outra tabela
+                if(objcmp(tupla[j], nomeTabela) != 0) {     //estrangeira em outra tabela
 
                     abreTabela(tupla[j], &objeto1, &esquema1);
 
@@ -63,7 +63,7 @@ int excluirTabela(char *nomeTabela) {
 
                     for(l=0; l<objeto1.qtdCampos; l++) {
                         if(tab3[l].chave == FK) { //verifica se a outra tabela possui chave estrangeira. se sim, verifica se e da tabela anterior.
-                            if(strcmp(nomeTabela, tab3[l].tabelaApt) == 0) {
+                            if(objcmp(nomeTabela, tab3[l].tabelaApt) == 0) {
                                 printf("error: Não é possível excluir a tabela '%s'. Existem referências em outras tabelas!\n", nomeTabela);
                                 return ERRO_CHAVE_ESTRANGEIRA;
                             }

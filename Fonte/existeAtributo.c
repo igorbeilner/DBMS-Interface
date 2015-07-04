@@ -36,7 +36,7 @@ int existeAtributo(char *nomeTabela, column *c){
             if (!pagina[x].nomeCampo) continue;
             for(aux = c; aux != NULL; aux=aux->next) {
                 if (!aux->nomeCampo) continue;
-                if(strcmp(pagina[x].nomeCampo, aux->nomeCampo) == 0)
+                if(objcmp(pagina[x].nomeCampo, aux->nomeCampo) == 0)
                     count++;
             }
         }

@@ -27,6 +27,7 @@ tp_table *leSchema (struct fs_objects objeto){
         free(esquema);
         return ERRO_ABRIR_ESQUEMA;
     }
+
     while((fgetc (schema) != EOF) && (i < objeto.qtdCampos)){ // Varre o arquivo ate encontrar todos os campos com o codigo da tabela.
         fseek(schema, -1, 1);
 
@@ -34,17 +35,17 @@ tp_table *leSchema (struct fs_objects objeto){
             if(cod == objeto.cod){ // Verifica se o campo a ser copiado e da tabela que esta na estrutura fs_objects.
 
                 fread(tupla, sizeof(char), TAMANHO_NOME_CAMPO, schema);
-                strcpy(esquema[i].nome,tupla);                  // Copia dados do campo para o esquema.
+                strcpylower(esquema[i].nome,tupla);                  // Copia dados do campo para o esquema.
 
                 fread(&esquema[i].tipo, sizeof(char),1,schema);
                 fread(&esquema[i].tam, sizeof(int),1,schema);
                 fread(&esquema[i].chave, sizeof(int),1,schema);
 
                 fread(tuplaT, sizeof(char), TAMANHO_NOME_TABELA, schema);
-                strcpy(esquema[i].tabelaApt,tuplaT);
+                strcpylower(esquema[i].tabelaApt,tuplaT);
 
                 fread(tupla, sizeof(char), TAMANHO_NOME_CAMPO, schema);
-                strcpy(esquema[i].attApt,tupla);
+                strcpylower(esquema[i].attApt,tupla);
 
                 if (i > 0)
                     esquema[i-1].next = &esquema[i];

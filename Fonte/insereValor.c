@@ -3,6 +3,7 @@
 
 // INSERE NA TABELA
 column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
+    int i;
 
     column *aux;
     if(c == NULL){ // Se o valor a ser inserido é o primeiro, adiciona primeiro campo.
@@ -38,11 +39,8 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
            printf("warning: Nome do campo excedeu o limite de tamanho e foi truncado.\n");
         }
 
-        int i;
-        for(i=0; i < n-1; i++) e->nomeCampo[i] = nomeCampo[i];
-            e->nomeCampo[i] = '\0';
 
-        //strncpy(e->nomeCampo, nomeCampo,n);
+        strncpylower(e->nomeCampo, nomeCampo, n-1);
 
         n = strlen(valorCampo);
 
@@ -95,9 +93,7 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
                    printf("warning: Nome do campo excedeu o limite de tamanho e foi truncado.\n");
                 }
 
-                int i;
-                for(i=0; i < n-1; i++) e->nomeCampo[i] = nomeCampo[i];
-                e->nomeCampo[i] = '\0';
+                strncpylower(e->nomeCampo, nomeCampo, n-1);
 
                 //strncpy(e->nomeCampo, nomeCampo,n);
 

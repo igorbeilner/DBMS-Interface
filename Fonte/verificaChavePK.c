@@ -36,9 +36,9 @@ int verificaChavePK(char *nomeTabela, column *c, char *nomeCampo, char *valorCam
 
         for(j = 0; j < objeto.qtdCampos * bufferpoll[page].nrec; j++){
             if (pagina[j].nomeCampo) {
-                if (strcmp(pagina[j].nomeCampo, nomeCampo) == 0) {
+                if (objcmp(pagina[j].nomeCampo, nomeCampo) == 0) {
                     if (pagina[j].tipoCampo == 'S') {
-                        if (strcmp(pagina[j].valorCampo, valorCampo) == 0){
+                        if (objcmp(pagina[j].valorCampo, valorCampo) == 0){
                             return ERRO_CHAVE_PRIMARIA;
                         }
                     } else if (pagina[j].tipoCampo == 'I') {

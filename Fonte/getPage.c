@@ -29,7 +29,7 @@ column * getPage(tp_buffer *buffer, tp_table *campos, struct fs_objects objeto, 
         colunas[h].valorCampo = (char *)malloc(sizeof(char)*campos[j].tam);
         colunas[h].tipoCampo = campos[j].tipo;  //Guarda tipo do campo
 
-        strcpy(colunas[h].nomeCampo, campos[j].nome); //Guarda nome do campo
+        strcpylower(colunas[h].nomeCampo, campos[j].nome); //Guarda nome do campo
 
         while(t < campos[j].tam){
             colunas[h].valorCampo[t] = buffer[page].data[i]; //Copia os dados

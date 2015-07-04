@@ -28,7 +28,7 @@ tp_table *procuraAtributoFK(struct fs_objects objeto){
         if(fread(&cod, sizeof(int), 1, schema)){ // Le o codigo da tabela.
             if(cod == objeto.cod){
                 fread(tupla, sizeof(char), TAMANHO_NOME_CAMPO, schema);
-                strcpy(esquema[i].nome,tupla);                  // Copia dados do campo para o esquema.
+                strcpylower(esquema[i].nome,tupla);                  // Copia dados do campo para o esquema.
 
                 fread(&esquema[i].tipo , sizeof(char), 1 , schema);
                 fread(&esquema[i].tam  , sizeof(int) , 1 , schema);
@@ -36,14 +36,14 @@ tp_table *procuraAtributoFK(struct fs_objects objeto){
                 vetEsqm[i].tipo = esquema[i].tipo;
 
                 fread(tupla, sizeof(char), TAMANHO_NOME_TABELA, schema);
-                strcpy(esquema[i].tabelaApt,tupla);
+                strcpylower(esquema[i].tabelaApt,tupla);
 
                 fread(tupla, sizeof(char), TAMANHO_NOME_CAMPO, schema);
-                strcpy(esquema[i].attApt,tupla);
+                strcpylower(esquema[i].attApt,tupla);
 
-                strcpy(vetEsqm[i].tabelaApt, esquema[i].tabelaApt);
-                strcpy(vetEsqm[i].attApt, esquema[i].attApt);
-                strcpy(vetEsqm[i].nome, esquema[i].nome);
+                strcpylower(vetEsqm[i].tabelaApt, esquema[i].tabelaApt);
+                strcpylower(vetEsqm[i].attApt, esquema[i].attApt);
+                strcpylower(vetEsqm[i].nome, esquema[i].nome);
                 vetEsqm[i].chave = chave;
 
                 i++;

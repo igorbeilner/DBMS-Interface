@@ -32,12 +32,12 @@ struct fs_objects leObjeto(char *nTabela){
 
         fread(tupla, sizeof(char), TAMANHO_NOME_TABELA , dicionario); //Lê somente o nome da tabela
 
-        if(strcmp(tupla, nTabela) == 0){ // Verifica se o nome dado pelo usuario existe no dicionario de dados.
-            strcpy(objeto.nome, tupla);
+        if(objcmp(tupla, nTabela) == 0){ // Verifica se o nome dado pelo usuario existe no dicionario de dados.
+            strcpylower(objeto.nome, tupla);
             fread(&cod,sizeof(int),1,dicionario);   // Copia valores referentes a tabela pesquisada para a estrutura.
             objeto.cod=cod;
             fread(tupla,sizeof(char),TAMANHO_NOME_TABELA,dicionario);
-            strcpy(objeto.nArquivo, tupla);
+            strcpylower(objeto.nArquivo, tupla);
             fread(&cod,sizeof(int),1,dicionario);
             objeto.qtdCampos = cod;
 

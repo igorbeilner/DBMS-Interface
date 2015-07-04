@@ -28,7 +28,7 @@ void insert(rc_insert *s_insert) {
 	char  flag=0;
 
 	abreTabela(s_insert->tableName, &objeto, &tabela->esquema); //retorna o esquema para a insere valor
-	strcpy(tabela->nome, s_insert->tableName);
+	strcpylower(tabela->nome, s_insert->tableName);
 
 	if(s_insert->columnName != NULL) {
 		if (allColumnsExists(s_insert, tabela)) {
@@ -94,7 +94,7 @@ char *getInsertedValue(rc_insert *s_insert, char *columnName, table *tabela) {
 	char tipo, *noValue;
 
 	for (i = 0; i < s_insert->N; i++) {
-		if (strcmp(s_insert->columnName[i], columnName) == 0) {
+		if (objcmp(s_insert->columnName[i], columnName) == 0) {
 			return s_insert->values[i];
 		}
 	}
@@ -118,7 +118,7 @@ char getInsertedType(rc_insert *s_insert, char *columnName, table *tabela) {
 	int i;
 	char noValue;
 	for (i = 0; i < s_insert->N; i++) {
-		if (strcmp(s_insert->columnName[i], columnName) == 0) {
+		if (objcmp(s_insert->columnName[i], columnName) == 0) {
 			return s_insert->type[i];
 		}
 	}

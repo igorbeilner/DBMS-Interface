@@ -1,10 +1,10 @@
 //BufferPool
 #include "buffend.h"
 
-/* ---------------------------------------------------------------------------------------------- 
+/* ----------------------------------------------------------------------------------------------
     Objetivo:   Verifica se o nome da tabela 'nomeTabela' está nos primeiros bytes de 'linha'
-    Parametros: Nome da tabela, char linha.    
-    Retorno:    INT(1 - Está contido, 0 - Não está)                
+    Parametros: Nome da tabela, char linha.
+    Retorno:    INT(1 - Está contido, 0 - Não está)
    ---------------------------------------------------------------------------------------------*/
 
 int TrocaArquivosObj(char *nomeTabela, char *linha){
@@ -16,7 +16,7 @@ int TrocaArquivosObj(char *nomeTabela, char *linha){
         x++;
     }
 
-    if(strcmp(tabela, nomeTabela) == 0){
+    if(objcmp(tabela, nomeTabela) == 0){
         return 1;
     }
 

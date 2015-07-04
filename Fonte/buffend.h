@@ -426,3 +426,15 @@ void printTable(char *tbl);
  *
  */
 void help();
+
+/* objcmp: Recebe o nome de um objeto e a entrada do usuário e
+ *         verifica se são iguais sem diferenciar caracteres
+ *         maiúsculos e minúsculos.
+ */
+int objcmp(char *obj, char *str);
+
+void strcpylower(char *dest, char *src);
+
+void strncpylower(char *dest, char *src, int length);
+
+void createTable(rc_insert *t);

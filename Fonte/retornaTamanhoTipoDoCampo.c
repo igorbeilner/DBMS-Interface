@@ -9,7 +9,7 @@ char retornaTamanhoTipoDoCampo(char *nomeCampo, table  *tab) {
 
     while(temp != NULL) {
 
-       if (strcmp(nomeCampo,temp->nome) == 0) {
+       if (objcmp(nomeCampo,temp->nome) == 0) {
             tipo = temp->tipo;
 
             return tipo;

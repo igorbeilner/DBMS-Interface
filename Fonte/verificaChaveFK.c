@@ -18,8 +18,8 @@ int verificaChaveFK(char *nomeTabela,column *c, char *nomeCampo, char *valorCamp
     tp_table *tabela;
     tp_buffer *bufferpoll;
 
-    strcpy (str, tabelaApt);
-    strcat (str, dat);              //Concatena e junta o nome com .dat
+    strcpylower(str, tabelaApt);
+    strcat(str, dat);              //Concatena e junta o nome com .dat
 
     erro = existeAtributo(nomeTabela, c);
     /*if(erro != SUCCESS )
@@ -43,10 +43,10 @@ int verificaChaveFK(char *nomeTabela,column *c, char *nomeCampo, char *valorCamp
 
         for(j = 0; j < objeto.qtdCampos * bufferpoll[page].nrec; j++){
             if (pagina[j].nomeCampo) {
-                if(strcmp(pagina[j].nomeCampo, attApt) == 0){
+                if(objcmp(pagina[j].nomeCampo, attApt) == 0){
 
                     if(pagina[j].tipoCampo == 'S'){
-                        if(strcmp(pagina[j].valorCampo, valorCampo) == 0){
+                        if(objcmp(pagina[j].valorCampo, valorCampo) == 0){
                             return SUCCESS;
                         }
                     } else if(pagina[j].tipoCampo == 'I'){

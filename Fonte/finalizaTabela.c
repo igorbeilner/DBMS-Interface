@@ -32,7 +32,7 @@ int finalizaTabela(table *t){
     if((dicionario = fopen("fs_object.dat","a+b")) == NULL)
         return ERRO_ABRIR_ARQUIVO;
 
-    strcpy(nomeArquivo, t->nome);
+    strcpylower(nomeArquivo, t->nome);
     strcat(nomeArquivo, ".dat\0");
     strcat(t->nome, "\0");
     // Salva dados sobre a tabela no dicionario.
