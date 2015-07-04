@@ -8,6 +8,10 @@
 #define TAMANHO_NOME_CAMPO 40   // Tamanho do nome dos campos de uma tabela.
 #define TAMANHO_NOME_TABELA 20  // Tamanho do nome da tabela.
 #define TAMANHO_NOME_ARQUIVO 20 // Tamanho do nome do arquivo.
+#define QTD_DB 100
+#define LEN_DB_NAME 20
+#define DB_EXISTS 1
+#define DB_NOT_EXISTS 0
 
 
 struct fs_objects { // Estrutura usada para carregar fs_objects.dat
@@ -65,6 +69,11 @@ typedef struct rc_parser {
     char         mode;
 }rc_parser;
 
+typedef struct data_base {
+	char 		db_name[LEN_DB_NAME];
+	char 		db_directory[LEN_DB_NAME];
+}data_base;
+
 // Union's utilizados na conversão de variáveis do tipo inteiro e double.
 
 union c_double{
@@ -78,6 +87,10 @@ union c_int{
     int  num;
     char cnum[sizeof(int)];
 };
+
+/************************************************************************************************
+**************************************  VARIAVEIS GLOBAIS  **************************************/
+
 
 /************************************************************************************************
  ************************************************************************************************/
@@ -427,6 +440,7 @@ void printTable(char *tbl);
  */
 void help();
 
+<<<<<<< Updated upstream
 /* objcmp: Recebe o nome de um objeto e a entrada do usuário e
  *         verifica se são iguais sem diferenciar caracteres
  *         maiúsculos e minúsculos.
@@ -438,3 +452,6 @@ void strcpylower(char *dest, char *src);
 void strncpylower(char *dest, char *src, int length);
 
 void createTable(rc_insert *t);
+=======
+char createDataBase(char *db_name);
+>>>>>>> Stashed changes
