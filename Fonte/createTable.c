@@ -39,5 +39,5 @@ void createTable(rc_insert *t) {
         //tab = adicionaCampo(tab, "CPF"     , 'I', (sizeof(int))   ,PK,"","");
     }
 
-    printf("%s\n",(finalizaTabela(tab) == SUCCESS)? "CREATE 0 1": "ERROR");
+    printf("%s\n",(finalizaTabela(tab) == SUCCESS)? "CREATE 0 1": "ERROR:   Table already exists!\n");
 }
