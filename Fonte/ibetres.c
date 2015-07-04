@@ -5,51 +5,9 @@
 
 
 int main(){
-    int nrTabelas = 3;
-    int nTabela[nrTabelas];
-    table  *tab[nrTabelas];
-    int object, schema;
-
     dbInit();
-
-    object      = existeArquivo("fs_object.dat");
-    schema      = existeArquivo("fs_schema.dat");
-    nTabela[0]  = existeArquivo("Aluno.dat");
-    nTabela[1]  = existeArquivo("inst.dat");
-    nTabela[2]  = existeArquivo("inscri.dat");
-
-
-     if(!object || !schema){
-
-        if(!nTabela[0]){                                                                    //Se ainda não existe a Aluno, a mesma é criada
-            tab[0] = iniciaTabela("Aluno");                                                 //Cria a tabela
-            tab[0] = adicionaCampo(tab[0], "CPF"     , 'I', (sizeof(int))   ,PK,"","");     //Cria os atributos
-            tab[0] = adicionaCampo(tab[0], "Nome"    , 'S', 20              ,NPK,"","");
-            tab[0] = adicionaCampo(tab[0], "Endereco", 'S', 20              ,NPK,"","");
-            tab[0] = adicionaCampo(tab[0], "Peso"    , 'D', (sizeof(double)),NPK,"","");
-            finalizaTabela(tab[0]);
-         }
-         if(!nTabela[1]){
-            tab[1] = iniciaTabela("inst");
-            tab[1] = adicionaCampo(tab[1], "CodInst"  , 'I', (sizeof(int))   ,PK , "","");
-            tab[1] = adicionaCampo(tab[1], "Nome"     , 'S', 20              ,NPK, "","");
-            tab[1] = adicionaCampo(tab[1], "Endereco" , 'S', 20              ,NPK, "","");
-            tab[1] = adicionaCampo(tab[1], "Reitor"   , 'S', 10              ,NPK, "","");
-            finalizaTabela(tab[1]);
-        }
-        if(!nTabela[2]){
-            tab[2] = iniciaTabela("inscri");
-            tab[2] = adicionaCampo(tab[2], "CodMat"     , 'I', (sizeof(int))  ,PK, "","");
-            tab[2] = adicionaCampo(tab[2], "CPF"        , 'I', (sizeof(int))  ,FK, "aluno","CPF");
-            tab[2] = adicionaCampo(tab[2], "CodInst"    , 'I', (sizeof(int))  ,FK , "inst","CodInst");
-            tab[2] = adicionaCampo(tab[2], "Curso"   , 'S',  20  ,NPK, "","");
-            finalizaTabela(tab[2]);
-        }
-    }
-
     printf("Bem-vindo! Utilize \\c <nome_banco> para conectar.\n");
     interface();
     printf("Desconectado.\n");
-
     return 0;
 }
