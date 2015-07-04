@@ -8,7 +8,7 @@ void createTable(rc_insert *t) {
         fkTable[TAMANHO_NOME_TABELA], fkColumn[TAMANHO_NOME_CAMPO];
 
     strncpylower(tableName, t->tableName, TAMANHO_NOME_TABELA);
-    
+
     strcat(tableName, ".dat");                  //tableName.dat
 
     if(existeArquivo(tableName)){
@@ -36,5 +36,5 @@ void createTable(rc_insert *t) {
     	}
         tab = adicionaCampo(tab, t->columnName[i], t->type[i], size, (int)t->attribute[i], fkTable, fkColumn);
     }
-    finalizaTabela(tab);
+    printf("%s\n",(finalizaTabela(tab) == SUCCESS)? "CREATE 0 1": "ERROR");
 }
