@@ -96,5 +96,7 @@ int excluirTabela(char *nomeTabela) {
 
     remove(str);
 
+    printf("DROP TABLE\n");
+
     return SUCCESS;
 }
