@@ -71,7 +71,7 @@ void setColumnInsert(char **nome) {
 
 void setColumnCreate(char **nome) {
     GLOBAL_DATA.columnName  = realloc(GLOBAL_DATA.columnName, (col_count+1)*sizeof(char *));
-    GLOBAL_DATA.attribute   = realloc(GLOBAL_DATA.attribute, (col_count+1)*sizeof(char *));
+    GLOBAL_DATA.attribute   = realloc(GLOBAL_DATA.attribute, (col_count+1)*sizeof(int));
     GLOBAL_DATA.fkColumn    = realloc(GLOBAL_DATA.fkColumn, (col_count+1)*sizeof(char *));
     GLOBAL_DATA.fkTable     = realloc(GLOBAL_DATA.fkTable, (col_count+1)*sizeof(char *));
     GLOBAL_DATA.values      = realloc(GLOBAL_DATA.values, (col_count+1)*sizeof(char *));
@@ -90,7 +90,7 @@ void setColumnCreate(char **nome) {
     strcpylower(GLOBAL_DATA.columnName[col_count], *nome);
     GLOBAL_DATA.columnName[col_count][strlen(*nome)] = '\0';
     GLOBAL_DATA.type[col_count] = 0;
-    GLOBAL_DATA.attribute[col_count] = 'N';
+    GLOBAL_DATA.attribute[col_count] = NPK;
 
     col_count++;
 }
@@ -106,14 +106,14 @@ void setColumnSizeCreate(char *size) {
 }
 
 void setColumnPKCreate() {
-    GLOBAL_DATA.attribute[col_count-1] = 'P';
+    GLOBAL_DATA.attribute[col_count-1] = PK;
 }
 
 void setColumnFKTableCreate(char **nome) {
     GLOBAL_DATA.fkTable[col_count-1] = realloc(GLOBAL_DATA.fkTable[col_count-1], sizeof(char)*(strlen(*nome)+1));
     strcpylower(GLOBAL_DATA.fkTable[col_count-1], *nome);
     GLOBAL_DATA.fkTable[col_count-1][strlen(*nome)] = '\0';
-    GLOBAL_DATA.attribute[col_count-1] = 'F';
+    GLOBAL_DATA.attribute[col_count-1] = FK;
 }
 
 void setColumnFKColumnCreate(char **nome) {
@@ -182,7 +182,7 @@ void clearGlobalStructs() {
     GLOBAL_DATA.type = (char *)malloc(sizeof(char));
 
     free(GLOBAL_DATA.attribute);
-    GLOBAL_DATA.attribute = (char *)malloc(sizeof(char));
+    GLOBAL_DATA.attribute = (int *)malloc(sizeof(int));
 
     yylex_destroy();
     noerror = 1;
@@ -346,7 +346,6 @@ value: VALUE {setValueInsert(yylval.strval, 'I');}
 create_table: CREATE TABLE {setMode('C');} table '(' table_column_attr ')' semicolon {
     GLOBAL_DATA.N = col_count;
 
-    printf("create table ok\n");
     return 0;
 };
 

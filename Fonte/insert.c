@@ -70,8 +70,8 @@ void insert(rc_insert *s_insert) {
 		}
 	}
 
-	if(!flag)
-		if(finalizaInsert(s_insert->tableName, colunas) == SUCCESS)
+	if (!flag)
+		if (finalizaInsert(s_insert->tableName, colunas) == SUCCESS)
 			printf("INSERT 0 1\n");
 }
 

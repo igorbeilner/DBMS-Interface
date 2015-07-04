@@ -57,7 +57,7 @@ typedef struct rc_insert {
     char   **values;            // Valores da inserção ou tamanho das strings na criação
     int      N;                 // Número de colunas de valores
     char    *type;              // Tipo do dado da inserção ou criação de tabela
-    char    *attribute;         // Utilizado na criação ('P' = PK, 'F' = FK, 'N' = NPK)
+    int     *attribute;         // Utilizado na criação (NPK, PK,FK)
     char   **fkTable;           // Recebe o nome da tabela FK
     char   **fkColumn;          // Recebe o nome da coluna FK
 }rc_insert;

@@ -136,7 +136,7 @@ void setColumnInsert(char **nome) {
 
 void setColumnCreate(char **nome) {
     GLOBAL_DATA.columnName  = realloc(GLOBAL_DATA.columnName, (col_count+1)*sizeof(char *));
-    GLOBAL_DATA.attribute   = realloc(GLOBAL_DATA.attribute, (col_count+1)*sizeof(char *));
+    GLOBAL_DATA.attribute   = realloc(GLOBAL_DATA.attribute, (col_count+1)*sizeof(int));
     GLOBAL_DATA.fkColumn    = realloc(GLOBAL_DATA.fkColumn, (col_count+1)*sizeof(char *));
     GLOBAL_DATA.fkTable     = realloc(GLOBAL_DATA.fkTable, (col_count+1)*sizeof(char *));
     GLOBAL_DATA.values      = realloc(GLOBAL_DATA.values, (col_count+1)*sizeof(char *));
@@ -155,7 +155,7 @@ void setColumnCreate(char **nome) {
     strcpylower(GLOBAL_DATA.columnName[col_count], *nome);
     GLOBAL_DATA.columnName[col_count][strlen(*nome)] = '\0';
     GLOBAL_DATA.type[col_count] = 0;
-    GLOBAL_DATA.attribute[col_count] = 'N';
+    GLOBAL_DATA.attribute[col_count] = NPK;
 
     col_count++;
 }
@@ -171,14 +171,14 @@ void setColumnSizeCreate(char *size) {
 }
 
 void setColumnPKCreate() {
-    GLOBAL_DATA.attribute[col_count-1] = 'P';
+    GLOBAL_DATA.attribute[col_count-1] = PK;
 }
 
 void setColumnFKTableCreate(char **nome) {
     GLOBAL_DATA.fkTable[col_count-1] = realloc(GLOBAL_DATA.fkTable[col_count-1], sizeof(char)*(strlen(*nome)+1));
     strcpylower(GLOBAL_DATA.fkTable[col_count-1], *nome);
     GLOBAL_DATA.fkTable[col_count-1][strlen(*nome)] = '\0';
-    GLOBAL_DATA.attribute[col_count-1] = 'F';
+    GLOBAL_DATA.attribute[col_count-1] = FK;
 }
 
 void setColumnFKColumnCreate(char **nome) {
@@ -247,7 +247,7 @@ void clearGlobalStructs() {
     GLOBAL_DATA.type = (char *)malloc(sizeof(char));
 
     free(GLOBAL_DATA.attribute);
-    GLOBAL_DATA.attribute = (char *)malloc(sizeof(char));
+    GLOBAL_DATA.attribute = (int *)malloc(sizeof(int));
 
     yylex_destroy();
     noerror = 1;
@@ -739,8 +739,8 @@ static const yytype_uint16 yyrline[] =
        0,   279,   279,   279,   279,   279,   280,   280,   280,   280,
      280,   281,   281,   288,   291,   294,   303,   312,   319,   319,
      329,   331,   333,   333,   335,   335,   337,   339,   339,   341,
-     342,   343,   346,   346,   353,   353,   355,   356,   356,   357,
-     359,   361,   362,   363,   365,   367,   370,   373,   373,   375
+     342,   343,   346,   346,   352,   352,   354,   355,   355,   356,
+     358,   360,   361,   362,   364,   366,   369,   372,   372,   374
 };
 #endif
 
@@ -1675,86 +1675,85 @@ yyreduce:
     {
     GLOBAL_DATA.N = col_count;
 
-    printf("create table ok\n");
     return 0;
 }
-#line 1682 "y.tab.c" /* yacc.c:1646  */
+#line 1681 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 355 "yacc.y" /* yacc.c:1646  */
+#line 354 "yacc.y" /* yacc.c:1646  */
     {setColumnTypeCreate('I');}
-#line 1688 "y.tab.c" /* yacc.c:1646  */
+#line 1687 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 356 "yacc.y" /* yacc.c:1646  */
+#line 355 "yacc.y" /* yacc.c:1646  */
     {setColumnTypeCreate('S');}
-#line 1694 "y.tab.c" /* yacc.c:1646  */
+#line 1693 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 356 "yacc.y" /* yacc.c:1646  */
+#line 355 "yacc.y" /* yacc.c:1646  */
     {setColumnSizeCreate(yylval.strval);}
-#line 1700 "y.tab.c" /* yacc.c:1646  */
+#line 1699 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 357 "yacc.y" /* yacc.c:1646  */
+#line 356 "yacc.y" /* yacc.c:1646  */
     {setColumnTypeCreate('D');}
-#line 1706 "y.tab.c" /* yacc.c:1646  */
+#line 1705 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 359 "yacc.y" /* yacc.c:1646  */
+#line 358 "yacc.y" /* yacc.c:1646  */
     {setColumnCreate(yytext);}
-#line 1712 "y.tab.c" /* yacc.c:1646  */
+#line 1711 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 362 "yacc.y" /* yacc.c:1646  */
+#line 361 "yacc.y" /* yacc.c:1646  */
     {setColumnPKCreate();}
-#line 1718 "y.tab.c" /* yacc.c:1646  */
+#line 1717 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 365 "yacc.y" /* yacc.c:1646  */
+#line 364 "yacc.y" /* yacc.c:1646  */
     {setColumnFKTableCreate(yytext);}
-#line 1724 "y.tab.c" /* yacc.c:1646  */
+#line 1723 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 367 "yacc.y" /* yacc.c:1646  */
+#line 366 "yacc.y" /* yacc.c:1646  */
     {setColumnFKColumnCreate(yytext);}
-#line 1730 "y.tab.c" /* yacc.c:1646  */
+#line 1729 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 370 "yacc.y" /* yacc.c:1646  */
+#line 369 "yacc.y" /* yacc.c:1646  */
     {createDatabase(yytext); return 0;}
-#line 1736 "y.tab.c" /* yacc.c:1646  */
+#line 1735 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 373 "yacc.y" /* yacc.c:1646  */
+#line 372 "yacc.y" /* yacc.c:1646  */
     {setMode('S');}
-#line 1742 "y.tab.c" /* yacc.c:1646  */
+#line 1741 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 373 "yacc.y" /* yacc.c:1646  */
+#line 372 "yacc.y" /* yacc.c:1646  */
     {return 0;}
-#line 1748 "y.tab.c" /* yacc.c:1646  */
+#line 1747 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 375 "yacc.y" /* yacc.c:1646  */
+#line 374 "yacc.y" /* yacc.c:1646  */
     {setTable(yytext);}
-#line 1754 "y.tab.c" /* yacc.c:1646  */
+#line 1753 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1758 "y.tab.c" /* yacc.c:1646  */
+#line 1757 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1982,5 +1981,5 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 378 "yacc.y" /* yacc.c:1906  */
+#line 377 "yacc.y" /* yacc.c:1906  */
 
