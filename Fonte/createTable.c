@@ -20,4 +20,5 @@ void createTable(rc_insert *t) {
         adicionaCampo(tab, t->columnName[i], t->type[i], atoi(t->values[i]),
             (int)t->attribute[i], t->fkTable[i], t->fkColumn[i]);
     }
+    finalizaTabela(tab);
 }
