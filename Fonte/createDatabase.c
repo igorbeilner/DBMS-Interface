@@ -65,11 +65,11 @@ char createDB(char *db_name) {
 
 	strcat(create, db_name);
 
-    printf("%s\n", db_name);
-
 	system(create);
 
     fclose(DB);
+
+    printf("CREATE DATABASE\n");
 
     return SUCCESS;
 }
