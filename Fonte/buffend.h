@@ -75,7 +75,7 @@ typedef struct data_base {
 }data_base;
 
 typedef struct db_connected {
-	char db_directory[LEN_DB_NAME];
+	char db_directory[LEN_DB_NAME*2];
 }db_connected;
 
 // Union's utilizados na conversão de variáveis do tipo inteiro e double.
