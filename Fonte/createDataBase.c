@@ -1,6 +1,6 @@
 #include "buffend.h"
 
-char createDataBase(char *db_name) {
+char createDatabase(char *db_name) {
 	FILE *DB;
 	int i, len;
 	char vec_name 				[QTD_DB][LEN_DB_NAME],

@@ -452,4 +452,4 @@ void strncpylower(char *dest, char *src, int length);
 
 void createTable(rc_insert *t);
 
-char createDataBase(char *db_name);
+char createDatabase(char *db_name);
