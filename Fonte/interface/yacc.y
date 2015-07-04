@@ -40,12 +40,15 @@ void connect(char **nome) {
         printf("Você já está conectado!\n");
         return;
     } else {
-        GLOBAL_PARSER.db_name = malloc(sizeof(char)*((strlen(*nome)+1)));
+    	if (connectDB(*nome) == SUCCESS) {
+	        connected.db_name = malloc(sizeof(char)*((strlen(*nome)+1)));
 
-        strcpylower(GLOBAL_PARSER.db_name, *nome);
-        GLOBAL_PARSER.db_name[strlen(*nome)] = '\0';
+	        strcpylower(connected.db_name, *nome);
 
-        GLOBAL_PARSER.conn_active = 1;
+	        connected.conn_active = 1;
+	    } else {
+	    	printf("error: Falha ao conectar no banco.\n");
+	    }
     }
 }
 
@@ -206,11 +209,10 @@ void createTable(rc_insert *table) {
                 table->columnName[i], table->type[i], table->values[i], table->attribute[i], table->fkTable[i], table->fkColumn[i]);
     }
 }
-*/
+
 void createDatabase(char **nome) {
     printf("Banco de dados '%s' criado.\n", *nome);
-}
-/*--/temp--*/
+}*/
 
 
 int interface() {
@@ -219,13 +221,11 @@ int interface() {
     pthread_create(&pth, NULL, (void*)clearGlobalStructs, NULL);
     pthread_join(pth, NULL);
 
-    GLOBAL_PARSER.conn_active = 0;
-
     while(1){
-        if (!GLOBAL_PARSER.conn_active) {
+        if (!connected.conn_active) {
             printf(">");
         } else {
-            printf("%s=# ", GLOBAL_PARSER.db_name);
+            printf("%s=# ", connected.db_name);
         }
 
         pthread_create(&pth, NULL, (void*)yyparse, &GLOBAL_PARSER);
@@ -233,7 +233,7 @@ int interface() {
 
         if (noerror) {
             if (GLOBAL_PARSER.mode != 0) {
-                if (!GLOBAL_PARSER.conn_active) {
+                if (!connected.conn_active) {
                     printf("Você não está conectado. Utilize \\c <nome_banco> para conectar.\n");
                 } else {
                     if (GLOBAL_PARSER.mode == 'I') {
@@ -292,7 +292,7 @@ exit_program: QUIT {exit(0);};
 
 /* TABLE ATTRIBUTES */
 table_attr: LIST_TABLE OBJECT {
-    if(GLOBAL_PARSER->conn_active)
+    if(connected.conn_active)
         printTable(yylval.strval);
     else
         printf("Você não está conectado\n");
@@ -301,7 +301,7 @@ table_attr: LIST_TABLE OBJECT {
 
 /* LIST TABLES */
 list_tables: LIST_TABLES {
-    if(GLOBAL_PARSER->conn_active)
+    if(connected.conn_active)
         printTable(NULL);
     else
         printf("Você não está conectado\n");
@@ -366,7 +366,7 @@ table_fk: OBJECT {setColumnFKTableCreate(yytext);};
 column_fk: OBJECT {setColumnFKColumnCreate(yytext);};
 
 /* CREATE DATABASE */
-create_database: CREATE DATABASE OBJECT {createDatabase(yytext); return 0;}
+create_database: CREATE DATABASE OBJECT {createDB(*yytext); return 0;}
 
 /* SELECT */
 select: SELECT {setMode('S');} '*' FROM table_select semicolon {return 0;};

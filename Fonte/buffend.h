@@ -11,7 +11,7 @@
 #define QTD_DB 100
 #define LEN_DB_NAME 20
 #define DB_EXISTS 1
-#define DB_NOT_EXISTS 0
+#define DB_NOT_EXISTS 24
 
 
 struct fs_objects { // Estrutura usada para carregar fs_objects.dat
@@ -64,7 +64,6 @@ typedef struct rc_insert {
 
 typedef struct rc_parser {
     rc_insert   *data;
-    char        *db_name;
     int          conn_active;
     char         mode;
 }rc_parser;
@@ -76,6 +75,8 @@ typedef struct data_base {
 
 typedef struct db_connected {
 	char db_directory[LEN_DB_NAME*2];
+    char *db_name;
+    int conn_active;
 }db_connected;
 
 // Union's utilizados na conversão de variáveis do tipo inteiro e double.

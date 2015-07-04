@@ -105,12 +105,15 @@ void connect(char **nome) {
         printf("Você já está conectado!\n");
         return;
     } else {
-        GLOBAL_PARSER.db_name = malloc(sizeof(char)*((strlen(*nome)+1)));
+    	if (connectDB(*nome) == SUCCESS) {
+	        connected.db_name = malloc(sizeof(char)*((strlen(*nome)+1)));
 
-        strcpylower(GLOBAL_PARSER.db_name, *nome);
-        GLOBAL_PARSER.db_name[strlen(*nome)] = '\0';
+	        strcpylower(connected.db_name, *nome);
 
-        GLOBAL_PARSER.conn_active = 1;
+	        connected.conn_active = 1;
+	    } else {
+	    	printf("error: Falha ao conectar no banco.\n");
+	    }
     }
 }
 
@@ -271,11 +274,10 @@ void createTable(rc_insert *table) {
                 table->columnName[i], table->type[i], table->values[i], table->attribute[i], table->fkTable[i], table->fkColumn[i]);
     }
 }
-*/
+
 void createDatabase(char **nome) {
     printf("Banco de dados '%s' criado.\n", *nome);
-}
-/*--/temp--*/
+}*/
 
 
 int interface() {
@@ -284,13 +286,11 @@ int interface() {
     pthread_create(&pth, NULL, (void*)clearGlobalStructs, NULL);
     pthread_join(pth, NULL);
 
-    GLOBAL_PARSER.conn_active = 0;
-
     while(1){
-        if (!GLOBAL_PARSER.conn_active) {
+        if (!connected.conn_active) {
             printf(">");
         } else {
-            printf("%s=# ", GLOBAL_PARSER.db_name);
+            printf("%s=# ", connected.db_name);
         }
 
         pthread_create(&pth, NULL, (void*)yyparse, &GLOBAL_PARSER);
@@ -298,7 +298,7 @@ int interface() {
 
         if (noerror) {
             if (GLOBAL_PARSER.mode != 0) {
-                if (!GLOBAL_PARSER.conn_active) {
+                if (!connected.conn_active) {
                     printf("Você não está conectado. Utilize \\c <nome_banco> para conectar.\n");
                 } else {
                     if (GLOBAL_PARSER.mode == 'I') {
@@ -1587,7 +1587,7 @@ yyreduce:
   case 15:
 #line 294 "yacc.y" /* yacc.c:1646  */
     {
-    if(GLOBAL_PARSER->conn_active)
+    if(connected.conn_active)
         printTable(yylval.strval);
     else
         printf("Você não está conectado\n");
@@ -1599,7 +1599,7 @@ yyreduce:
   case 16:
 #line 303 "yacc.y" /* yacc.c:1646  */
     {
-    if(GLOBAL_PARSER->conn_active)
+    if(connected.conn_active)
         printTable(NULL);
     else
         printf("Você não está conectado\n");
@@ -1730,7 +1730,7 @@ yyreduce:
 
   case 46:
 #line 369 "yacc.y" /* yacc.c:1646  */
-    {createDatabase(yytext); return 0;}
+    {createDB(*yytext); return 0;}
 #line 1735 "y.tab.c" /* yacc.c:1646  */
     break;
 

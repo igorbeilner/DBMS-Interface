@@ -40,9 +40,9 @@ help							return HELP;
 
 \n								{
 									if (parser->mode != 0)
-										printf("%s-# ", parser->db_name);
-								 	else if (parser->conn_active)
-								 		printf("%s=# ", parser->db_name);
+										printf("%s-# ", connected.db_name);
+								 	else if (connected.conn_active)
+								 		printf("%s=# ", connected.db_name);
 								 	else
 								 		printf(">");
 								};

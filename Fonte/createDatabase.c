@@ -16,8 +16,8 @@ char connectDB(char *db_name) {
         fread(vec_name[i]  		,sizeof(char), LEN_DB_NAME, DB);
         fread(vec_directory[i] 	,sizeof(char), LEN_DB_NAME, DB);
 
-        if(strcmp(vec_name[i], db_name) == 0) {
-        	strcpy(connected.db_directory, vec_directory[i]);
+        if(objcmp(vec_name[i], db_name) == 0) {
+        	strcpylower(connected.db_directory, vec_directory[i]);
         	fclose(DB);
         	return SUCCESS;
         }
@@ -45,7 +45,7 @@ char createDB(char *db_name) {
         fread(vec_name[i]  		,sizeof(char), LEN_DB_NAME, DB);
         fread(vec_directory[i] 	,sizeof(char), LEN_DB_NAME, DB);
 
-        if(strcmp(vec_name[i], db_name) == 0) {
+        if(objcmp(vec_name[i], db_name) == 0) {
         	fclose(DB);
         	return DB_EXISTS;
         }
@@ -56,14 +56,16 @@ char createDB(char *db_name) {
 	SGBD = (data_base*)malloc(sizeof(data_base));
 	len = strlen(db_name);
 
-	strcpy(SGBD->db_name		, db_name);
-	strcpy(SGBD->db_directory	, db_name);
+	strcpylower(SGBD->db_name		, db_name);
+	strcpylower(SGBD->db_directory	, db_name);
 	strcat(SGBD->db_directory	, "/");
 	SGBD->db_name[len] 			= '\0';
 	SGBD->db_directory[len+1] 	= '\0';
 	fwrite(SGBD ,sizeof(data_base), 1, DB);
 
 	strcat(create, db_name);
+
+    printf("%s\n", db_name);
 
 	system(create);
 
