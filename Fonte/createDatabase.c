@@ -33,7 +33,8 @@ char createDB(char *db_name) {
 	int i, len;
 	char vec_name 				[QTD_DB][LEN_DB_NAME],
 		 vec_directory 			[QTD_DB][LEN_DB_NAME],
-		 create 				[LEN_DB_NAME+6] = "mkdir ";
+		 create 				[LEN_DB_NAME+6] = "mkdir ",
+         *aux_name_tolower;
 
     if((DB = fopen("DB.dat","a+b")) == NULL) {
        	return ERRO_ABRIR_ARQUIVO;
@@ -63,7 +64,9 @@ char createDB(char *db_name) {
 	SGBD->db_directory[len+1] 	= '\0';
 	fwrite(SGBD ,sizeof(data_base), 1, DB);
 
-	strcat(create, db_name);
+    aux_name_tolower = (char *)malloc(sizeof(char) * (strlen(db_name)+1));
+    strcpylower(aux_name_tolower, db_name);
+    strcat(create, aux_name_tolower);
 
 	system(create);
 

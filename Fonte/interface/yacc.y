@@ -276,7 +276,7 @@ int interface() {
         OBJECT      NUMBER      VALUE       QUIT        LIST_TABLES
         LIST_TABLE  ALPHANUM    CONNECT     HELP;
 
-start: insert | select | create_table | create_database
+start: insert | select | create_table | create_database | drop_table
      | table_attr | list_tables | connection | exit_program | semicolon {return 0;}
      | help_pls | /*nothing*/;
 
@@ -364,6 +364,9 @@ attribute: /*optional*/
 table_fk: OBJECT {setColumnFKTableCreate(yytext);};
 
 column_fk: OBJECT {setColumnFKColumnCreate(yytext);};
+
+/* DROP TABLE */
+drop_table: DROP TABLE OBJECT {excluirTabela(*yytext); return 0;}
 
 /* CREATE DATABASE */
 create_database: CREATE DATABASE OBJECT {createDB(*yytext); return 0;}
