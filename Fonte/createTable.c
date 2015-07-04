@@ -4,9 +4,11 @@
 void createTable(rc_insert *t) {
 	int size;
     strcpylower(t->tableName, t->tableName);        //muda pra minúsculo
-    char *tableName = t->tableName, fkTable[TAMANHO_NOME_TABELA], fkColumn[TAMANHO_NOME_CAMPO];
+    char *tableName = (char*) malloc (TAMANHO_NOME_TABELA),
+        fkTable[TAMANHO_NOME_TABELA], fkColumn[TAMANHO_NOME_CAMPO];
 
-
+    strncpylower(tableName, t->tableName, TAMANHO_NOME_TABELA);
+    
     strcat(tableName, ".dat");                  //tableName.dat
 
     if(existeArquivo(tableName)){
