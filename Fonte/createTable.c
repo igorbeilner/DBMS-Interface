@@ -12,7 +12,7 @@ void createTable(rc_insert *t) {
     strcat(tableName, ".dat\0");                  //tableName.dat
 
     if(existeArquivo(tableName)){
-        printf("TABELA JÁ EXISTE!!\n");
+        printf("ERROR:  Table already exists!\n");
         return;
     }
 
