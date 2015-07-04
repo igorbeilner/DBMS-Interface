@@ -440,7 +440,6 @@ void printTable(char *tbl);
  */
 void help();
 
-<<<<<<< Updated upstream
 /* objcmp: Recebe o nome de um objeto e a entrada do usuário e
  *         verifica se são iguais sem diferenciar caracteres
  *         maiúsculos e minúsculos.
@@ -452,6 +451,5 @@ void strcpylower(char *dest, char *src);
 void strncpylower(char *dest, char *src, int length);
 
 void createTable(rc_insert *t);
-=======
+
 char createDataBase(char *db_name);
->>>>>>> Stashed changes
