@@ -20,13 +20,12 @@ void createTable(rc_insert *t) {
 
     int i;
     for(i=0; i < t->N; i++){
-    	if (t->type[i] == 'S') {
+    	if (t->type[i] == 'S')
     		size = atoi(t->values[i]);
-    	} else if (t->type[i] == 'I') {
+    	else if (t->type[i] == 'I')
     		size = sizeof(int);
-    	} else if (t->type[i] == 'D') {
+    	else if (t->type[i] == 'D')
     		size = sizeof(double);
-    	}
 
     	if (t->attribute[i] == FK) {
     		strncpylower(fkTable, t->fkTable[i], TAMANHO_NOME_TABELA);

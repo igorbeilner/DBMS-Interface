@@ -1,4 +1,4 @@
-CONNECT
+\c banco
 insert into Aluno (CPF, Nome, Endereco, Peso) values (123123, 'igor', 'rua', 123.5);
 insert into Aluno (CPF, Nome, Endereco, Peso) values (123122, 'greg', 'rua', 123.5);
 insert into Aluno values (123121, 'roges', 'rua', 123.5);
