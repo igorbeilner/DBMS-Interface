@@ -2,9 +2,9 @@
 #include "buffend.h"
 
 
-int verifyFK(table *tab, char *objName, char* attr){
+int verifyFK(table *tab, char *tableName, char* attr){
     if(verificaNomeTabela(tableName)){
-        struct fs_objects objeto = leObjeto(objName);
+        struct fs_objects objeto = leObjeto(tableName);
         tp_table *esquema = leSchema(objeto);
 
         if(esquema == ERRO_ABRIR_ESQUEMA){
@@ -25,8 +25,8 @@ int verifyFK(table *tab, char *objName, char* attr){
             erro = colocaTuplaBuffer(bufferpoll, x, esquema, objeto);
 
         for(; esquema != NULL; esquema = esquema->next){
-            if(objcmp(esquema->nome, objName) == 0){
-                if(esquema->chabe == PK){
+            if(objcmp(esquema->nome, tableName) == 0){
+                if(esquema->chave == PK){
                     return 1;
                 }
             }
@@ -70,7 +70,7 @@ void createTable(rc_insert *t) {
     	}
 
         tab = adicionaCampo(tab, t->columnName[i], t->type[i], size, t->attribute[i], fkTable, fkColumn);
-        //tab = adicionaCampo(tab, "CPF"     , 'I', (sizeof(int))   ,PK,"","");
+        printf("%s\n",(verifyFK(tab, t->objName, t->attribute[i]) == 0)? "ERROR":"SUCCESS");
     }
 
     printf("%s\n",(finalizaTabela(tab) == SUCCESS)? "CREATE TABLE": "ERROR:   Table already exists!\n");
