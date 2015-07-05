@@ -121,6 +121,7 @@ void dropDatabase(char *db_name) {
         		fread(vec_name2[i]  		,sizeof(char), LEN_DB_NAME, DB);
         		fread(vec_directory2[i] 	,sizeof(char), LEN_DB_NAME, DB);
 
+
         		printf("%d\n", valid);
         		printf("%s\n", vec_name[i]);
         		printf("%s\n", vec_directory[i]);
