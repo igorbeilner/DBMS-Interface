@@ -1,6 +1,40 @@
 //cria tabela
 #include "buffend.h"
 
+
+int verifyFK(table *tab, char *objName, char* attr){
+    if(verificaNomeTabela(tableName)){
+        struct fs_objects objeto = leObjeto(objName);
+        tp_table *esquema = leSchema(objeto);
+
+        if(esquema == ERRO_ABRIR_ESQUEMA){
+            printf("error: Não foi possível criar o esquema.\n");
+            return;
+        }
+
+        tp_buffer *bufferpoll = initbuffer();
+
+        if(bufferpoll == ERRO_DE_ALOCACAO){
+            printf("error: Memória insuficiente para o buffer.\n");
+            return;
+        }
+
+        int x, erro = SUCCESS;
+
+        for(x = 0; erro == SUCCESS; x++)
+            erro = colocaTuplaBuffer(bufferpoll, x, esquema, objeto);
+
+        for(; esquema != NULL; esquema = esquema->next){
+            if(objcmp(esquema->nome, objName) == 0){
+                if(esquema->chabe == PK){
+                    return 1;
+                }
+            }
+        }
+    }
+	return 0;
+}
+
 void createTable(rc_insert *t) {
 	int size;
     strcpylower(t->objName, t->objName);        //muda pra minúsculo
