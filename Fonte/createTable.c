@@ -3,11 +3,11 @@
 
 void createTable(rc_insert *t) {
 	int size;
-    strcpylower(t->tableName, t->tableName);        //muda pra minúsculo
+    strcpylower(t->objName, t->objName);        //muda pra minúsculo
     char *tableName = (char*) malloc (TAMANHO_NOME_TABELA),
         fkTable[TAMANHO_NOME_TABELA], fkColumn[TAMANHO_NOME_CAMPO];
 
-    strncpylower(tableName, t->tableName, TAMANHO_NOME_TABELA);
+    strncpylower(tableName, t->objName, TAMANHO_NOME_TABELA);
 
     strcat(tableName, ".dat\0");                  //tableName.dat
 
@@ -16,7 +16,7 @@ void createTable(rc_insert *t) {
         return;
     }
 
-    table *tab = iniciaTabela(t->tableName);    //cria a tabela
+    table *tab = iniciaTabela(t->objName);    //cria a tabela
 
     int i;
     for(i=0; i < t->N; i++){

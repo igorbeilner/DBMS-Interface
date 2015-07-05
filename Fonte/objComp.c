@@ -3,7 +3,6 @@
 #include <ctype.h>
 
 int objcmp(char *obj, char *str) {
-	//printf("Comparando [%s] e [%s]: ", obj, str);
 	char *object, *string;
 	int i;
 
@@ -21,7 +20,6 @@ int objcmp(char *obj, char *str) {
 	string[i] = '\0';
 
 	i = strcmp(object, string);
-	//printf("%d\n", i);
 
 	free(object);
 	free(string);

@@ -27,8 +27,8 @@ void insert(rc_insert *s_insert) {
 	memset(&objeto, 0, sizeof(struct fs_objects));
 	char  flag=0;
 
-	abreTabela(s_insert->tableName, &objeto, &tabela->esquema); //retorna o esquema para a insere valor
-	strcpylower(tabela->nome, s_insert->tableName);
+	abreTabela(s_insert->objName, &objeto, &tabela->esquema); //retorna o esquema para a insere valor
+	strcpylower(tabela->nome, s_insert->objName);
 
 	if(s_insert->columnName != NULL) {
 		if (allColumnsExists(s_insert, tabela)) {
@@ -71,7 +71,7 @@ void insert(rc_insert *s_insert) {
 	}
 
 	if (!flag)
-		if (finalizaInsert(s_insert->tableName, colunas) == SUCCESS)
+		if (finalizaInsert(s_insert->objName, colunas) == SUCCESS)
 			printf("INSERT 0 1\n");
 }
 

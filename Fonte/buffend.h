@@ -52,7 +52,7 @@ typedef struct tp_buffer{ // Estrutura utilizada para armazenar o buffer.
 }tp_buffer;
 
 typedef struct rc_insert {
-    char    *tableName;         // Nome da tabela
+    char    *objName;           // Nome do objeto (tabela, banco de dados, etc...)
     char   **columnName;        // Colunas da tabela
     char   **values;            // Valores da inserção ou tamanho das strings na criação
     int      N;                 // Número de colunas de valores
@@ -63,8 +63,6 @@ typedef struct rc_insert {
 }rc_insert;
 
 typedef struct rc_parser {
-    rc_insert   *data;
-    int          conn_active;
     char         mode;
     int         parentesis;
 }rc_parser;

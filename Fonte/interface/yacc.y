@@ -52,10 +52,10 @@ void connect(char **nome) {
 
 void setTable(char **nome) {
     if (GLOBAL_PARSER.mode != 0) {
-        GLOBAL_PARSER.data->tableName = malloc(sizeof(char)*((strlen(*nome)+1)));
+        GLOBAL_DATA.objName = malloc(sizeof(char)*((strlen(*nome)+1)));
 
-        strcpylower(GLOBAL_PARSER.data->tableName, *nome);
-        GLOBAL_PARSER.data->tableName[strlen(*nome)] = '\0';
+        strcpylower(GLOBAL_DATA.objName, *nome);
+        GLOBAL_DATA.objName[strlen(*nome)] = '\0';
     } else
         return;
 }
@@ -148,9 +148,9 @@ void setValueInsert(char *nome, char type) {
 void clearGlobalStructs() {
     int i;
 
-    if (GLOBAL_DATA.tableName)
-        free(GLOBAL_DATA.tableName);
-    GLOBAL_DATA.tableName = (char *)malloc(sizeof(char *));
+    if (GLOBAL_DATA.objName)
+        free(GLOBAL_DATA.objName);
+    GLOBAL_DATA.objName = (char *)malloc(sizeof(char *));
 
     for (i = 0; i < GLOBAL_DATA.N; i++ ) {
         if (GLOBAL_DATA.columnName)
@@ -190,7 +190,6 @@ void clearGlobalStructs() {
 
     val_count = col_count = GLOBAL_DATA.N = 0;
 
-    GLOBAL_PARSER.data              = &GLOBAL_DATA;
     GLOBAL_PARSER.mode              = 0;
     GLOBAL_PARSER.parentesis        = 0;
 }
@@ -236,16 +235,18 @@ int interface() {
                     printf("Você não está conectado. Utilize \\c <nome_banco> para conectar.\n");
                 } else {
                     if (GLOBAL_PARSER.mode == 'I') {
-                        if (GLOBAL_PARSER.data->N > 0)
+                        if (GLOBAL_DATA.N > 0)
                             insert(&GLOBAL_DATA);
                     } else if (GLOBAL_PARSER.mode == 'S') {
-                        imprime(GLOBAL_DATA.tableName);
+                        imprime(GLOBAL_DATA.objName);
                     } else if (GLOBAL_PARSER.mode == 'C') {
                         createTable(&GLOBAL_DATA);
                     } else if (GLOBAL_PARSER.mode == 'D') {
-                        createDB(GLOBAL_DATA.tableName);
+                        createDB(GLOBAL_DATA.objName);
                     } else if (GLOBAL_PARSER.mode == 'T') {
-                        excluirTabela(GLOBAL_DATA.tableName);
+                        excluirTabela(GLOBAL_DATA.objName);
+                    } else if (GLOBAL_PARSER.mode == 'Y') {
+                        printf("Aguardando igor implementar.\n");
                     }
                 }
             }
@@ -279,7 +280,7 @@ int interface() {
         OBJECT      NUMBER      VALUE       QUIT        LIST_TABLES
         LIST_TABLE  ALPHANUM    CONNECT     HELP;
 
-start: insert | select | create_table | create_database | drop_table
+start: insert | select | create_table | create_database | drop_table | drop_database
      | table_attr | list_tables | connection | exit_program | semicolon {return 0;}
      | parentesis_open | parentesis_close| help_pls | /*nothing*/;
 
@@ -377,6 +378,9 @@ drop_table: DROP TABLE {setMode('T');} OBJECT {setTable(yytext); return 0;} semi
 
 /* CREATE DATABASE */
 create_database: CREATE DATABASE {setMode('D');} OBJECT {setTable(yytext); return 0;} semicolon;
+
+/* CREATE DATABASE */
+drop_database: DROP DATABASE {setMode('Y');} OBJECT {setTable(yytext); return 0;} semicolon;
 
 /* SELECT */
 select: SELECT {setMode('S');} '*' FROM table_select semicolon {return 0;};
