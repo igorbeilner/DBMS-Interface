@@ -5,7 +5,12 @@ int verificaNomeTabela(char *nomeTabela) {
 
     FILE *dicionario;
     char *tupla = (char *)malloc(sizeof(char)*TAMANHO_NOME_TABELA);
-    if((dicionario = fopen("fs_object.dat","a+b")) == NULL){
+
+    char directory[LEN_DB_NAME*2];
+    strcpy(directory, connected.db_directory);
+    strcat(directory, "fs_object.dat");
+
+    if((dicionario = fopen(directory,"a+b")) == NULL){
         free(tupla);
         return ERRO_ABRIR_ARQUIVO;
     }

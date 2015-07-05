@@ -6,7 +6,11 @@ int quantidadeTabelas(){
     FILE *dicionario;
     int codTbl = 0;
 
-    if((dicionario = fopen("fs_object.dat","a+b")) == NULL)
+    char directory[LEN_DB_NAME*2];
+    strcpy(directory, connected.db_directory);
+    strcat(directory, "fs_object.dat");
+
+    if((dicionario = fopen(directory,"a+b")) == NULL)
         return ERRO_ABRIR_ARQUIVO;
 
     while(fgetc (dicionario) != EOF){

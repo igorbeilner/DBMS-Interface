@@ -12,7 +12,11 @@ char *getTupla(tp_table *campos,struct fs_objects objeto, int from){ //Pega uma 
 
     from = from * tamTpl;
 
-    dados = fopen(objeto.nArquivo, "r");
+	char directory[LEN_DB_NAME*2];
+    strcpy(directory, connected.db_directory);
+    strcat(directory, objeto.nArquivo);
+
+    dados = fopen(directory, "r");
 
     if (dados == NULL)
         return ERRO_DE_LEITURA;

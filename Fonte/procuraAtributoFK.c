@@ -14,7 +14,11 @@ tp_table *procuraAtributoFK(struct fs_objects objeto){
     tp_table *esquema = (tp_table *)malloc(sizeof(tp_table)*objeto.qtdCampos);
     tp_table *vetEsqm = (tp_table *)malloc(sizeof(tp_table)*objeto.qtdCampos);
 
-    if((schema = fopen("fs_schema.dat", "a+b")) == NULL){
+    char directory[LEN_DB_NAME*2];
+    strcpy(directory, connected.db_directory);
+    strcat(directory, "fs_schema.dat");
+
+    if((schema = fopen(directory, "a+b")) == NULL){
         printf("error: Não foi possível ler o esquema.\n");
         free(tupla);
 		free(esquema);

@@ -86,8 +86,11 @@ int finalizaInsert(char *nome, column *c){
         return ERRO_DE_PARAMETRO;
     }
 
+    char directory[LEN_DB_NAME*2];
+    strcpy(directory, connected.db_directory);
+    strcat(directory, dicio.nArquivo);
 
-    if((dados = fopen(dicio.nArquivo,"a+b")) == NULL){
+    if((dados = fopen(directory,"a+b")) == NULL){
 		free(c);    // Libera a memoria da estrutura.
         printf("error: Erro ao abrir arquivo. Nenhum registro inserido.\n");
 		free(auxT); // Libera a memoria da estrutura.

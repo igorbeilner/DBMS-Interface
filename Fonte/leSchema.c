@@ -19,7 +19,11 @@ tp_table *leSchema (struct fs_objects objeto){
         return ERRO_DE_ALOCACAO;
     }
 
-    schema = fopen("fs_schema.dat", "a+b"); // Abre o arquivo de esquemas de tabelas.
+    char directory[LEN_DB_NAME*2];
+    strcpy(directory, connected.db_directory);
+    strcat(directory, "fs_schema.dat");
+
+    schema = fopen(directory, "a+b"); // Abre o arquivo de esquemas de tabelas.
 
     if (schema == NULL){
         free(tupla);

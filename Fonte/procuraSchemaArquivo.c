@@ -16,10 +16,17 @@ int procuraSchemaArquivo(struct fs_objects objeto){
     char *tupla = (char *)malloc(sizeof(char) * 109);
     tp_table *esquema = (tp_table *)malloc(sizeof(tp_table)*objeto.qtdCampos);
 
-    if((schema = fopen("fs_schema.dat", "a+b")) == NULL)
+    char directory[LEN_DB_NAME*2];
+    strcpy(directory, connected.db_directory);
+    strcat(directory, "fs_schema.dat");
+
+    if((schema = fopen(directory, "a+b")) == NULL)
         return ERRO_REMOVER_ARQUIVO_SCHEMA;
 
-    if((newSchema = fopen("fs_nschema.dat", "a+b")) == NULL)
+    strcpy(directory, connected.db_directory);
+    strcat(directory, "fs_nschema.dat");
+
+    if((newSchema = fopen(directory, "a+b")) == NULL)
         return ERRO_REMOVER_ARQUIVO_SCHEMA;
 
     fseek(newSchema, 0, SEEK_SET);

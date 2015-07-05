@@ -7,7 +7,12 @@ struct fs_objects leObjeto(char *nTabela){
     char *tupla = (char *)malloc(sizeof(char)*TAMANHO_NOME_TABELA);
     memset(tupla, '\0', TAMANHO_NOME_TABELA);
     int cod;
-    dicionario = fopen("fs_object.dat", "a+b"); // Abre o dicionario de dados.
+
+    char directory[LEN_DB_NAME*2];
+    strcpy(directory, connected.db_directory);
+    strcat(directory, "fs_object.dat");
+
+    dicionario = fopen(directory, "a+b"); // Abre o dicionario de dados.
 
     struct fs_objects objeto;
 
