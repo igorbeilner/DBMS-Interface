@@ -28,9 +28,14 @@ int objcmp(char *obj, char *str) {
 }
 
 void strcpylower(char *dest, char *src) {
+	int n = strlen(src),
+		i = 0;
+
 	do {
 		*dest++ = tolower(*src++);
+		if (i++ == n) break;
 	} while (*src != '\0');
+
 	*dest = '\0';
 }
 
