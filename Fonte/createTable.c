@@ -2,10 +2,8 @@
 #include "buffend.h"
 
 
-int verifyFK(table *tab, char *tableName, int attr){
-    printf("TO NA FUNCAO VERIFYFK");
+int verifyFK(char *tableName, char *column){
     if(verificaNomeTabela(tableName) == 1){
-        printf("\n\nTabela existe\n\n");
         struct fs_objects objeto = leObjeto(tableName);
         tp_table *esquema = leSchema(objeto);
 		if(esquema == ERRO_ABRIR_ESQUEMA){
@@ -14,7 +12,7 @@ int verifyFK(table *tab, char *tableName, int attr){
         }
 
         for(; esquema != NULL; esquema = esquema->next){
-            if(objcmp(esquema->nome, tableName) == 0){
+            if(objcmp(esquema->nome, column) == 0){
                 if(esquema->chave == PK){
                     return 1;
                 }
@@ -49,6 +47,8 @@ void createTable(rc_insert *t) {
     		size = sizeof(int);
     	else if (t->type[i] == 'D')
     		size = sizeof(double);
+        else if (t->type[i] == 'C')
+    		size = sizeof(char);
 
     	if (t->attribute[i] == FK) {
     		strncpylower(fkTable, t->fkTable[i], TAMANHO_NOME_TABELA);
@@ -59,11 +59,12 @@ void createTable(rc_insert *t) {
     	}
 
         tab = adicionaCampo(tab, t->columnName[i], t->type[i], size, t->attribute[i], fkTable, fkColumn);
-
-        if(verifyFK(tab, t->objName, t->attribute[i]) == 0){
-			printf("ERROR: attribute FK cannot be references\n");
-			return;
-		}
+        if((objcmp(fkTable, "") != 0) || (objcmp(fkColumn, "") != 0)){
+            if(verifyFK(fkTable, fkColumn) == 0){
+    			printf("ERROR: attribute FK cannot be references\n");
+    			return;
+    		}
+        }
     }
 
     printf("%s\n",(finalizaTabela(tab) == SUCCESS)? "CREATE TABLE" : "ERROR:   Table already exists!\n");
