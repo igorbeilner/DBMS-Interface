@@ -3,6 +3,7 @@
 #include "buffend.h"
 #include "interface/y.tab.h"
 
+db_connected connected;
 
 int main(){
     dbInit();
