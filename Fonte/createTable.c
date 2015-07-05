@@ -22,10 +22,23 @@ int verifyFK(char *tableName, char *column){
 	return 0;
 }
 
+int verifyFieldName(char **fieldName, int N){
+    int i, j;
+    for(i=0; i < N; i++){
+        for(j=0; j < N; j++){
+            if(objcmp(fieldName[i], fieldName[j]) == 0){
+                printf("ERROR:  column \"%s\" specified more than once\n", fieldName[i]);
+                return 0;
+            }
+        }
+    }
+    return 1;
+}
+
 void createTable(rc_insert *t) {
 	int size;
     strcpylower(t->objName, t->objName);        //muda pra minúsculo
-    char *tableName = (char*) malloc (TAMANHO_NOME_TABELA),
+    char *tableName = (char*) malloc (sizeof(char)*TAMANHO_NOME_TABELA),
         fkTable[TAMANHO_NOME_TABELA], fkColumn[TAMANHO_NOME_CAMPO];
 
     strncpylower(tableName, t->objName, TAMANHO_NOME_TABELA);
@@ -34,11 +47,16 @@ void createTable(rc_insert *t) {
 
     if(existeArquivo(tableName)){
         printf("ERROR: table already exist\n");
+        free(tableName);
         return;
     }
 
     table *tab = iniciaTabela(t->objName);    //cria a tabela
 
+    if(0 == verifyFieldName(t->columnName, t->N)){
+        free(tableName);
+        return;
+    }
     int i;
     for(i=0; i < t->N; i++){
     	if (t->type[i] == 'S')
@@ -62,10 +80,12 @@ void createTable(rc_insert *t) {
         if((objcmp(fkTable, "") != 0) || (objcmp(fkColumn, "") != 0)){
             if(verifyFK(fkTable, fkColumn) == 0){
     			printf("ERROR: attribute FK cannot be references\n");
-    			return;
+                free(tableName);
+                return;
     		}
         }
     }
 
     printf("%s\n",(finalizaTabela(tab) == SUCCESS)? "CREATE TABLE" : "ERROR: table already exist\n");
+    free(tableName);
 }
