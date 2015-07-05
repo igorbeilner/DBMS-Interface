@@ -2,7 +2,7 @@
 #include "buffend.h"
 
 /* ----------------------------------------------------------------------------------------------
-    Objetivo:   Utilizada para impressão de tabelas.
+    Objetivo:   Utilizada para impressão de tabelas (select * from table;).
     Parametros: Nome da tabela (char).
     Retorno:    void.
    ---------------------------------------------------------------------------------------------*/
@@ -38,21 +38,35 @@ void imprime(char nomeTabela[]) {
             printf("ERROR: could not open the table.\n");
             return;
 	    }
+
+        for(j=0; j < objeto.qtdCampos; j++){
+            if(pagina[j].tipoCampo == 'S')
+                printf(" %-20s |", pagina[j].nomeCampo);
+        	else
+                printf(" %-10s |", pagina[j].nomeCampo);
+        }
+        printf("\n");
+        for(j=0; j < objeto.qtdCampos; j++){
+            printf("%s",(pagina[j].tipoCampo == 'S')? "----------------------+": "------------+");
+        }
+        printf("\n");
 		for(j=0; j < objeto.qtdCampos*bufferpoll[p].nrec; j++){
         	if(pagina[j].tipoCampo == 'S')
-            	printf("%s: %-15s ", pagina[j].nomeCampo,pagina[j].valorCampo);
+            	printf(" %-20s |", pagina[j].valorCampo);
         	else if(pagina[j].tipoCampo == 'I'){
             	int *n = (int *)&pagina[j].valorCampo[0];
-            	printf("%s: %-15d ",pagina[j].nomeCampo, *n);
+            	printf(" %-10d |", *n);
         	} else if(pagina[j].tipoCampo == 'C'){
-            	printf("%s: %-15c ",pagina[j].nomeCampo, pagina[j].valorCampo[0]);
+            	printf(" %-10c |", pagina[j].valorCampo[0]);
         	} else if(pagina[j].tipoCampo == 'D'){
             	double *n = (double *)&pagina[j].valorCampo[0];
-   	        	 printf("%s: %-15f ",pagina[j].nomeCampo, *n);
+    	        printf(" %-10f |", *n);
         	}
-        	printf("\n");
+            if(j>=1 && ((j+1)%objeto.qtdCampos)==0){
+            	printf("\n");
+        	}
     	}
     	x-=bufferpoll[p++].nrec;
     }
-    printf("(%d %s)\n\n",ntuples,(1>=ntuples)?"row": "rows");
+    printf("\n(%d %s)\n\n",ntuples,(1>=ntuples)?"row": "rows");
 }
