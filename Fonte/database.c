@@ -88,7 +88,8 @@ void createDB(char *db_name) {
     strcpylower(aux_name_tolower, db_name);
     strcat(create, aux_name_tolower);
 
-	system(create);
+	if(system(create) == -1)
+		printf("ERROR: It was not possible to create the database\n");;
 
     fclose(DB);
 	if(objcmp(db_name, "ibetres") != 0)
