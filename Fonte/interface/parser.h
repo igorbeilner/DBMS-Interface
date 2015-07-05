@@ -29,6 +29,10 @@ int yyparse(rc_parser *parser);
 int yylex(rc_parser *parser);
 int yylex_destroy();
 
+/* Imprime o erro caso o comando seja inválido
+ */
+void invalidCommand(char *command);
+
 /* Estabelece a conexão com uma base de dados. Se conectar,
  * define os parâmetros globais para a exibição do console.
  */

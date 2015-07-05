@@ -18,6 +18,10 @@ void connect(char *nome) {
     }
 }
 
+void invalidCommand(char *command) {
+    printf("Invalid command '%s'. Type \"help\" for help.\n", command);
+}
+
 void setObjName(char **nome) {
     if (GLOBAL_PARSER.mode != 0) {
         GLOBAL_DATA.objName = malloc(sizeof(char)*((strlen(*nome)+1)));

@@ -29,8 +29,9 @@
 (?i:DATABASE)					return DATABASE;
 (?i:DROP)						return DROP;
 help							return HELP;
-[\\][h]+						return HELP;
-[\\][\?]+						return HELP;
+[\\][h]							return HELP;
+[\\][h]+[^ ^\n]*				{invalidCommand(yytext);};
+[\\][\?]						return HELP;
 
 [,]								return *yytext;
 [;]								return *yytext;
@@ -55,9 +56,13 @@ help							return HELP;
 								 		printf(">");
 								};
 
-[\\][c]+						return CONNECT;
-[\\][q]+						return QUIT;
-[\\][d]+						return LIST_TABLES;
-[\\][d]+[t]+					return LIST_TABLE;
+[\\][c]							return CONNECT;
+[\\][c]+[^ ^\n]*				{invalidCommand(yytext);};
+[\\][q]							return QUIT;
+[\\][q]+[^ ^\n]*				{invalidCommand(yytext);};
+[\\][d]							return LIST_TABLE;
+[\\][d]+[^t^ ^\n]*				{invalidCommand(yytext);};
+[\\][d]+[t]						return LIST_TABLES;
+[\\][d]+[t][^ ^\n]*				{invalidCommand(yytext);};
 [ \t]+							/* ignore whitespace */;
 %%

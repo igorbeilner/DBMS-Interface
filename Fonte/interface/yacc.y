@@ -92,7 +92,7 @@ help_pls: HELP {help(); return 0;}
 /*--------------------------------------------------*/
 
 /* INSERT */
-insert: INSERT INTO {setMode(OP_INSERT);} table opt_column_list VALUES '(' value_list ')' semicolon {
+insert: INSERT INTO {setMode(OP_INSERT);} table opt_column_list VALUES parentesis_open value_list parentesis_close semicolon {
     if (col_count == val_count || GLOBAL_DATA.columnName == NULL)
         GLOBAL_DATA.N = val_count;
     else {
