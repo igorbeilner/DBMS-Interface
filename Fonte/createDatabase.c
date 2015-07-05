@@ -65,6 +65,8 @@ void createDB(char *db_name) {
 
 	SGBD = (data_base*)malloc(sizeof(data_base));
 	len = strlen(db_name);
+	memset(SGBD->db_name 		, 0, LEN_DB_NAME);
+	memset(SGBD->db_directory 	, 0, LEN_DB_NAME);
 
 	SGBD->valid = 1;
 	strcpylower(SGBD->db_name		, db_name);
