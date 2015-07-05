@@ -6,8 +6,8 @@
 
 int main(){
     dbInit();
-    printf("Você está utilizando o Ibetres. Digite \"help\" caso necessite de ajuda.\n");
+    printf("Ibetres (1.5.15).\nType \"help\" for help.\n\n");
     interface();
-    printf("Desconectado.\n");
+    printf("Disconnected.\n");
     return 0;
 }
