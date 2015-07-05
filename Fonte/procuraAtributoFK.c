@@ -19,7 +19,7 @@ tp_table *procuraAtributoFK(struct fs_objects objeto){
     strcat(directory, "fs_schema.dat");
 
     if((schema = fopen(directory, "a+b")) == NULL){
-        printf("error: Não foi possível ler o esquema.\n");
+        printf("ERROR: could not read schema.\n");
         free(tupla);
 		free(esquema);
 		free(vetEsqm);
