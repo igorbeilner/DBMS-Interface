@@ -44,9 +44,9 @@ int yywrap() {
 
 %token  INSERT      INTO        VALUES      SELECT      FROM
         CREATE      TABLE       INTEGER     VARCHAR     DOUBLE
-        PRIMARY     KEY         REFERENCES  DATABASE    DROP
-        OBJECT      NUMBER      VALUE       QUIT        LIST_TABLES
-        LIST_TABLE  ALPHANUM    CONNECT     HELP;
+        CHAR        PRIMARY     KEY         REFERENCES  DATABASE
+        DROP        OBJECT      NUMBER      VALUE       QUIT
+        LIST_TABLES LIST_TABLE  ALPHANUM    CONNECT     HELP;
 
 start: insert | select | create_table | create_database | drop_table | drop_database
      | table_attr | list_tables | connection | exit_program | semicolon {return 0;}
@@ -114,7 +114,7 @@ column: OBJECT {setColumnInsert(yytext);};
 
 value_list: value | value ',' value_list;
 
-value: VALUE {setValueInsert(yylval.strval, 'I');}
+value: VALUE {setValueInsert(yylval.strval, 'D');}
      | NUMBER {setValueInsert(yylval.strval, 'I');}
      | ALPHANUM {setValueInsert(yylval.strval, 'S');};
 
@@ -130,6 +130,7 @@ table_column_attr: column_create type attribute | column_create type attribute '
 type: INTEGER {setColumnTypeCreate('I');}
     | VARCHAR {setColumnTypeCreate('S');} parentesis_open NUMBER parentesis_close {setColumnSizeCreate(yylval.strval);}
     | DOUBLE {setColumnTypeCreate('D');};
+    | CHAR {setColumnTypeCreate('C');};
 
 column_create: OBJECT {setColumnCreate(yytext);};
 

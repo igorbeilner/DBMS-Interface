@@ -21,6 +21,7 @@
 (?i:INTEGER)					return INTEGER;
 (?i:INT)						return INTEGER;
 (?i:VARCHAR)					return VARCHAR;
+(?i:CHAR)						return CHAR;
 (?i:DOUBLE)						return DOUBLE;
 (?i:PRIMARY)					return PRIMARY;
 (?i:KEY)						return KEY;

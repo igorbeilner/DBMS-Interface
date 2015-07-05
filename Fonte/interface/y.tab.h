@@ -55,20 +55,21 @@ extern int yydebug;
     INTEGER = 265,
     VARCHAR = 266,
     DOUBLE = 267,
-    PRIMARY = 268,
-    KEY = 269,
-    REFERENCES = 270,
-    DATABASE = 271,
-    DROP = 272,
-    OBJECT = 273,
-    NUMBER = 274,
-    VALUE = 275,
-    QUIT = 276,
-    LIST_TABLES = 277,
-    LIST_TABLE = 278,
-    ALPHANUM = 279,
-    CONNECT = 280,
-    HELP = 281
+    CHAR = 268,
+    PRIMARY = 269,
+    KEY = 270,
+    REFERENCES = 271,
+    DATABASE = 272,
+    DROP = 273,
+    OBJECT = 274,
+    NUMBER = 275,
+    VALUE = 276,
+    QUIT = 277,
+    LIST_TABLES = 278,
+    LIST_TABLE = 279,
+    ALPHANUM = 280,
+    CONNECT = 281,
+    HELP = 282
   };
 #endif
 /* Tokens.  */
@@ -82,20 +83,21 @@ extern int yydebug;
 #define INTEGER 265
 #define VARCHAR 266
 #define DOUBLE 267
-#define PRIMARY 268
-#define KEY 269
-#define REFERENCES 270
-#define DATABASE 271
-#define DROP 272
-#define OBJECT 273
-#define NUMBER 274
-#define VALUE 275
-#define QUIT 276
-#define LIST_TABLES 277
-#define LIST_TABLE 278
-#define ALPHANUM 279
-#define CONNECT 280
-#define HELP 281
+#define CHAR 268
+#define PRIMARY 269
+#define KEY 270
+#define REFERENCES 271
+#define DATABASE 272
+#define DROP 273
+#define OBJECT 274
+#define NUMBER 275
+#define VALUE 276
+#define QUIT 277
+#define LIST_TABLES 278
+#define LIST_TABLE 279
+#define ALPHANUM 280
+#define CONNECT 281
+#define HELP 282
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -109,7 +111,7 @@ union YYSTYPE
     int subtok;
     char *strval;
 
-#line 113 "y.tab.h" /* yacc.c:1909  */
+#line 115 "y.tab.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
