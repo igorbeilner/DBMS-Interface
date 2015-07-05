@@ -19,7 +19,7 @@ void connect(char *nome) {
     }
 }
 
-void setTable(char **nome) {
+void setObjName(char **nome) {
     if (GLOBAL_PARSER.mode != 0) {
         GLOBAL_DATA.objName = malloc(sizeof(char)*((strlen(*nome)+1)));
 
@@ -37,6 +37,28 @@ void setColumnInsert(char **nome) {
     GLOBAL_DATA.columnName[col_count][strlen(*nome)] = '\0';
 
     col_count++;
+}
+
+void setValueInsert(char *nome, char type) {
+    int i;
+    GLOBAL_DATA.values  = realloc(GLOBAL_DATA.values, (val_count+1)*sizeof(char *));
+    GLOBAL_DATA.type    = realloc(GLOBAL_DATA.type, (val_count+1)*sizeof(char));
+
+    // Adiciona o valor no vetor de strings
+    GLOBAL_DATA.values[val_count] = malloc(sizeof(char)*(strlen(nome)+1));
+    if (type == 'I') {
+        strcpy(GLOBAL_DATA.values[val_count], nome);
+        GLOBAL_DATA.values[val_count][strlen(nome)] = '\0';
+    } else if (type == 'S') {
+        for (i = 1; i < strlen(nome)-1; i++) {
+            GLOBAL_DATA.values[val_count][i-1] = nome[i];
+        }
+        GLOBAL_DATA.values[val_count][strlen(nome)-2] = '\0';
+    }
+
+    GLOBAL_DATA.type[val_count] = type;
+
+    val_count++;
 }
 
 void setColumnCreate(char **nome) {
@@ -92,27 +114,6 @@ void setColumnFKColumnCreate(char **nome) {
     GLOBAL_DATA.fkColumn[col_count-1][strlen(*nome)] = '\0';
 }
 
-void setValueInsert(char *nome, char type) {
-    int i;
-    GLOBAL_DATA.values  = realloc(GLOBAL_DATA.values, (val_count+1)*sizeof(char *));
-    GLOBAL_DATA.type    = realloc(GLOBAL_DATA.type, (val_count+1)*sizeof(char));
-
-    // Adiciona o valor no vetor de strings
-    GLOBAL_DATA.values[val_count] = malloc(sizeof(char)*(strlen(nome)+1));
-    if (type == 'I') {
-        strcpy(GLOBAL_DATA.values[val_count], nome);
-        GLOBAL_DATA.values[val_count][strlen(nome)] = '\0';
-    } else if (type == 'S') {
-        for (i = 1; i < strlen(nome)-1; i++) {
-            GLOBAL_DATA.values[val_count][i-1] = nome[i];
-        }
-        GLOBAL_DATA.values[val_count][strlen(nome)-2] = '\0';
-    }
-
-    GLOBAL_DATA.type[val_count] = type;
-
-    val_count++;
-}
 
 void clearGlobalStructs() {
     int i;
@@ -191,20 +192,31 @@ int interface() {
                 if (!connected.conn_active) {
                     printf("Você não está conectado. Utilize \\c <nome_banco> para conectar.\n");
                 } else {
-                    if (GLOBAL_PARSER.mode == 'I') {
-                        if (GLOBAL_DATA.N > 0)
-                            insert(&GLOBAL_DATA);
-                    } else if (GLOBAL_PARSER.mode == 'S') {
-                        imprime(GLOBAL_DATA.objName);
-                    } else if (GLOBAL_PARSER.mode == 'C') {
-                        createTable(&GLOBAL_DATA);
-                    } else if (GLOBAL_PARSER.mode == 'D') {
-                        createDB(GLOBAL_DATA.objName);
-                    } else if (GLOBAL_PARSER.mode == 'T') {
-                        excluirTabela(GLOBAL_DATA.objName);
-                    } else if (GLOBAL_PARSER.mode == 'Y') {
-                        dropDatabase(GLOBAL_DATA.objName);
+                    switch(GLOBAL_PARSER.mode) {
+                        case OP_INSERT:
+                            if (GLOBAL_DATA.N > 0)
+                                insert(&GLOBAL_DATA);
+                            else
+                                printf("warning: Nada para ser inserido, comando ignorado.\n");
+                            break;
+                        case OP_SELECT_ALL:
+                            imprime(GLOBAL_DATA.objName);
+                            break;
+                        case OP_CREATE_TABLE:
+                            createTable(&GLOBAL_DATA);
+                            break;
+                        case OP_CREATE_DATABASE:
+                            createDB(GLOBAL_DATA.objName);
+                            break;
+                        case OP_DROP_TABLE:
+                            excluirTabela(GLOBAL_DATA.objName);
+                            break;
+                        case OP_DROP_DATABASE:
+                            dropDatabase(GLOBAL_DATA.objName);
+                            break;
+                        default: break;
                     }
+
                 }
             }
         } else {

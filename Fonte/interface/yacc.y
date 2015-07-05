@@ -8,6 +8,8 @@
 
 extern int  yylineno;
 extern char* yytext[];
+extern FILE * yyin;
+extern FILE* outFile_p;
 
 void yyerror(rc_parser *GLOBAL_PARSER, char *s, ...) {
     noerror = 0;
@@ -90,7 +92,7 @@ help_pls: HELP {help(); return 0;}
 /*--------------------------------------------------*/
 
 /* INSERT */
-insert: INSERT INTO {setMode('I');} table opt_column_list VALUES '(' value_list ')' semicolon {
+insert: INSERT INTO {setMode(OP_INSERT);} table opt_column_list VALUES '(' value_list ')' semicolon {
     if (col_count == val_count || GLOBAL_DATA.columnName == NULL)
         GLOBAL_DATA.N = val_count;
     else {
@@ -102,7 +104,7 @@ insert: INSERT INTO {setMode('I');} table opt_column_list VALUES '(' value_list 
 
 semicolon: ';';
 
-table: OBJECT {setTable(yytext);};
+table: OBJECT {setObjName(yytext);};
 
 opt_column_list: /*optional*/ | parentesis_open column_list parentesis_close;
 
@@ -117,7 +119,7 @@ value: VALUE {setValueInsert(yylval.strval, 'I');}
      | ALPHANUM {setValueInsert(yylval.strval, 'S');};
 
 /* CREATE TABLE */
-create_table: CREATE TABLE {setMode('C');} table parentesis_open table_column_attr parentesis_close semicolon {
+create_table: CREATE TABLE {setMode(OP_CREATE_TABLE);} table parentesis_open table_column_attr parentesis_close semicolon {
     GLOBAL_DATA.N = col_count;
 
     return 0;
@@ -140,18 +142,18 @@ table_fk: OBJECT {setColumnFKTableCreate(yytext);};
 column_fk: OBJECT {setColumnFKColumnCreate(yytext);};
 
 /* DROP TABLE */
-drop_table: DROP TABLE {setMode('T');} OBJECT {setTable(yytext); return 0;} semicolon
+drop_table: DROP TABLE {setMode(OP_DROP_TABLE);} OBJECT {setObjName(yytext); return 0;} semicolon
 
 /* CREATE DATABASE */
-create_database: CREATE DATABASE {setMode('D');} OBJECT {setTable(yytext); return 0;} semicolon;
+create_database: CREATE DATABASE {setMode(OP_CREATE_DATABASE);} OBJECT {setObjName(yytext); return 0;} semicolon;
 
 /* DROP DATABASE */
-drop_database: DROP DATABASE {setMode('Y');} OBJECT {setTable(yytext); return 0;} semicolon;
+drop_database: DROP DATABASE {setMode(OP_DROP_DATABASE);} OBJECT {setObjName(yytext); return 0;} semicolon;
 
 /* SELECT */
-select: SELECT {setMode('S');} '*' FROM table_select semicolon {return 0;};
+select: SELECT {setMode(OP_SELECT_ALL);} '*' FROM table_select semicolon {return 0;};
 
-table_select: OBJECT {setTable(yytext);};
+table_select: OBJECT {setObjName(yytext);};
 
 /* END */
 %%

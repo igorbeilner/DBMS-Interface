@@ -63,7 +63,7 @@ typedef struct rc_insert {
 }rc_insert;
 
 typedef struct rc_parser {
-    char         mode;
+    int         mode;
     int         parentesis;
 }rc_parser;
 
