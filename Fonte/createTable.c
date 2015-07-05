@@ -6,8 +6,7 @@ int verifyFK(table *tab, char *tableName, int attr){
     if(verificaNomeTabela(tableName)){
         struct fs_objects objeto = leObjeto(tableName);
         tp_table *esquema = leSchema(objeto);
-
-        if(esquema == ERRO_ABRIR_ESQUEMA){
+		if(esquema == ERRO_ABRIR_ESQUEMA){
             printf("error: Não foi possível criar o esquema.\n");
             return 0;
         }
@@ -58,7 +57,10 @@ void createTable(rc_insert *t) {
     	}
 
         tab = adicionaCampo(tab, t->columnName[i], t->type[i], size, t->attribute[i], fkTable, fkColumn);
-        printf("%s\n",(verifyFK(tab, t->objName, t->attribute[i]) == 0)? "ERROR":"SUCCESS");
+        if(verifyFK(tab, t->objName, t->attribute[i]) == 0){
+			printf("ERROR: attribute FK cannot be references");
+			return;
+		}
     }
 
     printf("%s\n",(finalizaTabela(tab) == SUCCESS)? "CREATE TABLE": "ERROR:   Table already exists!\n");
