@@ -25,7 +25,7 @@ int finalizaInsert(char *nome, column *c){
             case PK:
                 erro = verificaChavePK(nome, temp , temp->nomeCampo, temp->valorCampo);
                 if (erro == ERRO_CHAVE_PRIMARIA){
-                    printf("error: Chave primária duplicada na coluna '%s'. O valor '%s' já existe. Nenhum registro inserido.\n", temp->nomeCampo, temp->valorCampo);
+                    printf("ERROR:  duplicate key value violates unique constraint \"%s_pkey\"\nDETAIL:  Key (%s)=(%s) already exists.\n", nome, temp->nomeCampo, temp->valorCampo);
                     free(c);    // Libera a memoria da estrutura.
 					free(auxT); // Libera a memoria da estrutura.
 					//free(temp); // Libera a memoria da estrutura.
@@ -42,7 +42,7 @@ int finalizaInsert(char *nome, column *c){
                     erro = verificaChaveFK(nome, temp, tab2[j].nome, temp->valorCampo, tab2[j].tabelaApt, tab2[j].attApt);
 
                     if (erro != SUCCESS){
-                        printf("error: Referência inválida para '%s.%s'. Não existe o valor '%s'. Nenhum registro inserido.\n", tab2[j].tabelaApt,tab2[j].attApt,temp->valorCampo);
+                        printf("ERROR: invalid reference to \"%s.%s\". The value \"%s\" does not exist.\n", tab2[j].tabelaApt,tab2[j].attApt,temp->valorCampo);
                         free(c);    // Libera a memoria da estrutura.
 						free(auxT); // Libera a memoria da estrutura.
 						free(temp); // Libera a memoria da estrutura.
@@ -58,7 +58,7 @@ int finalizaInsert(char *nome, column *c){
 
 
     if (erro == ERRO_CHAVE_ESTRANGEIRA){
-        printf("error: Erro desconhecido de chave estrangeira. Nenhum registro inserido.\n");
+        printf("ERROR: unknow foreign key error.\n");
         free(c);    // Libera a memoria da estrutura.
 		free(auxT); // Libera a memoria da estrutura.
 		free(temp); // Libera a memoria da estrutura.
@@ -68,7 +68,7 @@ int finalizaInsert(char *nome, column *c){
     }
 
     if (erro == ERRO_CHAVE_PRIMARIA){
-        printf("error: Erro desconhecido de chave primária. Nenhum registro inserido.\n");
+        printf("ERROR: unknow primary key error.\n");
         free(c);    // Libera a memoria da estrutura.
 		free(auxT); // Libera a memoria da estrutura.
 		free(temp); // Libera a memoria da estrutura.
@@ -77,7 +77,7 @@ int finalizaInsert(char *nome, column *c){
         return ERRO_CHAVE_PRIMARIA;
     }
     if (erro == ERRO_DE_PARAMETRO) {
-        printf("error: Parâmetro inválido. Nenhum registro inserido.\n");
+        printf("ERROR: invalid parameter.\n");
         free(c);    // Libera a memoria da estrutura.
 		free(auxT); // Libera a memoria da estrutura.
 		free(temp); // Libera a memoria da estrutura.
@@ -92,7 +92,7 @@ int finalizaInsert(char *nome, column *c){
 
     if((dados = fopen(directory,"a+b")) == NULL){
 		free(c);    // Libera a memoria da estrutura.
-        printf("error: Erro ao abrir arquivo. Nenhum registro inserido.\n");
+        printf("ERROR: cannot open file.\n");
 		free(auxT); // Libera a memoria da estrutura.
 		free(temp); // Libera a memoria da estrutura.
         free(tab); // Libera a memoria da estrutura.
@@ -108,7 +108,7 @@ int finalizaInsert(char *nome, column *c){
         if (auxT[t].tipo == 'S'){ // Grava um dado do tipo string.
 
             if (sizeof(auxC->valorCampo) > auxT[t].tam && sizeof(auxC->valorCampo) != 8){
-                printf("error: O tamanho da string não é válido. Nenhum registro inserido.\n");
+                printf("ERROR: invalid string length.\n");
 				free(tab); // Libera a memoria da estrutura.
 				free(tab2); // Libera a memoria da estrutura.
 				free(c);    // Libera a memoria da estrutura.
@@ -119,7 +119,7 @@ int finalizaInsert(char *nome, column *c){
             }
 
             if (objcmp(auxC->nomeCampo, auxT[t].nome) != 0){
-                printf("error: O nome do campo '%s' é inválido. Nenhum registro inserido.\n", auxC->nomeCampo);
+                printf("ERROR: column name \"%s\" is not valid.\n", auxC->nomeCampo);
 				free(tab); // Libera a memoria da estrutura.
 				free(tab2); // Libera a memoria da estrutura.
 				free(c);    // Libera a memoria da estrutura.
@@ -138,7 +138,7 @@ int finalizaInsert(char *nome, column *c){
             i = 0;
             while (i < strlen(auxC->valorCampo)){
                 if (auxC->valorCampo[i] < 48 || auxC->valorCampo[i] > 57){
-                    printf("error: Valor inteiro esperado para a coluna '%s'. Nenhum registro inserido.\n", auxC->nomeCampo);
+                    printf("ERROR: column \"%s\" expectet integer.\n", auxC->nomeCampo);
 					free(tab); // Libera a memoria da estrutura.
 					free(tab2); // Libera a memoria da estrutura.
 					free(c);    // Libera a memoria da estrutura.
@@ -159,7 +159,7 @@ int finalizaInsert(char *nome, column *c){
             x = 0;
             while (x < strlen(auxC->valorCampo)){
                 if((auxC->valorCampo[x] < 48 || auxC->valorCampo[x] > 57) && (auxC->valorCampo[x] != 46)){
-                    printf("error: Valor do tipo double esperado para a coluna '%s'. Nenhum registro inserido.\n", auxC->nomeCampo);
+                    printf("ERROR: column \"%s\" expect double.\n", auxC->nomeCampo);
 					free(tab); // Libera a memoria da estrutura.
 					free(tab2); // Libera a memoria da estrutura.
 					free(c);    // Libera a memoria da estrutura.
@@ -177,7 +177,7 @@ int finalizaInsert(char *nome, column *c){
         else if (auxT[t].tipo == 'C'){ // Grava um dado do tipo char.
 
             if (strlen(auxC->valorCampo) > (sizeof(char))) {
-                printf("error: Caractere único esperado para a coluna '%s'. Nenhum registro inserido.\n", auxC->nomeCampo);
+                printf("ERROR: column \"%s\" expect char.\n", auxC->nomeCampo);
 				free(tab); // Libera a memoria da estrutura.
 				free(tab2); // Libera a memoria da estrutura.
 				free(c);    // Libera a memoria da estrutura.
