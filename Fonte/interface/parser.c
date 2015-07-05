@@ -32,6 +32,7 @@ void setObjName(char **nome) {
 
         strcpylower(GLOBAL_DATA.objName, *nome);
         GLOBAL_DATA.objName[strlen(*nome)] = '\0';
+        GLOBAL_PARSER.step++;
     } else
         return;
 }
@@ -92,10 +93,12 @@ void setColumnCreate(char **nome) {
     GLOBAL_DATA.attribute[GLOBAL_PARSER.col_count] = NPK;
 
     GLOBAL_PARSER.col_count++;
+    GLOBAL_PARSER.step = 2;
 }
 
 void setColumnTypeCreate(char type) {
     GLOBAL_DATA.type[GLOBAL_PARSER.col_count-1] = type;
+    GLOBAL_PARSER.step++;
 }
 
 void setColumnSizeCreate(char *size) {
@@ -113,12 +116,14 @@ void setColumnFKTableCreate(char **nome) {
     strcpylower(GLOBAL_DATA.fkTable[GLOBAL_PARSER.col_count-1], *nome);
     GLOBAL_DATA.fkTable[GLOBAL_PARSER.col_count-1][strlen(*nome)] = '\0';
     GLOBAL_DATA.attribute[GLOBAL_PARSER.col_count-1] = FK;
+    GLOBAL_PARSER.step++;
 }
 
 void setColumnFKColumnCreate(char **nome) {
     GLOBAL_DATA.fkColumn[GLOBAL_PARSER.col_count-1] = realloc(GLOBAL_DATA.fkColumn[GLOBAL_PARSER.col_count-1], sizeof(char)*(strlen(*nome)+1));
     strcpylower(GLOBAL_DATA.fkColumn[GLOBAL_PARSER.col_count-1], *nome);
     GLOBAL_DATA.fkColumn[GLOBAL_PARSER.col_count-1][strlen(*nome)] = '\0';
+    GLOBAL_PARSER.step++;
 }
 
 
@@ -171,10 +176,12 @@ void clearGlobalStructs() {
     GLOBAL_PARSER.noerror           = 1;
     GLOBAL_PARSER.col_count         = 0;
     GLOBAL_PARSER.val_count         = 0;
+    GLOBAL_PARSER.step              = 0;
 }
 
 void setMode(char mode) {
     GLOBAL_PARSER.mode = mode;
+    GLOBAL_PARSER.step++;
 }
 
 
@@ -230,6 +237,25 @@ int interface() {
                 }
             }
         } else {
+            switch(GLOBAL_PARSER.mode) {
+                case OP_CREATE_DATABASE:
+                case OP_DROP_DATABASE:
+                case OP_CREATE_TABLE:
+                case OP_DROP_TABLE:
+                case OP_SELECT_ALL:
+                case OP_INSERT:
+                    if (GLOBAL_PARSER.step == 1) {
+                        printf("Expected object name.\n");
+                    }
+                break;
+
+                default: break;
+            }
+
+            if (GLOBAL_PARSER.mode == OP_CREATE_TABLE) {
+                if (GLOBAL_PARSER.step == 2)
+                    printf("Column not specified correctly.\n");
+            }
             printf("ERROR: syntax error.\n");
         }
 
