@@ -51,10 +51,24 @@ void printTable(char *tbl){
 
 		tp_table *tab3 = (tp_table *)malloc(sizeof(struct tp_table));
 		tab3 = procuraAtributoFK(objeto1); //retorna tp_table
-		int l;
+		int l, ipk=0, ifk=0;
+		char pk[objeto1.qtdCampos][40];
+		char fkTable[objeto1.qtdCampos][40];
+		char fkColumn[objeto1.qtdCampos][40];
+		char refColumn[objeto1.qtdCampos][40];
+
 		for(l=0; l<objeto1.qtdCampos; l++) {
 
-			printf(" %c%-10s |", ((tab3[l].chave == PK)? '*':' '), tab3[l].nome);
+			if(tab3[l].chave == PK){
+				strcpylower(pk[ipk++], tab3[l].nome);
+			}
+			else if(tab3[l].chave == FK){
+				strcpylower(fkTable[ifk], tab3[l].tabelaApt);
+				strcpylower(fkColumn[ifk], tab3[l].attApt);
+				strcpylower(refColumn[ifk++], tab3[l].nome);
+			}
+
+			printf("  %-10s |", tab3[l].nome);
 
 			if(tab3[l].tipo == 'S')
 				printf(" %-8s(%d) |", " varchar", tab3[l].tam);
@@ -69,6 +83,19 @@ void printTable(char *tbl){
 
 			printf("\n");
 		}
+		if(ipk){	//printf PK's
+			printf("Indexes:\n");
+			for(l = 0; l < ipk; l++){
+				printf("\t\"%s_pkey\" PRIMARY KEY (%s)\n", tbl, pk[l]);
+			}
+		}
+		if(ifk){	//printf FK's
+			printf("Foreign-key constrains:\n");
+			for(l = 0; l < ifk; l++){
+				printf("\t\"%s_%s_fkey\" FOREIGN KEY (%s) REFERENCES %s(%s)\n",tbl, refColumn[l], refColumn[l], fkTable[l], fkColumn[l]);
+			}
+		}
+
 		free(tab3);
 		printf("\n");
 	}
