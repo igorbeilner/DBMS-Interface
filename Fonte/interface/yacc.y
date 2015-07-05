@@ -246,6 +246,10 @@ int interface() {
                         imprime(GLOBAL_DATA.tableName);
                     } else if (GLOBAL_PARSER.mode == 'C') {
                         createTable(&GLOBAL_DATA);
+                    } else if (GLOBAL_PARSER.mode == 'D') {
+                        createDB(GLOBAL_DATA.tableName);
+                    } else if (GLOBAL_PARSER.mode == 'T') {
+                        excluirTabela(GLOBAL_DATA.tableName);
                     }
                 }
             }
@@ -373,10 +377,10 @@ table_fk: OBJECT {setColumnFKTableCreate(yytext);};
 column_fk: OBJECT {setColumnFKColumnCreate(yytext);};
 
 /* DROP TABLE */
-drop_table: DROP TABLE OBJECT {excluirTabela(*yytext); return 0;}
+drop_table: DROP TABLE {setMode('T');} OBJECT {setTable(yytext); return 0;} semicolon
 
 /* CREATE DATABASE */
-create_database: CREATE DATABASE OBJECT {createDB(*yytext); return 0;}
+create_database: CREATE DATABASE {setMode('D');} OBJECT {setTable(yytext); return 0;} semicolon;
 
 /* SELECT */
 select: SELECT {setMode('S');} '*' FROM table_select semicolon {return 0;};
