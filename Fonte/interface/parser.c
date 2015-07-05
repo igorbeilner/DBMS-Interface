@@ -231,7 +231,7 @@ int interface() {
                 }
             }
         } else {
-            printf("Erro sintático, verifique.\n");
+            printf("ERROR: syntax error.\n");
         }
 
         pthread_create(&pth, NULL, (void*)clearGlobalStructs, NULL);
