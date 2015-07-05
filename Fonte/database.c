@@ -55,7 +55,8 @@ void createDB(char *db_name) {
         if(objcmp(vec_name[i], db_name) == 0) {
         	if(valid) {
 	        	fclose(DB);
-	        	printf("database already exists\n");
+				if(objcmp(db_name, "ibetres") != 0)
+	        		printf("database already exists\n");
 	            return;
 	        }
         }
