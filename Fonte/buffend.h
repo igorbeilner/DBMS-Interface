@@ -66,6 +66,7 @@ typedef struct rc_parser {
     rc_insert   *data;
     int          conn_active;
     char         mode;
+    int         parentesis;
 }rc_parser;
 
 typedef struct data_base {

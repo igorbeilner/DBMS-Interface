@@ -39,9 +39,12 @@ help							return HELP;
 [0-9]+							{yylval.strval = yytext; return NUMBER;}
 
 \n								{
-									if (parser->mode != 0)
-										printf("%s-# ", connected.db_name);
-								 	else if (connected.conn_active)
+									if (parser->mode != 0) {
+										if (parser->parentesis)
+											printf("%s(# ", connected.db_name);
+										else
+											printf("%s-# ", connected.db_name);
+									} else if (connected.conn_active)
 								 		printf("%s=# ", connected.db_name);
 								 	else
 								 		printf(">");

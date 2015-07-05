@@ -196,6 +196,7 @@ void clearGlobalStructs() {
 
     GLOBAL_PARSER.data              = &GLOBAL_DATA;
     GLOBAL_PARSER.mode              = 0;
+    GLOBAL_PARSER.parentesis        = 0;
 }
 
 void setMode(char mode) {
@@ -280,7 +281,7 @@ int interface() {
 
 start: insert | select | create_table | create_database | drop_table
      | table_attr | list_tables | connection | exit_program | semicolon {return 0;}
-     | help_pls | /*nothing*/;
+     | parentesis_open | parentesis_close| help_pls | /*nothing*/;
 
 /*--------------------------------------------------*/
 /**************** GENERAL FUNCTIONS *****************/
@@ -291,6 +292,10 @@ connection: CONNECT OBJECT {connect(yytext); return 0;};
 
 /* EXIT */
 exit_program: QUIT {exit(0);};
+
+parentesis_open: '(' {GLOBAL_PARSER->parentesis++;}
+
+parentesis_close: ')' {GLOBAL_PARSER->parentesis--;}
 
 /* TABLE ATTRIBUTES */
 table_attr: LIST_TABLE OBJECT {
@@ -332,7 +337,7 @@ semicolon: ';';
 
 table: OBJECT {setTable(yytext);};
 
-opt_column_list: /*optional*/ | '(' column_list ')';
+opt_column_list: /*optional*/ | parentesis_open column_list parentesis_close;
 
 column_list: column | column ',' column_list;
 
@@ -345,7 +350,7 @@ value: VALUE {setValueInsert(yylval.strval, 'I');}
      | ALPHANUM {setValueInsert(yylval.strval, 'S');};
 
 /* CREATE TABLE */
-create_table: CREATE TABLE {setMode('C');} table '(' table_column_attr ')' semicolon {
+create_table: CREATE TABLE {setMode('C');} table parentesis_open table_column_attr parentesis_close semicolon {
     GLOBAL_DATA.N = col_count;
 
     return 0;
@@ -354,7 +359,7 @@ create_table: CREATE TABLE {setMode('C');} table '(' table_column_attr ')' semic
 table_column_attr: column_create type attribute | column_create type attribute ',' table_column_attr;
 
 type: INTEGER {setColumnTypeCreate('I');}
-    | VARCHAR {setColumnTypeCreate('S');}'(' NUMBER ')' {setColumnSizeCreate(yylval.strval);}
+    | VARCHAR {setColumnTypeCreate('S');} parentesis_open NUMBER parentesis_close {setColumnSizeCreate(yylval.strval);}
     | DOUBLE {setColumnTypeCreate('D');};
 
 column_create: OBJECT {setColumnCreate(yytext);};
