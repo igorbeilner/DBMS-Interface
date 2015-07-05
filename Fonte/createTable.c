@@ -7,7 +7,7 @@ int verifyFK(char *tableName, char *column){
         struct fs_objects objeto = leObjeto(tableName);
         tp_table *esquema = leSchema(objeto);
 		if(esquema == ERRO_ABRIR_ESQUEMA){
-            printf("error: Não foi possível criar o esquema.\n");
+            printf("ERROR: cannot crate schema.\n");
             return 0;
         }
 
@@ -33,7 +33,7 @@ void createTable(rc_insert *t) {
     strcat(tableName, ".dat\0");                  //tableName.dat
 
     if(existeArquivo(tableName)){
-        printf("ERROR:  Table already exists!\n");
+        printf("ERROR: table already exist\n");
         return;
     }
 
@@ -67,5 +67,5 @@ void createTable(rc_insert *t) {
         }
     }
 
-    printf("%s\n",(finalizaTabela(tab) == SUCCESS)? "CREATE TABLE" : "ERROR:   Table already exists!\n");
+    printf("%s\n",(finalizaTabela(tab) == SUCCESS)? "CREATE TABLE" : "ERROR: table already exist\n");
 }
