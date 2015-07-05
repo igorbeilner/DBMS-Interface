@@ -9,14 +9,7 @@ int verifyFK(table *tab, char *tableName, char* attr){
 
         if(esquema == ERRO_ABRIR_ESQUEMA){
             printf("error: Não foi possível criar o esquema.\n");
-            return;
-        }
-
-        tp_buffer *bufferpoll = initbuffer();
-
-        if(bufferpoll == ERRO_DE_ALOCACAO){
-            printf("error: Memória insuficiente para o buffer.\n");
-            return;
+            return 0;
         }
 
         int x, erro = SUCCESS;
