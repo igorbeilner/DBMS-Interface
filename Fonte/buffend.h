@@ -66,6 +66,9 @@ typedef struct rc_parser {
     int         mode;           // Modo de operação (definido em /interface/parser.h)
     int         parentesis;     // Contador de parenteses abertos
     int         step;           // Passo atual (token)
+    int         noerror;        // Nenhum erro encontrado na identificação dos tokens
+    int         col_count;      // Contador de colunas
+    int         val_count;      // Contador de valores
 }rc_parser;
 
 typedef struct data_base {

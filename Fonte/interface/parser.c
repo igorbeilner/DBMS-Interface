@@ -37,91 +37,88 @@ void setObjName(char **nome) {
 }
 
 void setColumnInsert(char **nome) {
-    GLOBAL_DATA.columnName = realloc(GLOBAL_DATA.columnName, (col_count+1)*sizeof(char *));
+    GLOBAL_DATA.columnName = realloc(GLOBAL_DATA.columnName, (GLOBAL_PARSER.col_count+1)*sizeof(char *));
 
-    GLOBAL_DATA.columnName[col_count] = malloc(sizeof(char)*(strlen(*nome)+1));
-    strcpylower(GLOBAL_DATA.columnName[col_count], *nome);
-    GLOBAL_DATA.columnName[col_count][strlen(*nome)] = '\0';
+    GLOBAL_DATA.columnName[GLOBAL_PARSER.col_count] = malloc(sizeof(char)*(strlen(*nome)+1));
+    strcpylower(GLOBAL_DATA.columnName[GLOBAL_PARSER.col_count], *nome);
+    GLOBAL_DATA.columnName[GLOBAL_PARSER.col_count][strlen(*nome)] = '\0';
 
-    col_count++;
+    GLOBAL_PARSER.col_count++;
 }
 
 void setValueInsert(char *nome, char type) {
     int i;
-    GLOBAL_DATA.values  = realloc(GLOBAL_DATA.values, (val_count+1)*sizeof(char *));
-    GLOBAL_DATA.type    = realloc(GLOBAL_DATA.type, (val_count+1)*sizeof(char));
+    GLOBAL_DATA.values  = realloc(GLOBAL_DATA.values, (GLOBAL_PARSER.val_count+1)*sizeof(char *));
+    GLOBAL_DATA.type    = realloc(GLOBAL_DATA.type, (GLOBAL_PARSER.val_count+1)*sizeof(char));
 
     // Adiciona o valor no vetor de strings
-    GLOBAL_DATA.values[val_count] = malloc(sizeof(char)*(strlen(nome)+1));
+    GLOBAL_DATA.values[GLOBAL_PARSER.val_count] = malloc(sizeof(char)*(strlen(nome)+1));
     if (type == 'I' || type == 'D') {
-        strcpy(GLOBAL_DATA.values[val_count], nome);
-        GLOBAL_DATA.values[val_count][strlen(nome)] = '\0';
+        strcpy(GLOBAL_DATA.values[GLOBAL_PARSER.val_count], nome);
+        GLOBAL_DATA.values[GLOBAL_PARSER.val_count][strlen(nome)] = '\0';
     } else if (type == 'S') {
         for (i = 1; i < strlen(nome)-1; i++) {
-            GLOBAL_DATA.values[val_count][i-1] = nome[i];
+            GLOBAL_DATA.values[GLOBAL_PARSER.val_count][i-1] = nome[i];
         }
-        GLOBAL_DATA.values[val_count][strlen(nome)-2] = '\0';
+        GLOBAL_DATA.values[GLOBAL_PARSER.val_count][strlen(nome)-2] = '\0';
     }
 
-    GLOBAL_DATA.type[val_count] = type;
+    GLOBAL_DATA.type[GLOBAL_PARSER.val_count] = type;
 
-    val_count++;
+    GLOBAL_PARSER.val_count++;
 }
 
 void setColumnCreate(char **nome) {
-    GLOBAL_DATA.columnName  = realloc(GLOBAL_DATA.columnName, (col_count+1)*sizeof(char *));
-    GLOBAL_DATA.attribute   = realloc(GLOBAL_DATA.attribute, (col_count+1)*sizeof(int));
-    GLOBAL_DATA.fkColumn    = realloc(GLOBAL_DATA.fkColumn, (col_count+1)*sizeof(char *));
-    GLOBAL_DATA.fkTable     = realloc(GLOBAL_DATA.fkTable, (col_count+1)*sizeof(char *));
-    GLOBAL_DATA.values      = realloc(GLOBAL_DATA.values, (col_count+1)*sizeof(char *));
-    GLOBAL_DATA.type        = realloc(GLOBAL_DATA.type, (col_count+1)*sizeof(char *));
+    GLOBAL_DATA.columnName  = realloc(GLOBAL_DATA.columnName, (GLOBAL_PARSER.col_count+1)*sizeof(char *));
+    GLOBAL_DATA.attribute   = realloc(GLOBAL_DATA.attribute, (GLOBAL_PARSER.col_count+1)*sizeof(int));
+    GLOBAL_DATA.fkColumn    = realloc(GLOBAL_DATA.fkColumn, (GLOBAL_PARSER.col_count+1)*sizeof(char *));
+    GLOBAL_DATA.fkTable     = realloc(GLOBAL_DATA.fkTable, (GLOBAL_PARSER.col_count+1)*sizeof(char *));
+    GLOBAL_DATA.values      = realloc(GLOBAL_DATA.values, (GLOBAL_PARSER.col_count+1)*sizeof(char *));
+    GLOBAL_DATA.type        = realloc(GLOBAL_DATA.type, (GLOBAL_PARSER.col_count+1)*sizeof(char *));
 
-    GLOBAL_DATA.values[col_count] = malloc(sizeof(char));
-    GLOBAL_DATA.values[col_count] = 0;
+    GLOBAL_DATA.values[GLOBAL_PARSER.col_count] = malloc(sizeof(char));
+    GLOBAL_DATA.values[GLOBAL_PARSER.col_count] = 0;
 
-    GLOBAL_DATA.fkTable[col_count] = malloc(sizeof(char));
-    GLOBAL_DATA.fkTable[col_count] = 0;
+    GLOBAL_DATA.fkTable[GLOBAL_PARSER.col_count] = malloc(sizeof(char));
+    GLOBAL_DATA.fkTable[GLOBAL_PARSER.col_count] = 0;
 
-    GLOBAL_DATA.fkColumn[col_count] = malloc(sizeof(char));
-    GLOBAL_DATA.fkColumn[col_count] = 0;
+    GLOBAL_DATA.fkColumn[GLOBAL_PARSER.col_count] = malloc(sizeof(char));
+    GLOBAL_DATA.fkColumn[GLOBAL_PARSER.col_count] = 0;
 
-    GLOBAL_DATA.columnName[col_count] = malloc(sizeof(char)*(strlen(*nome)+1));
-    strcpylower(GLOBAL_DATA.columnName[col_count], *nome);
-    GLOBAL_DATA.columnName[col_count][strlen(*nome)] = '\0';
-    GLOBAL_DATA.type[col_count] = 0;
-    GLOBAL_DATA.attribute[col_count] = NPK;
+    GLOBAL_DATA.columnName[GLOBAL_PARSER.col_count] = malloc(sizeof(char)*(strlen(*nome)+1));
+    strcpylower(GLOBAL_DATA.columnName[GLOBAL_PARSER.col_count], *nome);
+    GLOBAL_DATA.columnName[GLOBAL_PARSER.col_count][strlen(*nome)] = '\0';
+    GLOBAL_DATA.type[GLOBAL_PARSER.col_count] = 0;
+    GLOBAL_DATA.attribute[GLOBAL_PARSER.col_count] = NPK;
 
-    col_count++;
+    GLOBAL_PARSER.col_count++;
 }
 
 void setColumnTypeCreate(char type) {
-    GLOBAL_DATA.type[col_count-1] = type;
-    //if (type == 'C') GLOBAL_DATA.values[col_count-1] = (int)sizeof(char);
-    //else if (type == 'D') GLOBAL_DATA.values[col_count-1] = (int)sizeof(double);
-    //else if (type == 'I') GLOBAL_DATA.values[col_count-1] = (int)sizeof(int);
+    GLOBAL_DATA.type[GLOBAL_PARSER.col_count-1] = type;
 }
 
 void setColumnSizeCreate(char *size) {
-    GLOBAL_DATA.values[col_count-1] = realloc(GLOBAL_DATA.values[col_count-1], sizeof(char)*(strlen(size)+1));
-    strcpy(GLOBAL_DATA.values[col_count-1], size);
-    GLOBAL_DATA.values[col_count-1][strlen(size)-1] = '\0';
+    GLOBAL_DATA.values[GLOBAL_PARSER.col_count-1] = realloc(GLOBAL_DATA.values[GLOBAL_PARSER.col_count-1], sizeof(char)*(strlen(size)+1));
+    strcpy(GLOBAL_DATA.values[GLOBAL_PARSER.col_count-1], size);
+    GLOBAL_DATA.values[GLOBAL_PARSER.col_count-1][strlen(size)-1] = '\0';
 }
 
 void setColumnPKCreate() {
-    GLOBAL_DATA.attribute[col_count-1] = PK;
+    GLOBAL_DATA.attribute[GLOBAL_PARSER.col_count-1] = PK;
 }
 
 void setColumnFKTableCreate(char **nome) {
-    GLOBAL_DATA.fkTable[col_count-1] = realloc(GLOBAL_DATA.fkTable[col_count-1], sizeof(char)*(strlen(*nome)+1));
-    strcpylower(GLOBAL_DATA.fkTable[col_count-1], *nome);
-    GLOBAL_DATA.fkTable[col_count-1][strlen(*nome)] = '\0';
-    GLOBAL_DATA.attribute[col_count-1] = FK;
+    GLOBAL_DATA.fkTable[GLOBAL_PARSER.col_count-1] = realloc(GLOBAL_DATA.fkTable[GLOBAL_PARSER.col_count-1], sizeof(char)*(strlen(*nome)+1));
+    strcpylower(GLOBAL_DATA.fkTable[GLOBAL_PARSER.col_count-1], *nome);
+    GLOBAL_DATA.fkTable[GLOBAL_PARSER.col_count-1][strlen(*nome)] = '\0';
+    GLOBAL_DATA.attribute[GLOBAL_PARSER.col_count-1] = FK;
 }
 
 void setColumnFKColumnCreate(char **nome) {
-    GLOBAL_DATA.fkColumn[col_count-1] = realloc(GLOBAL_DATA.fkColumn[col_count-1], sizeof(char)*(strlen(*nome)+1));
-    strcpylower(GLOBAL_DATA.fkColumn[col_count-1], *nome);
-    GLOBAL_DATA.fkColumn[col_count-1][strlen(*nome)] = '\0';
+    GLOBAL_DATA.fkColumn[GLOBAL_PARSER.col_count-1] = realloc(GLOBAL_DATA.fkColumn[GLOBAL_PARSER.col_count-1], sizeof(char)*(strlen(*nome)+1));
+    strcpylower(GLOBAL_DATA.fkColumn[GLOBAL_PARSER.col_count-1], *nome);
+    GLOBAL_DATA.fkColumn[GLOBAL_PARSER.col_count-1][strlen(*nome)] = '\0';
 }
 
 
@@ -166,12 +163,14 @@ void clearGlobalStructs() {
     GLOBAL_DATA.attribute = (int *)malloc(sizeof(int));
 
     yylex_destroy();
-    noerror = 1;
 
-    val_count = col_count = GLOBAL_DATA.N = 0;
+    GLOBAL_DATA.N = 0;
 
     GLOBAL_PARSER.mode              = 0;
     GLOBAL_PARSER.parentesis        = 0;
+    GLOBAL_PARSER.noerror           = 1;
+    GLOBAL_PARSER.col_count         = 0;
+    GLOBAL_PARSER.val_count         = 0;
 }
 
 void setMode(char mode) {
@@ -197,7 +196,7 @@ int interface() {
         pthread_create(&pth, NULL, (void*)yyparse, &GLOBAL_PARSER);
         pthread_join(pth, NULL);
 
-        if (noerror) {
+        if (GLOBAL_PARSER.noerror) {
             if (GLOBAL_PARSER.mode != 0) {
                 if (!connected.conn_active) {
                     notConnected();
@@ -238,4 +237,17 @@ int interface() {
         pthread_join(pth, NULL);
     }
     return 0;
+}
+
+void yyerror(rc_parser *GLOBAL_PARSER, char *s, ...) {
+    GLOBAL_PARSER->noerror = 0;
+    /*extern yylineno;
+
+    va_list ap;
+    va_start(ap, s);
+
+    fprintf(stderr, "%d: error: ", yylineno);
+    vfprintf(stderr, s, ap);
+    fprintf(stderr, "\n");
+    */
 }

@@ -19,15 +19,17 @@ rc_insert GLOBAL_DATA;
  */
 rc_parser GLOBAL_PARSER;
 
-int noerror, // Indica se houve algum erro de sintaxe
-	col_count, // Número de colunas do insert ou create table
-	val_count; // Número de valores do insert.
-
 /* Funcções do yacc
  */
 int yyparse(rc_parser *parser);
 int yylex(rc_parser *parser);
 int yylex_destroy();
+extern int  yylineno;
+
+/* Função padrão do yacc chamada quando um erro sintático é
+ * identificado.
+ */
+void yyerror(rc_parser *GLOBAL_PARSER, char *s, ...);
 
 /* Imprime o erro caso o comando seja inválido
  */

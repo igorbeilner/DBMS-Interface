@@ -106,7 +106,7 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 33 "yacc.y" /* yacc.c:1909  */
+#line 19 "yacc.y" /* yacc.c:1909  */
 
     int intval;
     double floatval;

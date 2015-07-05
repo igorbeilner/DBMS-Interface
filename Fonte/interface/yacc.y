@@ -6,23 +6,9 @@
 #include "../buffend.h"
 #include "parser.h"
 
-extern int  yylineno;
 extern char* yytext[];
 extern FILE * yyin;
 extern FILE* outFile_p;
-
-void yyerror(rc_parser *GLOBAL_PARSER, char *s, ...) {
-    noerror = 0;
-    /*extern yylineno;
-
-    va_list ap;
-    va_start(ap, s);
-
-    fprintf(stderr, "%d: error: ", yylineno);
-    vfprintf(stderr, s, ap);
-    fprintf(stderr, "\n");
-    */
-}
 
 int yywrap() {
     return 1;
@@ -100,11 +86,11 @@ help_pls: HELP {help(); return 0;}
 
 /* INSERT */
 insert: INSERT INTO {setMode(OP_INSERT);} table opt_column_list VALUES parentesis_open value_list parentesis_close semicolon {
-    if (col_count == val_count || GLOBAL_DATA.columnName == NULL)
-        GLOBAL_DATA.N = val_count;
+    if (GLOBAL_PARSER->col_count == GLOBAL_PARSER->val_count || GLOBAL_DATA.columnName == NULL)
+        GLOBAL_DATA.N = GLOBAL_PARSER->val_count;
     else {
         printf("ERROR: The column counter doesn't match the value counter.\n");
-        noerror=0;
+        GLOBAL_PARSER->noerror=0;
     }
     return 0;
 };
@@ -127,7 +113,7 @@ value: VALUE {setValueInsert(yylval.strval, 'D');}
 
 /* CREATE TABLE */
 create_table: CREATE TABLE {setMode(OP_CREATE_TABLE);} table parentesis_open table_column_attr parentesis_close semicolon {
-    GLOBAL_DATA.N = col_count;
+    GLOBAL_DATA.N = GLOBAL_PARSER->col_count;
 
     return 0;
 };
