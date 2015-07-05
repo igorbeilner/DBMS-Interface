@@ -37,7 +37,7 @@ void createDB(char *db_name) {
          *aux_name_tolower;
 
     if((DB = fopen("DB.dat","a+b")) == NULL) {
-       	printf("Erro ao abrir o arquivo\n");
+       	printf("error opening the file\n");
     }
 
     for(i=0; fgetc (DB) != EOF; i++) {
@@ -48,7 +48,7 @@ void createDB(char *db_name) {
 
         if(objcmp(vec_name[i], db_name) == 0) {
         	fclose(DB);
-        	printf("Banco ja existe\n");
+        	printf("database already exists\n");
             return;
 
         }
