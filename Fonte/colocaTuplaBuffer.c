@@ -5,8 +5,10 @@ int colocaTuplaBuffer(tp_buffer *buffer, int from, tp_table *campos, struct fs_o
 
     char *tupla = getTupla(campos,objeto,from);
 
-    if(tupla == ERRO_DE_LEITURA)
+    if(tupla == ERRO_DE_LEITURA) {
+        free(tupla);
         return ERRO_LEITURA_DADOS;
+    }
 
     int i=0, found=0;
     while (!found && i < PAGES) {//Procura pagina com espaço para a tupla.
@@ -21,8 +23,10 @@ int colocaTuplaBuffer(tp_buffer *buffer, int from, tp_table *campos, struct fs_o
         i++;// Se não, passa pra proxima página do buffer.
     }
 
-    if (!found)
+    if (!found) {
+        free(tupla);
         return ERRO_BUFFER_CHEIO;
+    }
 
     return SUCCESS;
 }

@@ -22,6 +22,8 @@ void imprime(char nomeTabela[]) {
     tp_buffer *bufferpoll = initbuffer();
 
     if(bufferpoll == ERRO_DE_ALOCACAO){
+        free(bufferpoll);
+        free(esquema);
         printf("ERROR: no memory available to allocate buffer.\n");
         return;
     }
@@ -36,6 +38,8 @@ void imprime(char nomeTabela[]) {
 	    column *pagina = getPage(bufferpoll, esquema, objeto, p);
 	    if(pagina == ERRO_PARAMETRO){
             printf("ERROR: could not open the table.\n");
+            free(bufferpoll);
+            free(esquema);
             return;
 	    }
 
@@ -74,4 +78,7 @@ void imprime(char nomeTabela[]) {
     	x-=bufferpoll[p++].nrec;
     }
     printf("\n(%d %s)\n\n",ntuples,(1>=ntuples)?"row": "rows");
+
+    free(bufferpoll);
+    free(esquema);
 }

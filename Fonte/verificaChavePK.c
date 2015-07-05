@@ -18,12 +18,18 @@ int verificaChavePK(char *nomeTabela, column *c, char *nomeCampo, char *valorCam
     tp_buffer *bufferpoll;
 
     erro = existeAtributo(nomeTabela, c);
-    if (erro != SUCCESS )
+    if (erro != SUCCESS ) {
+        free(bufferpoll);
+        free(tabela);
         return ERRO_DE_PARAMETRO;
+    }
 
 
-    if (iniciaAtributos(&objeto, &tabela, &bufferpoll, nomeTabela) != SUCCESS)
+    if (iniciaAtributos(&objeto, &tabela, &bufferpoll, nomeTabela) != SUCCESS) {
+        free(bufferpoll);
+        free(tabela);
         return ERRO_DE_PARAMETRO;
+    }
 
     erro = SUCCESS;
     for(x = 0; erro == SUCCESS; x++)
@@ -39,6 +45,8 @@ int verificaChavePK(char *nomeTabela, column *c, char *nomeCampo, char *valorCam
                 if (objcmp(pagina[j].nomeCampo, nomeCampo) == 0) {
                     if (pagina[j].tipoCampo == 'S') {
                         if (objcmp(pagina[j].valorCampo, valorCampo) == 0){
+                            free(bufferpoll);
+                            free(tabela);
                             return ERRO_CHAVE_PRIMARIA;
                         }
                     } else if (pagina[j].tipoCampo == 'I') {
@@ -55,6 +63,8 @@ int verificaChavePK(char *nomeTabela, column *c, char *nomeCampo, char *valorCam
                         }
                     } else if (pagina[j].tipoCampo == 'C'){
                         if (pagina[j].valorCampo == valorCampo){
+                            free(bufferpoll);
+                            free(tabela);
                             return ERRO_CHAVE_PRIMARIA;
                         }
                     }
@@ -63,5 +73,7 @@ int verificaChavePK(char *nomeTabela, column *c, char *nomeCampo, char *valorCam
         }
     }
 
+    free(bufferpoll);
+    free(tabela);
     return SUCCESS;
 }

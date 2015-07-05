@@ -92,8 +92,11 @@ void createDB(char *db_name) {
 		printf("ERROR: It was not possible to create the database\n");;
 
     fclose(DB);
-	if(objcmp(db_name, "ibetres") != 0)
-    	printf("CREATE DATABASE\n");
+    free(SGBD);
+
+
+    if(objcmp(db_name, "ibetres") != 0)
+        printf("CREATE DATABASE\n");
 }
 
 void dropDatabase(char *db_name) {
@@ -105,7 +108,7 @@ void dropDatabase(char *db_name) {
 		 valid;
 
 	if(strcmp(db_name, connected.db_name) == 0) {
-		printf("ERROR: not permitted exclusion\n");
+		printf("ERROR: You can not delete the database that you are connected.\n");
 		return;
 	}
 

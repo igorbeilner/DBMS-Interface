@@ -102,16 +102,22 @@ int excluirTabela(char *nomeTabela) {
     for(x = 0; erro == SUCCESS; x++)
         erro = colocaTuplaBuffer(bufferpoll, x, esquema, objeto);
 
-    if(procuraSchemaArquivo(objeto) != 0)
+    if(procuraSchemaArquivo(objeto) != 0) {
+        free(bufferpoll);
         return ERRO_REMOVER_ARQUIVO_SCHEMA;
+    }
 
-    if(procuraObjectArquivo(nomeTabela) != 0)
-       return ERRO_REMOVER_ARQUIVO_OBJECT;
+    if(procuraObjectArquivo(nomeTabela) != 0) {
+        free(bufferpoll);
+        return ERRO_REMOVER_ARQUIVO_OBJECT;
+    }
 
    	strcpy(directory, connected.db_directory);
     strcat(directory, str);
 
     remove(directory);
+
+    free(bufferpoll);
 
     printf("DROP TABLE\n");
 

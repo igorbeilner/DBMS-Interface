@@ -41,9 +41,13 @@ int existeAtributo(char *nomeTabela, column *c){
             }
         }
         if(count != objeto.qtdCampos){
+            free(bufferpoll);
+            free(tabela);
             return ERRO_DE_PARAMETRO;
         }
     }
 
+    free(bufferpoll);
+    free(tabela);
     return SUCCESS;
 }

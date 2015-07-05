@@ -29,6 +29,8 @@ int verificaChaveFK(char *nomeTabela,column *c, char *nomeCampo, char *valorCamp
         //return ERRO_CHAVE_ESTRANGEIRA;
 
     if(iniciaAtributos(&objeto, &tabela, &bufferpoll, tabelaApt) != SUCCESS) {
+        free(bufferpoll);
+        free(tabela);
         return ERRO_DE_PARAMETRO;
     }
 
@@ -47,24 +49,34 @@ int verificaChaveFK(char *nomeTabela,column *c, char *nomeCampo, char *valorCamp
 
                     if(pagina[j].tipoCampo == 'S'){
                         if(objcmp(pagina[j].valorCampo, valorCampo) == 0){
+                            free(bufferpoll);
+                            free(tabela);
                             return SUCCESS;
                         }
                     } else if(pagina[j].tipoCampo == 'I'){
                         int *n = (int *)&pagina[j].valorCampo[0];
                         if(*n == atoi(valorCampo)){
+                            free(bufferpoll);
+                            free(tabela);
                             return SUCCESS;
                         }
                     } else if(pagina[j].tipoCampo == 'D'){
                         double *nn = (double *)&pagina[j].valorCampo[0];
 
                         if(*nn == atof(valorCampo)){
+                            free(bufferpoll);
+                            free(tabela);
                             return SUCCESS;
                         }
                     } else if(pagina[j].tipoCampo == 'C'){
                         if(pagina[j].valorCampo == valorCampo){
+                            free(bufferpoll);
+                            free(tabela);
                             return SUCCESS;
                         }
                     } else {
+                        free(bufferpoll);
+                        free(tabela);
                         return ERRO_CHAVE_ESTRANGEIRA;
                     }
                 }
@@ -72,5 +84,7 @@ int verificaChaveFK(char *nomeTabela,column *c, char *nomeCampo, char *valorCamp
         }
     }
 
+    free(bufferpoll);
+    free(tabela);
     return ERRO_CHAVE_ESTRANGEIRA;
 }
