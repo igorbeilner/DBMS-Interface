@@ -36,7 +36,7 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
          */
         if (n > TAMANHO_NOME_CAMPO) {
            n = TAMANHO_NOME_CAMPO;
-           printf("warning: Nome do campo excedeu o limite de tamanho e foi truncado.\n");
+           printf("WARNING: field name exceeded the size limit and was truncated.\n");
         }
 
 
@@ -46,7 +46,7 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
 
         if (n > tam && tipo == 'S') {
             n = tam;
-            printf("warning: O valor inserido na coluna '%s' excedeu o limite de tamanho e foi truncado.\n", nomeCampo);
+            printf("WARNING: value of column \"%s\" exceeded the size limit and was truncated.\n", nomeCampo);
         }
 
         for(i=0; i < n; i++) e->valorCampo[i] = valorCampo[i];
@@ -90,7 +90,7 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
                  */
                 if (n > TAMANHO_NOME_CAMPO) {
                    n = TAMANHO_NOME_CAMPO;
-                   printf("warning: Nome do campo excedeu o limite de tamanho e foi truncado.\n");
+                   printf("WARNING: field name exceeded the size limit and was truncated.\n");
                 }
 
                 strncpylower(e->nomeCampo, nomeCampo, n-1);
@@ -101,7 +101,7 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
 
                 if (n > tam && tipo == 'S') {
                     n = tam;
-                    printf("warning: O valor inserido na coluna '%s' excedeu o limite de tamanho e foi truncado.\n", nomeCampo);
+                    printf("WARNING: value of column \"%s\"exceeded the size limit and was truncated.\n", nomeCampo);
                 }
 
                 for(i=0; i < n; i++) e->valorCampo[i] = valorCampo[i];
