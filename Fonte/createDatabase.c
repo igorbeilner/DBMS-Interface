@@ -98,6 +98,7 @@ void dropDatabase(char *db_name) {
 		return;
 	}
 
+
     if((DB = fopen("DB.dat","r+b")) == NULL) {
        	printf("error opening the file\n");
     }
