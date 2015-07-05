@@ -17,7 +17,7 @@ struct fs_objects leObjeto(char *nTabela){
     struct fs_objects objeto;
 
     if(!verificaNomeTabela(nTabela)){
-        printf("error: A tabela '%s' não foi encontrada.\n", nTabela);
+        printf("ERROR: relation \"%s\"was not found.\n", nTabela);
         if (dicionario)
             fclose(dicionario);
         free(tupla);
@@ -26,7 +26,7 @@ struct fs_objects leObjeto(char *nTabela){
     }
 
     if (dicionario == NULL) {
-        printf("error: Dicionário de dados não encontrado.\n\n");
+        printf("ERROR: data dictionary was not found.\n\n");
         free(tupla);
         return objeto;
     }
