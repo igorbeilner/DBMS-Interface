@@ -24,8 +24,9 @@ int verifyFK(char *tableName, char *column){
 
 int verifyFieldName(char **fieldName, int N){
     int i, j;
+    if(N<=1) return 1;
     for(i=0; i < N; i++){
-        for(j=0; j < N; j++){
+        for(j=i+1; j < N; j++){
             if(objcmp(fieldName[i], fieldName[j]) == 0){
                 printf("ERROR:  column \"%s\" specified more than once\n", fieldName[i]);
                 return 0;
