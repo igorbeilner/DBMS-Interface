@@ -15,14 +15,14 @@ void imprime(char nomeTabela[]) {
     tp_table *esquema = leSchema(objeto);
 
     if(esquema == ERRO_ABRIR_ESQUEMA){
-        printf("error: Não foi possível criar o esquema.\n");
+        printf("ERROR: schema cannot be created.\n");
         return;
     }
 
     tp_buffer *bufferpoll = initbuffer();
 
     if(bufferpoll == ERRO_DE_ALOCACAO){
-        printf("error: Memória insuficiente para o buffer.\n");
+        printf("ERROR: no memory available to allocate buffer.\n");
         return;
     }
 
@@ -34,17 +34,17 @@ void imprime(char nomeTabela[]) {
     column *pagina = getPage(bufferpoll, esquema, objeto, 0);
 
     if(pagina == ERRO_PARAMETRO){
-        printf("error: Não foi possível abrir a tabela.\n");
+        printf("ERROR: could not open the table.\n");
         return;
     }
 
     // PARA IMPRIMIR PÁGINA
-    printf("Número de tuplas: %d\n", --x);
+    int ntuples = --x;
 	p = 0;
 	while(x){
 	    column *pagina = getPage(bufferpoll, esquema, objeto, p);
 	    if(pagina == ERRO_PARAMETRO){
-            printf("error: Não foi possível abrir a tabela.\n");
+            printf("ERROR: could not open the table.\n");
             return;
 	    }
 		for(j=0; j < objeto.qtdCampos*bufferpoll[p].nrec; j++){
@@ -65,5 +65,5 @@ void imprime(char nomeTabela[]) {
     	}
     	x-=bufferpoll[p++].nrec;
     }
-    printf("\n\n");
+    printf("(%d %s)\n\n",ntuples,(1==ntuples)?"row": "rows");
 }
