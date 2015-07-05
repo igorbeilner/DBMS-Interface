@@ -255,7 +255,12 @@ int interface() {
             if (GLOBAL_PARSER.mode == OP_CREATE_TABLE) {
                 if (GLOBAL_PARSER.step == 2)
                     printf("Column not specified correctly.\n");
+            } else if (GLOBAL_PARSER.mode == OP_INSERT) {
+                if (GLOBAL_PARSER.step == 2)
+                    printf("Expected token \"VALUES\" after object name.\n");
             }
+
+
             printf("ERROR: syntax error.\n");
         }
 
