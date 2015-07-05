@@ -313,20 +313,39 @@ O reconhecedor de comandos SQL foi implementado utilizando yacc e lex. Portanto,
 econtram em /Fonte/interface/. Toda vez que for alterados esses arquivos, é necessário gerar novamente os arquivos do reconhecedor.
 Para isso, basta executar o comando 'make' no bash quando estiver na pasta onde estão os arquivos.
 
-Para compilar o projeto inteiro, basta executar o comando 'make' na pasta /Fonte/. Isso irá gerar o executável 'prog'.
+Para compilar o projeto inteiro, basta executar o comando 'make' na pasta /Fonte/. Isso irá gerar o executável 'Ibetres'.
 
-Ao executar o programa, para conectar-se ao banco (no caso liberar acesso aos comandos), utiliza-se o comando 'CONNECT'.
+Ao executar, o programa conecta-se com o banco "ibetres" por default, 
+Para conectar-se a outro banco, utiliza-se o comando:
+	\c <nomedo banco>.
 
-O interpretador reconhece comandos SQL para INSERT. Por exemplo:
- - INSERT INTO <NomeTabela> (<coluna1>,...,<colunaN>) VALUES (<valorNum>, '<valorStr>',...);
- - INSERT INTO <NomeTabela> VALUES (<valorNum>, '<valorStr>',...); // Desde que o número de valores corresponda ao número de colunas
+O interpretador reconhece os comandos SQL abaixo:
+	CREATE DATABASE <NomeBanco>;
+	CREATE TABLE <NomeTabela>(
+		<nomeCampo> <tipoCampo>[primary key | references <nomeTabela1>(<nomeCampoPK>)]
+		[, <nomeCampo> <tipoCampo>[primary key | references <nomeTabela1>(<nomeCampoPK>)]
+		[...]
+	);
+	INSERT INTO <NomeTabela> (<coluna1>,...,<colunaN>) VALUES (<valorNum>, '<valorStr>',...);
+	INSERT INTO <NomeTabela> VALUES (<valorNum>, '<valorStr>',...); // Desde que o número de valores corresponda ao número de colunas
+	SELECT * FROM <NomeTabela>;
+	DROP DATABASE <NomeBanco>;
+	DROP TABLE <NomeTabela>;
+
+Além disso, interpreta os comandos:
+
+	help				// retorna um menu de ajuda
+	\c <NomeBanco> 		// estabelece conexão com o banco de dados <NomeBanco>
+	\l 					// retorna uma lista com os bancos de dados criados no SGBD
+	\d 					// retorna uma lista com as tabelas existentes no banco de dados corrente
+	\dt <NomeTabela>	// retorna uma lista com os atributos de uma tabela
+	\q 					// sai do shell do SGBD
 
 
 A ordem das colunas especificadas não precisa ser na mesma ordem da criação e não é necessário informar todas. Quando o usuário
 não especificar a coluna o SGBD colocará um valor nulo, de acordo com o tipo de dado.
 
-Os tokens SQL NÃO são case-sensitive. Os nomes de tabelas e colunas SÃO case-sensitive.
-
-Além disso, foram implementados os comandos \d para listar todas as tabelas e \dt <tabela> para listar os atributos da tabela.
-
-Para auxiliar nos testes, existe um SELECT bem rudimentar que imprime tudo. O comando é: SELECT <nomeTabela>
+Os comandos SQL e os objetos das relações (i.e. <NomeTabelas>, <NomeCampos> ...) NÃO são case-sensitive.
+	ex: 
+		<TABELA> e <tabela> se referem a mesma relação.
+		<INSERT> e <insert> se referem ao mesmo comando SQL.
