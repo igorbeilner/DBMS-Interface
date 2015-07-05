@@ -16,6 +16,7 @@ void imprime(char nomeTabela[]) {
 
     if(esquema == ERRO_ABRIR_ESQUEMA){
         printf("ERROR: schema cannot be created.\n");
+        free(esquema);
         return;
     }
 

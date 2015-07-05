@@ -73,6 +73,9 @@ void insert(rc_insert *s_insert) {
 	if (!flag)
 		if (finalizaInsert(s_insert->objName, colunas) == SUCCESS)
 			printf("INSERT 0 1\n");
+	free(tabela);
+	free(esquema);
+	free(colunas);
 }
 
 int typesCompatible(char table_type, char insert_type) {

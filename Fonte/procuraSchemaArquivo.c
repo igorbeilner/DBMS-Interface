@@ -25,14 +25,18 @@ int procuraSchemaArquivo(struct fs_objects objeto){
     strcpy(directory, connected.db_directory);
     strcat(directory, "fs_schema.dat");
 
-    if((schema = fopen(directory, "a+b")) == NULL)
+    if((schema = fopen(directory, "a+b")) == NULL) {
+        free(tupla);
         return ERRO_REMOVER_ARQUIVO_SCHEMA;
+    }
 
     strcpy(directory, connected.db_directory);
     strcat(directory, "fs_nschema.dat");
 
-    if((newSchema = fopen(directory, "a+b")) == NULL)
+    if((newSchema = fopen(directory, "a+b")) == NULL) {
+        free(tupla);
         return ERRO_REMOVER_ARQUIVO_SCHEMA;
+    }
 
     fseek(newSchema, 0, SEEK_SET);
 
@@ -88,5 +92,6 @@ int procuraSchemaArquivo(struct fs_objects objeto){
 
     system(directoryex);
 
+    free(tupla);
     return SUCCESS;
 }

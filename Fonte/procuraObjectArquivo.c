@@ -22,14 +22,18 @@ int procuraObjectArquivo(char *nomeTabela){
     strcpy(directory, connected.db_directory);
     strcat(directory, "fs_object.dat");
 
-    if((dicionario = fopen(directory,"a+b")) == NULL)
+    if((dicionario = fopen(directory,"a+b")) == NULL) {
+        free(table);
         return ERRO_ABRIR_ARQUIVO;
+    }
 
     strcpy(directory, connected.db_directory);
     strcat(directory, "fs_nobject.dat");
 
-    if((fp = fopen(directory, "a+b")) == NULL)
+    if((fp = fopen(directory, "a+b")) == NULL) {
+        free(table);
         return ERRO_ABRIR_ARQUIVO;
+    }
 
     fseek(dicionario, 0, SEEK_SET);
     fseek(fp, 0, SEEK_SET);
@@ -65,5 +69,6 @@ int procuraObjectArquivo(char *nomeTabela){
 
     system(directoryex);
 
+    free(table);
     return SUCCESS;
 }
