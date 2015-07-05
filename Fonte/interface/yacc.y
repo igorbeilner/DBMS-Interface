@@ -35,18 +35,18 @@ int yywrap() {
     return 1;
 }
 
-void connect(char **nome) {
+void connect(char *nome) {
     int r;
-    r = connectDB(*nome);
+    r = connectDB(nome);
 	if (r == SUCCESS) {
-        connected.db_name = malloc(sizeof(char)*((strlen(*nome)+1)));
+        connected.db_name = malloc(sizeof(char)*((strlen(nome)+1)));
 
-        strcpylower(connected.db_name, *nome);
+        strcpylower(connected.db_name, nome);
 
         connected.conn_active = 1;
-        printf("You are now connected to database \"%s\".\n", *nome);
+        printf("You are now connected to database \"%s\".\n", nome);
     } else {
-    	printf("error: Falha ao conectar no banco. (%d)\n", r);
+    	printf("error: Failed to establish connection with database named \"%s\". (Error code: %d)\n", nome, r);
     }
 }
 
@@ -219,6 +219,8 @@ int interface() {
     pthread_create(&pth, NULL, (void*)clearGlobalStructs, NULL);
     pthread_join(pth, NULL);
 
+    connect("ibetres"); // conecta automaticamente no banco padrão
+
     while(1){
         if (!connected.conn_active) {
             printf(">");
@@ -246,7 +248,7 @@ int interface() {
                     } else if (GLOBAL_PARSER.mode == 'T') {
                         excluirTabela(GLOBAL_DATA.objName);
                     } else if (GLOBAL_PARSER.mode == 'Y') {
-                        printf("Aguardando igor implementar.\n");
+                        dropDatabase(GLOBAL_DATA.objName);
                     }
                 }
             }
@@ -289,7 +291,7 @@ start: insert | select | create_table | create_database | drop_table | drop_data
 /*--------------------------------------------------*/
 
 /* CONNECTION */
-connection: CONNECT OBJECT {connect(yytext); return 0;};
+connection: CONNECT OBJECT {connect(*yytext); return 0;};
 
 /* EXIT */
 exit_program: QUIT {exit(0);};
