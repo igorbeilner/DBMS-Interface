@@ -53,7 +53,7 @@ void printTable(char *tbl){
 		int l;
 		for(l=0; l<objeto1.qtdCampos; l++) {
 
-			printf(" %-10s|", tab3[l].nome);
+			printf(" %s%-10s|", ((tab3[l].chave == PK)? "*":""), tab3[l].nome);
 
 			if(tab3[l].tipo == 'S')
 				printf(" varchar(%d)\n", tab3[l].tam);
