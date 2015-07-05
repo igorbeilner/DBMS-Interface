@@ -102,7 +102,10 @@ int excluirTabela(char *nomeTabela) {
     if(procuraObjectArquivo(nomeTabela) != 0)
        return ERRO_REMOVER_ARQUIVO_OBJECT;
 
-    remove(str);
+   	strcpy(directory, connected.db_directory);
+    strcat(directory, str);
+
+    remove(directory);
 
     printf("DROP TABLE\n");
 
