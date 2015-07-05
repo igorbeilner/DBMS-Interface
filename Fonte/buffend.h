@@ -465,3 +465,5 @@ char connectDB(char *db_name);
 void dbInit();
 
 void dropDatabase(char *db_name);
+
+void showDB();
