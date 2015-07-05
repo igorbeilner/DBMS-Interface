@@ -30,15 +30,6 @@ void imprime(char nomeTabela[]) {
     for(x = 0; erro == SUCCESS; x++)
         erro = colocaTuplaBuffer(bufferpoll, x, esquema, objeto);
 
-
-    column *pagina = getPage(bufferpoll, esquema, objeto, 0);
-
-    if(pagina == ERRO_PARAMETRO){
-        printf("ERROR: could not open the table.\n");
-        return;
-    }
-
-    // PARA IMPRIMIR PÁGINA
     int ntuples = --x;
 	p = 0;
 	while(x){
@@ -59,11 +50,9 @@ void imprime(char nomeTabela[]) {
             	double *n = (double *)&pagina[j].valorCampo[0];
    	        	 printf("%s: %-15f ",pagina[j].nomeCampo, *n);
         	}
-        	if(j>=1 && ((j+1)%objeto.qtdCampos)==0){
-            	printf("\n");
-        	}
+        	printf("\n");
     	}
     	x-=bufferpoll[p++].nrec;
     }
-    printf("(%d %s)\n\n",ntuples,(1==ntuples)?"row": "rows");
+    printf("(%d %s)\n\n",ntuples,(1>=ntuples)?"row": "rows");
 }
