@@ -14,12 +14,16 @@ void connect(char *nome) {
         connected.conn_active = 1;
         printf("You are now connected to database \"%s\".\n", nome);
     } else {
-    	printf("error: Failed to establish connection with database named \"%s\". (Error code: %d)\n", nome, r);
+    	printf("ERROR: Failed to establish connection with database named \"%s\". (Error code: %d)\n", nome, r);
     }
 }
 
 void invalidCommand(char *command) {
-    printf("Invalid command '%s'. Type \"help\" for help.\n", command);
+    printf("ERROR: Invalid command '%s'. Type \"help\" for help.\n", command);
+}
+
+void notConnected() {
+    printf("ERROR: you are not connected to any database.\n");
 }
 
 void setObjName(char **nome) {
@@ -196,7 +200,7 @@ int interface() {
         if (noerror) {
             if (GLOBAL_PARSER.mode != 0) {
                 if (!connected.conn_active) {
-                    printf("Você não está conectado. Utilize \\c <nome_banco> para conectar.\n");
+                    notConnected();
                 } else {
                     switch(GLOBAL_PARSER.mode) {
                         case OP_INSERT:
@@ -204,7 +208,7 @@ int interface() {
                                 insert(&GLOBAL_DATA);
                             }
                             else
-                                printf("warning: Nada para ser inserido, comando ignorado.\n");
+                                printf("WARNING: Nothing to be inserted. Command ignored.\n");
                             break;
                         case OP_SELECT_ALL:
                             imprime(GLOBAL_DATA.objName);

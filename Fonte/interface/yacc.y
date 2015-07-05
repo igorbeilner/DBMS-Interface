@@ -72,7 +72,7 @@ table_attr: LIST_TABLE OBJECT {
     if(connected.conn_active)
         printTable(yylval.strval);
     else
-        printf("Você não está conectado\n");
+        notConnected();
     return 0;
 };
 
@@ -81,7 +81,7 @@ list_tables: LIST_TABLES {
     if(connected.conn_active)
         printTable(NULL);
     else
-        printf("Você não está conectado\n");
+        notConnected();
     return 0;
 };
 
@@ -103,7 +103,7 @@ insert: INSERT INTO {setMode(OP_INSERT);} table opt_column_list VALUES parentesi
     if (col_count == val_count || GLOBAL_DATA.columnName == NULL)
         GLOBAL_DATA.N = val_count;
     else {
-        printf("The column counter doesn't match the value counter.\n");
+        printf("ERROR: The column counter doesn't match the value counter.\n");
         noerror=0;
     }
     return 0;

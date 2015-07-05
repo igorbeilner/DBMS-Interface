@@ -33,6 +33,11 @@ int yylex_destroy();
  */
 void invalidCommand(char *command);
 
+/* Mensagem exibida quando o usuário tenta executar um comando
+ * sem estar conectado à nenhuma base de dados.
+ */
+void notConnected();
+
 /* Estabelece a conexão com uma base de dados. Se conectar,
  * define os parâmetros globais para a exibição do console.
  */
