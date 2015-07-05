@@ -61,10 +61,10 @@ void createTable(rc_insert *t) {
         tab = adicionaCampo(tab, t->columnName[i], t->type[i], size, t->attribute[i], fkTable, fkColumn);
 
         if(verifyFK(tab, t->objName, t->attribute[i]) == 0){
-			printf("ERROR: attribute FK cannot be references");
+			printf("ERROR: attribute FK cannot be references\n");
 			return;
 		}
     }
 
-    printf("%s\n",(finalizaTabela(tab) == SUCCESS)? "CREATE TABLE" : "ERROR:   Table already exists!");
+    printf("%s\n",(finalizaTabela(tab) == SUCCESS)? "CREATE TABLE" : "ERROR:   Table already exists!\n");
 }
