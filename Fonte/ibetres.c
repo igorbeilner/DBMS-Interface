@@ -6,7 +6,7 @@
 
 int main(){
     dbInit();
-    printf("Bem-vindo! Utilize \\c <nome_banco> para conectar.\n");
+    printf("Você está utilizando o Ibetres. Digite \"help\" caso necessite de ajuda.\n");
     interface();
     printf("Desconectado.\n");
     return 0;

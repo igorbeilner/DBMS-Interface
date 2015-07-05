@@ -2,5 +2,4 @@
 
 void dbInit() {
 	createDB("ibetres");
-	connectDB("ibetres");
 }

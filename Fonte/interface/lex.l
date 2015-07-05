@@ -1,6 +1,7 @@
 %{
 #include <stdio.h>
 #include "../buffend.h"
+#include "parser.h"
 #include "y.tab.h"
 #define YY_DECL int yylex(rc_parser *parser)
 %}
