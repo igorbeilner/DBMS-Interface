@@ -176,6 +176,6 @@ void showDB() {
         }
     }
 
-    printf("\n\n\n\n");
+    printf("(%d %s)\n\n\n\n", i, (1 >= i)? "row": "rows");
     fclose(DB);
 }
