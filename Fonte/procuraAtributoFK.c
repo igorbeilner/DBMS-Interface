@@ -38,7 +38,7 @@ tp_table *procuraAtributoFK(struct fs_objects objeto){
                 fread(&esquema[i].tam  , sizeof(int) , 1 , schema);
                 fread(&chave, sizeof(int) , 1 , schema);
                 vetEsqm[i].tipo = esquema[i].tipo;
-
+                vetEsqm[i].tam = esquema[i].tam;
                 fread(tupla, sizeof(char), TAMANHO_NOME_TABELA, schema);
                 strcpylower(esquema[i].tabelaApt,tupla);
 

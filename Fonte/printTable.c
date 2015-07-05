@@ -50,15 +50,14 @@ void printTable(char *tbl){
 		abreTabela(tbl, &objeto1, &esquema1);
 
 		tp_table *tab3 = (tp_table *)malloc(sizeof(struct tp_table));
-		tab3 = procuraAtributoFK(objeto1);
-
+		tab3 = procuraAtributoFK(objeto1); //retorna tp_table
 		int l;
 		for(l=0; l<objeto1.qtdCampos; l++) {
 
 			printf(" %c%-10s |", ((tab3[l].chave == PK)? '*':' '), tab3[l].nome);
 
 			if(tab3[l].tipo == 'S')
-				printf(" %-10s%d) |", " varchar(", tab3[l].tam);
+				printf(" %-8s(%d) |", " varchar", tab3[l].tam);
 			else if(tab3[l].tipo == 'I')
 				printf(" %-10s   |", " integer");
 			else if(tab3[l].tipo == 'C')
