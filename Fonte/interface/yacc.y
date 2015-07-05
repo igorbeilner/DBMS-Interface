@@ -37,20 +37,16 @@ int yywrap() {
 
 void connect(char **nome) {
     int r;
-    if (GLOBAL_PARSER.conn_active) {
-        printf("Você já está conectado!\n");
-        return;
+    r = connectDB(*nome);
+	if (r == SUCCESS) {
+        connected.db_name = malloc(sizeof(char)*((strlen(*nome)+1)));
+
+        strcpylower(connected.db_name, *nome);
+
+        connected.conn_active = 1;
+        printf("You are now connected to database \"%s\".\n", *nome);
     } else {
-        r = connectDB(*nome);
-    	if (r == SUCCESS) {
-	        connected.db_name = malloc(sizeof(char)*((strlen(*nome)+1)));
-
-	        strcpylower(connected.db_name, *nome);
-
-	        connected.conn_active = 1;
-	    } else {
-	    	printf("error: Falha ao conectar no banco. (%d)\n", r);
-	    }
+    	printf("error: Falha ao conectar no banco. (%d)\n", r);
     }
 }
 
