@@ -68,6 +68,7 @@ typedef struct rc_parser {
 }rc_parser;
 
 typedef struct data_base {
+	char 		valid;
 	char 		db_name[LEN_DB_NAME];
 	char 		db_directory[LEN_DB_NAME];
 }data_base;
@@ -462,3 +463,5 @@ void createDB(char *db_name);
 char connectDB(char *db_name);
 
 void dbInit();
+
+void dropDatabase(char *db_name);
