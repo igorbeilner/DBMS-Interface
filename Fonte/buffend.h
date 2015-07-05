@@ -63,8 +63,9 @@ typedef struct rc_insert {
 }rc_insert;
 
 typedef struct rc_parser {
-    int         mode;
-    int         parentesis;
+    int         mode;           // Modo de operação (definido em /interface/parser.h)
+    int         parentesis;     // Contador de parenteses abertos
+    int         step;           // Passo atual (token)
 }rc_parser;
 
 typedef struct data_base {
