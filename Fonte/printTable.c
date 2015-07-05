@@ -56,7 +56,7 @@ void printTable(char *tbl){
 			printf(" %-10s|", tab3[l].nome);
 
 			if(tab3[l].tipo == 'S')
-				printf(" text\n");
+				printf(" varchar(%d)\n", tab3[l].tam);
 			else if(tab3[l].tipo == 'I')
 				printf(" integer\n");
 			else if(tab3[l].tipo == 'C')
@@ -68,5 +68,3 @@ void printTable(char *tbl){
 		printf("\n\n");
 	}
 }
-
-
