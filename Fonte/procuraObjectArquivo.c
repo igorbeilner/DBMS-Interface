@@ -50,8 +50,20 @@ int procuraObjectArquivo(char *nomeTabela){
 
     fclose(fp);
     fclose(dicionario);
-    remove("fs_object.dat");
-    system("mv fs_nobject.dat fs_object.dat");
+
+    char directoryex[LEN_DB_NAME*4];
+    strcpy(directoryex, connected.db_directory);
+    strcat(directoryex, "fs_object.dat");
+
+    remove(directoryex);
+
+    strcpy(directoryex, "mv ");
+    strcat(directoryex, connected.db_directory);
+    strcat(directoryex, "fs_nobject.dat ");
+    strcat(directoryex, connected.db_directory);
+    strcat(directoryex, "fs_object.dat");
+
+    system(directoryex);
 
     return SUCCESS;
 }

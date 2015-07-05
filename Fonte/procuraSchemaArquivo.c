@@ -68,8 +68,19 @@ int procuraSchemaArquivo(struct fs_objects objeto){
     fclose(newSchema);
     fclose(schema);
 
-    remove("fs_schema.dat");
-    system("mv fs_nschema.dat fs_schema.dat");
+    char directoryex[LEN_DB_NAME*4];
+    strcpy(directoryex, connected.db_directory);
+    strcat(directoryex, "fs_schema.dat");
+
+    remove(directoryex);
+
+    strcpy(directoryex, "mv ");
+    strcat(directoryex, connected.db_directory);
+    strcat(directoryex, "fs_nschema.dat ");
+    strcat(directoryex, connected.db_directory);
+    strcat(directoryex, "fs_schema.dat");
+
+    system(directoryex);
 
     return SUCCESS;
 }
