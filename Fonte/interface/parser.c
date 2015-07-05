@@ -88,6 +88,9 @@ void setColumnCreate(char **nome) {
 
 void setColumnTypeCreate(char type) {
     GLOBAL_DATA.type[col_count-1] = type;
+    if (type == 'C') GLOBAL_DATA.values[col_count-1] = sizeof(char);
+    else if (type == 'D') GLOBAL_DATA.values[col_count-1] = sizeof(double);
+    else if (type == 'I') GLOBAL_DATA.values[col_count-1] = sizeof(int);
 }
 
 void setColumnSizeCreate(char *size) {
