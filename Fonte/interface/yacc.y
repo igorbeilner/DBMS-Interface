@@ -36,18 +36,20 @@ int yywrap() {
 }
 
 void connect(char **nome) {
+    int r;
     if (GLOBAL_PARSER.conn_active) {
         printf("Você já está conectado!\n");
         return;
     } else {
-    	if (connectDB(*nome) == SUCCESS) {
+        r = connectDB(*nome);
+    	if (r == SUCCESS) {
 	        connected.db_name = malloc(sizeof(char)*((strlen(*nome)+1)));
 
 	        strcpylower(connected.db_name, *nome);
 
 	        connected.conn_active = 1;
 	    } else {
-	    	printf("error: Falha ao conectar no banco.\n");
+	    	printf("error: Falha ao conectar no banco. (%d)\n", r);
 	    }
     }
 }
