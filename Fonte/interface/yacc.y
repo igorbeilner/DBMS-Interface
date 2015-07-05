@@ -150,13 +150,13 @@ table_fk: OBJECT {setColumnFKTableCreate(yytext);};
 column_fk: OBJECT {setColumnFKColumnCreate(yytext);};
 
 /* DROP TABLE */
-drop_table: DROP TABLE {setMode(OP_DROP_TABLE);} OBJECT {setObjName(yytext); return 0;} semicolon
+drop_table: DROP TABLE {setMode(OP_DROP_TABLE);} OBJECT {setObjName(yytext);} semicolon  {return 0;};
 
 /* CREATE DATABASE */
-create_database: CREATE DATABASE {setMode(OP_CREATE_DATABASE);} OBJECT {setObjName(yytext); return 0;} semicolon;
+create_database: CREATE DATABASE {setMode(OP_CREATE_DATABASE);} OBJECT {setObjName(yytext);} semicolon {return 0;};
 
 /* DROP DATABASE */
-drop_database: DROP DATABASE {setMode(OP_DROP_DATABASE);} OBJECT {setObjName(yytext); return 0;} semicolon;
+drop_database: DROP DATABASE {setMode(OP_DROP_DATABASE);} OBJECT {setObjName(yytext);} semicolon {return 0;};
 
 /* SELECT */
 select: SELECT {setMode(OP_SELECT_ALL);} '*' FROM table_select semicolon {return 0;};

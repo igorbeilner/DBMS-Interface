@@ -1558,54 +1558,72 @@ yyreduce:
 
   case 56:
 #line 153 "yacc.y" /* yacc.c:1646  */
-    {setObjName(yytext); return 0;}
+    {setObjName(yytext);}
 #line 1563 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 57:
+#line 153 "yacc.y" /* yacc.c:1646  */
+    {return 0;}
+#line 1569 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
 #line 156 "yacc.y" /* yacc.c:1646  */
     {setMode(OP_CREATE_DATABASE);}
-#line 1569 "y.tab.c" /* yacc.c:1646  */
+#line 1575 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 59:
 #line 156 "yacc.y" /* yacc.c:1646  */
-    {setObjName(yytext); return 0;}
-#line 1575 "y.tab.c" /* yacc.c:1646  */
+    {setObjName(yytext);}
+#line 1581 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 60:
+#line 156 "yacc.y" /* yacc.c:1646  */
+    {return 0;}
+#line 1587 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
 #line 159 "yacc.y" /* yacc.c:1646  */
     {setMode(OP_DROP_DATABASE);}
-#line 1581 "y.tab.c" /* yacc.c:1646  */
+#line 1593 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 62:
 #line 159 "yacc.y" /* yacc.c:1646  */
-    {setObjName(yytext); return 0;}
-#line 1587 "y.tab.c" /* yacc.c:1646  */
+    {setObjName(yytext);}
+#line 1599 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 63:
+#line 159 "yacc.y" /* yacc.c:1646  */
+    {return 0;}
+#line 1605 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 64:
 #line 162 "yacc.y" /* yacc.c:1646  */
     {setMode(OP_SELECT_ALL);}
-#line 1593 "y.tab.c" /* yacc.c:1646  */
+#line 1611 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 65:
 #line 162 "yacc.y" /* yacc.c:1646  */
     {return 0;}
-#line 1599 "y.tab.c" /* yacc.c:1646  */
+#line 1617 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 66:
 #line 164 "yacc.y" /* yacc.c:1646  */
     {setObjName(yytext);}
-#line 1605 "y.tab.c" /* yacc.c:1646  */
+#line 1623 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1609 "y.tab.c" /* yacc.c:1646  */
+#line 1627 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
