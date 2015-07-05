@@ -18,6 +18,10 @@ int excluirTabela(char *nomeTabela) {
     char str[20];
     char dat[5] = ".dat";
 
+    if (!verificaNomeTabela(nomeTabela)) {
+        printf("error: A tabela \"%s\" não existe neste banco de dados.\n", nomeTabela);
+        return ERRO_NOME_TABELA;
+    }
 
     strcpylower(str, nomeTabela);
     strcat(str, dat);              //Concatena e junta o nome com .dat
