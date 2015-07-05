@@ -84,8 +84,8 @@ void createDB(char *db_name) {
 	system(create);
 
     fclose(DB);
-
-    printf("CREATE DATABASE\n");
+	if(objcmp(db_name, "ibetres") != 0)
+    	printf("CREATE DATABASE\n");
 }
 
 void dropDatabase(char *db_name) {
