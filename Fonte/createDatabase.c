@@ -28,7 +28,7 @@ char connectDB(char *db_name) {
 
 }
 
-char createDB(char *db_name) {
+void createDB(char *db_name) {
 	FILE *DB;
 	int i, len;
 	char vec_name 				[QTD_DB][LEN_DB_NAME],
@@ -37,7 +37,7 @@ char createDB(char *db_name) {
          *aux_name_tolower;
 
     if((DB = fopen("DB.dat","a+b")) == NULL) {
-       	return ERRO_ABRIR_ARQUIVO;
+       	printf("Erro ao abrir o arquivo\n");
     }
 
     for(i=0; fgetc (DB) != EOF; i++) {
@@ -48,7 +48,8 @@ char createDB(char *db_name) {
 
         if(objcmp(vec_name[i], db_name) == 0) {
         	fclose(DB);
-        	return DB_EXISTS;
+        	printf("O banco ja existe\n");
+            return;
         }
     }
 
@@ -73,6 +74,4 @@ char createDB(char *db_name) {
     fclose(DB);
 
     printf("CREATE DATABASE\n");
-
-    return SUCCESS;
 }

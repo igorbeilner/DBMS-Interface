@@ -459,7 +459,7 @@ void strncpylower(char *dest, char *src, int length);
 
 void createTable(rc_insert *t);
 
-char createDB(char *db_name);
+void createDB(char *db_name);
 
 char connectDB(char *db_name);
 
