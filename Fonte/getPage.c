@@ -36,7 +36,7 @@ column * getPage(tp_buffer *buffer, tp_table *campos, struct fs_objects objeto, 
             t++;
             i++;
         }
-        colunas[h].valorCampo[t-1] = '\0';
+        colunas[h].valorCampo[t] = '\0';
 
         h++;
         j++;
