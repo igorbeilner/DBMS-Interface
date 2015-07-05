@@ -3,7 +3,9 @@
 
 
 int verifyFK(table *tab, char *tableName, int attr){
-    if(verificaNomeTabela(tableName)){
+    printf("TO NA FUNCAO VERIFYFK");
+    if(verificaNomeTabela(tableName) == 1){
+        printf("\n\nTabela existe\n\n");
         struct fs_objects objeto = leObjeto(tableName);
         tp_table *esquema = leSchema(objeto);
 		if(esquema == ERRO_ABRIR_ESQUEMA){
@@ -57,7 +59,8 @@ void createTable(rc_insert *t) {
     	}
 
         tab = adicionaCampo(tab, t->columnName[i], t->type[i], size, t->attribute[i], fkTable, fkColumn);
-        if(verifyFK(tab, t->objName, t->attribute[i]) == 0){
+
+        if(verifyFK(tab, t->objName, t->attribute[i]) == 0)
 			printf("ERROR: attribute FK cannot be references");
 			return;
 		}
