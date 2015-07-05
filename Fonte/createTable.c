@@ -2,7 +2,7 @@
 #include "buffend.h"
 
 
-int verifyFK(table *tab, char *tableName, char* attr){
+int verifyFK(table *tab, char *tableName, int attr){
     if(verificaNomeTabela(tableName)){
         struct fs_objects objeto = leObjeto(tableName);
         tp_table *esquema = leSchema(objeto);
@@ -11,11 +11,6 @@ int verifyFK(table *tab, char *tableName, char* attr){
             printf("error: Não foi possível criar o esquema.\n");
             return 0;
         }
-
-        int x, erro = SUCCESS;
-
-        for(x = 0; erro == SUCCESS; x++)
-            erro = colocaTuplaBuffer(bufferpoll, x, esquema, objeto);
 
         for(; esquema != NULL; esquema = esquema->next){
             if(objcmp(esquema->nome, tableName) == 0){
