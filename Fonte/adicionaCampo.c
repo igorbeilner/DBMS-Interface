@@ -10,7 +10,7 @@ table *adicionaCampo(table *t,char *nomeCampo, char tipoCampo, int tamanhoCampo,
 
 
         tp_table *e = (tp_table *)malloc(sizeof(tp_table));
-        memset(e, 0, sizeof(*e));
+        memset(e, 0, sizeof(tp_table));
         if (e == NULL) {
             return ERRO_DE_ALOCACAO;
         }
