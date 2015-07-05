@@ -41,30 +41,35 @@ void imprime(char nomeTabela[]) {
 
         for(j=0; j < objeto.qtdCampos; j++){
             if(pagina[j].tipoCampo == 'S')
-                printf(" %-20s |", pagina[j].nomeCampo);
+                printf(" %-20s ", pagina[j].nomeCampo);
         	else
-                printf(" %-10s |", pagina[j].nomeCampo);
+                printf(" %-10s ", pagina[j].nomeCampo);
+            if(j<objeto.qtdCampos-1)
+            	printf("|");
         }
         printf("\n");
         for(j=0; j < objeto.qtdCampos; j++){
-            printf("%s",(pagina[j].tipoCampo == 'S')? "----------------------+": "------------+");
+            printf("%s",(pagina[j].tipoCampo == 'S')? "----------------------": "------------");
+            if(j<objeto.qtdCampos-1)
+            	printf("+");
         }
         printf("\n");
 		for(j=0; j < objeto.qtdCampos*bufferpoll[p].nrec; j++){
         	if(pagina[j].tipoCampo == 'S')
-            	printf(" %-20s |", pagina[j].valorCampo);
+            	printf(" %-20s ", pagina[j].valorCampo);
         	else if(pagina[j].tipoCampo == 'I'){
             	int *n = (int *)&pagina[j].valorCampo[0];
-            	printf(" %-10d |", *n);
+            	printf(" %-10d ", *n);
         	} else if(pagina[j].tipoCampo == 'C'){
-            	printf(" %-10c |", pagina[j].valorCampo[0]);
+            	printf(" %-10c ", pagina[j].valorCampo[0]);
         	} else if(pagina[j].tipoCampo == 'D'){
             	double *n = (double *)&pagina[j].valorCampo[0];
-    	        printf(" %-10f |", *n);
+    	        printf(" %-10f ", *n);
         	}
-            if(j>=1 && ((j+1)%objeto.qtdCampos)==0){
+            if(j>=1 && ((j+1)%objeto.qtdCampos)==0)
             	printf("\n");
-        	}
+        	else
+        		printf("|");
     	}
     	x-=bufferpoll[p++].nrec;
     }
