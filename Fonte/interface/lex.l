@@ -62,9 +62,8 @@ help							return HELP;
 [\\][l]+[^ ^\n]*				{invalidCommand(yytext);};
 [\\][q]							return QUIT;
 [\\][q]+[^ ^\n]*				{invalidCommand(yytext);};
-[\\][d]							return LIST_TABLE;
-[\\][d]+[^t^ ^\n]*				{invalidCommand(yytext);};
-[\\][d]+[t]						return LIST_TABLES;
+[\\][d]+						return LIST_TABLES;
+[\\][d]+[t]						return LIST_TABLE;
 [\\][d]+[t][^ ^\n]*				{invalidCommand(yytext);};
 [ \t]+							/* ignore whitespace */;
 %%
