@@ -171,6 +171,7 @@ void showDB() {
        		printf("%-20s| Ibetres  | UTF8     | pt_BR.UTF-8 | pt_BR.UTF-8 | \n", vec_name[i]);
         }
     }
+
     printf("\n\n\n\n");
     fclose(DB);
 }
