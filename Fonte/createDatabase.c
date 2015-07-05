@@ -18,10 +18,6 @@ char connectDB(char *db_name) {
         fread(vec_name[i]  		,sizeof(char), LEN_DB_NAME, DB);
         fread(vec_directory[i] 	,sizeof(char), LEN_DB_NAME, DB);
 
-        printf("%d\n", valid);
-        printf("%s\n", vec_name[i]);
-        printf("%s\n", vec_directory[i]);
-
         if(objcmp(vec_name[i], db_name) == 0) {
         	if(valid) {
 	        	strcpylower(connected.db_directory, vec_directory[i]);
@@ -57,10 +53,11 @@ void createDB(char *db_name) {
         fread(vec_directory[i] 	,sizeof(char), LEN_DB_NAME, DB);
 
         if(objcmp(vec_name[i], db_name) == 0) {
-        	fclose(DB);
-        	printf("database already exists\n");
-            return;
-
+        	if(valid) {
+	        	fclose(DB);
+	        	printf("database already exists\n");
+	            return;
+	        }
         }
     }
 
@@ -94,11 +91,9 @@ void dropDatabase(char *db_name) {
 	int i;
 	char vec_name 				[QTD_DB][LEN_DB_NAME],
 		 vec_directory 			[QTD_DB][LEN_DB_NAME],
-		 vec_name2 				[QTD_DB][LEN_DB_NAME],
-		 vec_directory2 			[QTD_DB][LEN_DB_NAME],
-		 valid, valid2;
+		 valid;
 
-    if((DB = fopen("DB.dat","rb")) == NULL) {
+    if((DB = fopen("DB.dat","r+b")) == NULL) {
        	printf("error opening the file\n");
     }
 
@@ -111,20 +106,15 @@ void dropDatabase(char *db_name) {
 
         if(objcmp(vec_name[i], db_name) == 0) {
         	if(valid) {
-	        	valid2 = 0;
-	        	fseek(DB, ((LEN_DB_NAME*2+1)*(i+1))-1, SEEK_SET);
-	        	fwrite(&valid2 ,sizeof(char), 1, DB);
+	        	valid = 0;
+	        	fseek(DB, ((LEN_DB_NAME*2+1)*i), SEEK_SET);
+	        	fwrite(&valid ,sizeof(char), 1, DB);
 
-	        	fseek(DB, ((LEN_DB_NAME*2+1)*(i+1))-1, SEEK_SET);
+	        	char directory[LEN_DB_NAME*2] = "rm ";
+	        	strcat(directory, vec_directory[i]);
+	        	strcat(directory, " -R\0");
 
-	        	fread(&valid2			,sizeof(char), 			 1, DB);
-        		fread(vec_name2[i]  		,sizeof(char), LEN_DB_NAME, DB);
-        		fread(vec_directory2[i] 	,sizeof(char), LEN_DB_NAME, DB);
-
-
-        		printf("%d\n", valid);
-        		printf("%s\n", vec_name[i]);
-        		printf("%s\n", vec_directory[i]);
+	        	system(directory);
 
 	        	fclose(DB);
 	        	printf("DROP DATABASE\n");
