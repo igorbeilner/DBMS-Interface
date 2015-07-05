@@ -19,7 +19,7 @@ int excluirTabela(char *nomeTabela) {
     char dat[5] = ".dat";
 
     if (!verificaNomeTabela(nomeTabela)) {
-        printf("error: A tabela \"%s\" não existe neste banco de dados.\n", nomeTabela);
+        printf("ERROR: table \"%s\" does not exist.\n", nomeTabela);
         return ERRO_NOME_TABELA;
     }
 
@@ -72,7 +72,7 @@ int excluirTabela(char *nomeTabela) {
                     for(l=0; l<objeto1.qtdCampos; l++) {
                         if(tab3[l].chave == FK) { //verifica se a outra tabela possui chave estrangeira. se sim, verifica se e da tabela anterior.
                             if(objcmp(nomeTabela, tab3[l].tabelaApt) == 0) {
-                                printf("error: Não é possível excluir a tabela '%s'. Existem referências em outras tabelas!\n", nomeTabela);
+                                printf("ERROR:  cannot drop table \"%s\" because other objects depend on it.\n", nomeTabela);
                                 return ERRO_CHAVE_ESTRANGEIRA;
                             }
                         }
@@ -88,7 +88,7 @@ int excluirTabela(char *nomeTabela) {
     tp_buffer *bufferpoll = initbuffer();
 
     if(bufferpoll == ERRO_DE_ALOCACAO){
-        printf("error: Memória insuficiente para o buffer.\n");
+        printf("ERROR: no memory available to allocate buffer.\n");
         return ERRO_LEITURA_DADOS;
     }
 
