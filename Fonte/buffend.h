@@ -467,3 +467,5 @@ void dbInit();
 void dropDatabase(char *db_name);
 
 void showDB();
+
+void clear();
