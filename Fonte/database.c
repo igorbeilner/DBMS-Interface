@@ -45,6 +45,11 @@ void createDB(char *db_name) {
        	printf("error opening the file\n");
     }
 
+    if(strlen(db_name) >= LEN_DB_NAME-1) {
+    	printf("very big name, it will be truncated\n");
+    	db_name[LEN_DB_NAME-1] = '\0';
+    }
+
     for(i=0; fgetc (DB) != EOF; i++) {
     	fseek(DB, -1, 1);
 
