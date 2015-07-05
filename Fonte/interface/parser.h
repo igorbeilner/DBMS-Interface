@@ -3,9 +3,6 @@
  * Essas funcções irão preencher uma estrutura, ou parte dela, e chamarão
  * as funções do banco de dados para executar as operações.
  */
-#include <stdlib.h>
-#include <stdio.h>
-
 #define OP_INSERT 			1
 #define OP_CREATE_TABLE 	2
 #define OP_DROP_TABLE 		3

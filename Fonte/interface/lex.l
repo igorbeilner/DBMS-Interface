@@ -4,7 +4,10 @@
 #include "parser.h"
 #include "y.tab.h"
 #define YY_DECL int yylex(rc_parser *parser)
+#define YY_NO_INPUT
 %}
+
+%option nounput
 
 %%
 
