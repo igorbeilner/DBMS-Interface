@@ -77,13 +77,10 @@ void insert(rc_insert *s_insert) {
 
 int typesCompatible(char table_type, char insert_type) {
 	return (table_type == 'D' && insert_type == 'I')
-		|| (table_type == 'S' && insert_type == 'I')
-		|| (table_type == 'C' && insert_type == 'I')
-		|| (table_type == 'S' && insert_type == 'D')
-		|| (table_type == 'S' && insert_type == 'C')
 		|| (table_type == 'D' && insert_type == 'D')
 		|| (table_type == 'I' && insert_type == 'I')
 		|| (table_type == 'S' && insert_type == 'S')
+		|| (table_type == 'S' && insert_type == 'C')
 		|| (table_type == 'C' && insert_type == 'C');
 }
 
