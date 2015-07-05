@@ -22,15 +22,17 @@ void printTable(char *tbl){
 
 		printf(" %-10s | %-10s | %-10s | %-10s\n", "Schema", "Name", "Type", "Owner");
 		printf("------------+------------+------------+-------\n");
+		int i=0;
 		while(fgetc (dicionario) != EOF){
 			fseek(dicionario, -1, 1);
 			fread(tupla, sizeof(char), TAMANHO_NOME_TABELA, dicionario);
 			printf(" %-10s | %-10s | %-10s | %-10s\n", "public", tupla, "tuple", "ibetres");
 			fseek(dicionario, 28, 1);
+			i++;
 		}
 		fclose(dicionario);
 		free(tupla);
-		printf("\n\n");
+		printf("(%d %s)\n\n", i, (i==1)? "row": "rows");
 	} else{               //mostra todos atributos da tabela *tbl
 
 		if(!verificaNomeTabela(tbl)) {
@@ -38,10 +40,9 @@ void printTable(char *tbl){
 			return;
 		}
 
-		printf("Table: public.%s\n", tbl);
-		printf(" Column    | Type\n");
-		printf("----------------------\n");
-
+		printf("	Table \"public.%s\"\n", tbl);
+		printf(" %-10s | %-10s | %-10s\n", "Column", "Type", "Modifiers");
+		printf("------------+------------+-----------\n");
 
 		struct fs_objects objeto1;
 		tp_table *esquema1;
@@ -54,18 +55,19 @@ void printTable(char *tbl){
 		int l;
 		for(l=0; l<objeto1.qtdCampos; l++) {
 
-			printf(" %s%-10s|", ((tab3[l].chave == PK)? "*":" "), tab3[l].nome);
+			printf(" %c%-10s|", ((tab3[l].chave == PK)? '*':' '), tab3[l].nome);
 
 			if(tab3[l].tipo == 'S')
-				printf(" varchar(%d)\n", tab3[l].tam);
+				printf("%-10s%d)|", " varchar(", tab3[l].tam);
 			else if(tab3[l].tipo == 'I')
-				printf(" integer\n");
+				printf("%-10s  |", " integer");
 			else if(tab3[l].tipo == 'C')
-				printf(" char\n");
+				printf("%-10s  |", " char");
 			else if(tab3[l].tipo == 'D')
-				printf(" double\n");
+				printf("%-10s  |", " double");
+			printf("%-10s"," not null\n");
 		}
 		free(tab3);
-		printf("\n\n");
+		printf("\n");
 	}
 }
