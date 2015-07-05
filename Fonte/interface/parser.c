@@ -45,7 +45,7 @@ void setValueInsert(char *nome, char type) {
 
     // Adiciona o valor no vetor de strings
     GLOBAL_DATA.values[val_count] = malloc(sizeof(char)*(strlen(nome)+1));
-    if (type == 'I') {
+    if (type == 'I' || type == 'D') {
         strcpy(GLOBAL_DATA.values[val_count], nome);
         GLOBAL_DATA.values[val_count][strlen(nome)] = '\0';
     } else if (type == 'S') {
@@ -196,8 +196,9 @@ int interface() {
                 } else {
                     switch(GLOBAL_PARSER.mode) {
                         case OP_INSERT:
-                            if (GLOBAL_DATA.N > 0)
+                            if (GLOBAL_DATA.N > 0) {
                                 insert(&GLOBAL_DATA);
+                            }
                             else
                                 printf("warning: Nada para ser inserido, comando ignorado.\n");
                             break;
