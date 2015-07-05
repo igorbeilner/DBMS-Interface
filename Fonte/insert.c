@@ -81,7 +81,8 @@ int typesCompatible(char table_type, char insert_type) {
 		|| (table_type == 'I' && insert_type == 'I')
 		|| (table_type == 'S' && insert_type == 'S')
 		|| (table_type == 'S' && insert_type == 'C')
-		|| (table_type == 'C' && insert_type == 'C');
+		|| (table_type == 'C' && insert_type == 'C')
+		|| (table_type == 'C' && insert_type == 'S');
 }
 
 // Busca o valor na inserção *s_insert designado à *columnName.
