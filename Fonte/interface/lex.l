@@ -58,6 +58,8 @@ help							return HELP;
 
 [\\][c]							return CONNECT;
 [\\][c]+[^ ^\n]*				{invalidCommand(yytext);};
+[\\][l]							return LIST_DBASES;
+[\\][l]+[^ ^\n]*				{invalidCommand(yytext);};
 [\\][q]							return QUIT;
 [\\][q]+[^ ^\n]*				{invalidCommand(yytext);};
 [\\][d]							return LIST_TABLE;

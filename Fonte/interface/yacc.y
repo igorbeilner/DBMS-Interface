@@ -46,11 +46,12 @@ int yywrap() {
         CREATE      TABLE       INTEGER     VARCHAR     DOUBLE
         CHAR        PRIMARY     KEY         REFERENCES  DATABASE
         DROP        OBJECT      NUMBER      VALUE       QUIT
-        LIST_TABLES LIST_TABLE  ALPHANUM    CONNECT     HELP;
+        LIST_TABLES LIST_TABLE  ALPHANUM    CONNECT     HELP
+        LIST_DBASES;
 
 start: insert | select | create_table | create_database | drop_table | drop_database
      | table_attr | list_tables | connection | exit_program | semicolon {return 0;}
-     | parentesis_open | parentesis_close| help_pls | /*nothing*/;
+     | parentesis_open | parentesis_close| help_pls | list_databases | /*nothing*/;
 
 /*--------------------------------------------------*/
 /**************** GENERAL FUNCTIONS *****************/
@@ -83,6 +84,12 @@ list_tables: LIST_TABLES {
         printf("Você não está conectado\n");
     return 0;
 };
+
+/* LIST DATABASES */
+list_databases: LIST_DBASES {
+    showDB();
+    return 0;
+}
 
 /* HELP */
 help_pls: HELP {help(); return 0;}
