@@ -42,11 +42,12 @@ void createDB(char *db_name) {
          valid;
 
     if((DB = fopen("DB.dat","a+b")) == NULL) {
-       	printf("error opening the file\n");
+       	printf("ERROR: cannot open file\n");
+		return;
     }
 
     if(strlen(db_name) >= LEN_DB_NAME-1) {
-    	printf("very big name, it will be truncated\n");
+    	printf("WARNING: very big name, it will be truncated\n");
     	db_name[LEN_DB_NAME-1] = '\0';
     }
 
@@ -61,7 +62,7 @@ void createDB(char *db_name) {
         	if(valid) {
 	        	fclose(DB);
 				if(objcmp(db_name, "ibetres") != 0)
-	        		printf("database already exists\n");
+	        		printf("ERROR: database already exists\n");
 	            return;
 	        }
         }
@@ -103,12 +104,13 @@ void dropDatabase(char *db_name) {
 		 valid;
 
 	if(strcmp(db_name, connected.db_name) == 0) {
-		printf("not permitted exclusion\n");
+		printf("ERROR: not permitted exclusion\n");
 		return;
 	}
 
     if((DB = fopen("DB.dat","r+b")) == NULL) {
-       	printf("error opening the file\n");
+       	printf("ERROR: cannot open file\n");
+		return;
     }
 
     for(i=0; fgetc (DB) != EOF; i++) {
@@ -138,6 +140,6 @@ void dropDatabase(char *db_name) {
     }
     fclose(DB);
 
-    printf("database does not exist\n");
+    printf("ERROR: database does not exist\n");
 
 }
