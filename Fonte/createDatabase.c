@@ -50,6 +50,7 @@ void createDB(char *db_name) {
         	fclose(DB);
         	printf("Banco ja existe\n");
             return;
+
         }
     }
 
