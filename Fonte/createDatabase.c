@@ -93,6 +93,11 @@ void dropDatabase(char *db_name) {
 		 vec_directory 			[QTD_DB][LEN_DB_NAME],
 		 valid;
 
+	if(strcmp(db_name, connected.db_name) == 0) {
+		printf("not permitted exclusion\n");
+		return;
+	}
+
     if((DB = fopen("DB.dat","r+b")) == NULL) {
        	printf("error opening the file\n");
     }
