@@ -14,9 +14,14 @@ int procuraSchemaArquivo(struct fs_objects objeto){
     FILE *schema, *newSchema;
     int cod = 0;
     char *tupla = (char *)malloc(sizeof(char) * 109);
+    memset(tupla, '\0', 109);
+
     tp_table *esquema = (tp_table *)malloc(sizeof(tp_table)*objeto.qtdCampos);
+    memset(esquema, 0, sizeof(tp_table)*objeto.qtdCampos);
 
     char directory[LEN_DB_NAME*2];
+    memset(&directory, '\0', LEN_DB_NAME*2);
+
     strcpy(directory, connected.db_directory);
     strcat(directory, "fs_schema.dat");
 
@@ -69,6 +74,7 @@ int procuraSchemaArquivo(struct fs_objects objeto){
     fclose(schema);
 
     char directoryex[LEN_DB_NAME*4];
+    memset(&directoryex, '\0', LEN_DB_NAME*4);
     strcpy(directoryex, connected.db_directory);
     strcat(directoryex, "fs_schema.dat");
 

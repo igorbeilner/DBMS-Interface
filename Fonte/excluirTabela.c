@@ -17,6 +17,7 @@ int excluirTabela(char *nomeTabela) {
     int x,erro, i, j, k, l, qtTable;
     char str[20];
     char dat[5] = ".dat";
+    memset(str, '\0', 20);
 
     if (!verificaNomeTabela(nomeTabela)) {
         printf("ERROR: table \"%s\" does not exist.\n", nomeTabela);
@@ -29,9 +30,12 @@ int excluirTabela(char *nomeTabela) {
     abreTabela(nomeTabela, &objeto, &esquema);
     qtTable = quantidadeTabelas();
 
-    char **tupla = malloc(sizeof(char)*qtTable);
-    for(i=0; i<qtTable; i++) {
+    char **tupla = (char **)malloc(sizeof(char **)*qtTable);
+    memset(tupla, 0, qtTable);
+
+    for (i=0; i < qtTable; i++) {
         tupla[i] = (char *)malloc(sizeof(char)*TAMANHO_NOME_TABELA);
+        memset(tupla[i], '\0', TAMANHO_NOME_TABELA);
     }
 
     tp_table *tab2 = (tp_table *)malloc(sizeof(struct tp_table));
@@ -40,6 +44,8 @@ int excluirTabela(char *nomeTabela) {
     FILE *dicionario;
 
     char directory[LEN_DB_NAME*2];
+    memset(directory, '\0', LEN_DB_NAME*2);
+
     strcpy(directory, connected.db_directory);
     strcat(directory, "fs_object.dat");
 
