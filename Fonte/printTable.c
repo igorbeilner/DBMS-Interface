@@ -8,8 +8,7 @@ Objetivo: Mostrar as tabelas do banco de dados ou, em específico, os atributos 
 void printTable(char *tbl){
 	if(tbl == NULL){     //mostra todas as tabelas do banco
 		FILE *dicionario;
-		printf(" Tabelas da base de dados:\n");
-		printf("---------------------------\n");
+		printf("		List of Relations\n");
 		char *tupla = (char *)malloc(sizeof(char)*TAMANHO_NOME_TABELA);
 
 		char directory[LEN_DB_NAME*2];
@@ -21,10 +20,12 @@ void printTable(char *tbl){
 			exit(1);
 		}
 
+		printf(" %-10s | %-10s | %-10s | %-10s\n", "Schema", "Name", "Type", "Owner");
+		printf("------------+------------+------------+-------\n");
 		while(fgetc (dicionario) != EOF){
 			fseek(dicionario, -1, 1);
 			fread(tupla, sizeof(char), TAMANHO_NOME_TABELA, dicionario);
-			printf(" %s\n", tupla);
+			printf(" %-10s | %-10s | %-10s | %-10s\n", "public", tupla, "tuple", "ibetres");
 			fseek(dicionario, 28, 1);
 		}
 		fclose(dicionario);
