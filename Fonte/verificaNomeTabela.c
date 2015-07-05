@@ -10,6 +10,7 @@ int verificaNomeTabela(char *nomeTabela) {
     strcpy(directory, connected.db_directory);
     strcat(directory, "fs_object.dat");
 
+
     if((dicionario = fopen(directory,"a+b")) == NULL){
         free(tupla);
         return ERRO_ABRIR_ARQUIVO;
