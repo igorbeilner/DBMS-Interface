@@ -15,8 +15,8 @@ void help() {
 	printf("CREATE DATABASE NOME;\t\t\t\t- Cria um novo banco de dados\n");
 	printf("\nDROP DATABASE NOME;\t\t\t\t- Exclui um banco de dados\n");
 	printf("\nCREATE TABLE NOME (\t\t\t\t- Cria uma nova tabela. Onde 'type' deve\n");
-	printf("\tcolumn1 type [attribute][,\t\t  pertencer à {int, integer, double, varchar(SIZE)}. E\n");
-	printf("\t...][,\t\t\t\t\t  'attribute' pode ser 'PRIMARY KEY', caso seja PK,\n");
+	printf("\tcolumn1 type [attribute][,\t\t  pertencer à {int, integer, double, varchar(SIZE), char}.\n");
+	printf("\t...][,\t\t\t\t\t  E 'attribute' pode ser 'PRIMARY KEY', caso seja PK,\n");
 	printf("\tcolumnN type [attribute]]\t\t  ou 'REFERENCES NOME(COLUMN)', indicando a tabela\n");
 	printf(");\t\t\t\t\t\t  e a coluna que está referenciando (FK).\n");
 	printf("\nDROP TABLE NOME;\t\t\t\t- Exclui uma tabela do banco de dados\n");
