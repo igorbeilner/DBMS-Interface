@@ -42,6 +42,7 @@
 	\c ibetres
 
 	\d
+
 # Voltando para o banco "myDB":
 	\c myDB
 
@@ -102,3 +103,6 @@
 
 # Executando o comando abaixo, veremos que o banco "myDB" foi excluído:
 	\l
+
+# Para sair do shell do SGBD Ibetres, digite:
+	\q
