@@ -33,7 +33,7 @@ void printTable(char *tbl){
 	} else{               //mostra todos atributos da tabela *tbl
 
 		if(!verificaNomeTabela(tbl)) {
-			printf("error: A tabela '%s' não existe no banco de dados!\n", tbl);
+			printf("Did not find any relation named \"%s\".\n", tbl);
 			return;
 		}
 
