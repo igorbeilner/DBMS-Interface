@@ -32,6 +32,7 @@ help							return HELP;
 [\\][h]							return HELP;
 [\\][h]+[^ ^\n]*				{invalidCommand(yytext);};
 [\\][\?]						return HELP;
+(?i:CLEAR)						return CLEAR;
 
 [,]								return *yytext;
 [;]								return *yytext;
@@ -56,6 +57,7 @@ help							return HELP;
 								 		printf(">");
 								};
 
+[^][L]							return CLEAR;
 [\\][c]							return CONNECT;
 [\\][c]+[^ ^\n]*				{invalidCommand(yytext);};
 [\\][l]							return LIST_DBASES;

@@ -33,11 +33,12 @@ int yywrap() {
         CHAR        PRIMARY     KEY         REFERENCES  DATABASE
         DROP        OBJECT      NUMBER      VALUE       QUIT
         LIST_TABLES LIST_TABLE  ALPHANUM    CONNECT     HELP
-        LIST_DBASES;
+        LIST_DBASES CLEAR;
 
 start: insert | select | create_table | create_database | drop_table | drop_database
      | table_attr | list_tables | connection | exit_program | semicolon {return 0;}
-     | parentesis_open | parentesis_close| help_pls | list_databases | /*nothing*/;
+     | parentesis_open | parentesis_close| help_pls | list_databases | clear
+     | /*nothing*/;
 
 /*--------------------------------------------------*/
 /**************** GENERAL FUNCTIONS *****************/
@@ -48,6 +49,8 @@ connection: CONNECT OBJECT {connect(*yytext); return 0;};
 
 /* EXIT */
 exit_program: QUIT {exit(0);};
+
+clear: CLEAR {clear();};
 
 parentesis_open: '(' {GLOBAL_PARSER->parentesis++;};
 
