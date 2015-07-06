@@ -26,7 +26,8 @@ column * getPage(tp_buffer *buffer, tp_table *campos, struct fs_objects objeto, 
         if(j >= objeto.qtdCampos)
             j=0;
 
-        colunas[h].valorCampo = (char *)malloc(sizeof(char)*campos[j].tam);
+        colunas[h].valorCampo = (char *)malloc(sizeof(char)*campos[j].tam+1);
+        memset(colunas[h].valorCampo, '\0', campos[j].tam+1);
         colunas[h].tipoCampo = campos[j].tipo;  //Guarda tipo do campo
 
         strcpy(colunas[h].nomeCampo, campos[j].nome); //Guarda nome do campo
