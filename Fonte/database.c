@@ -5,9 +5,10 @@ char connectDB(char *db_name) {
 	int i;
 	char vec_name 				[QTD_DB][LEN_DB_NAME],
 		 vec_directory 			[QTD_DB][LEN_DB_NAME],
-		 valid;
+		 valid,
+		 directory 				[LEN_DB_NAME*2] = "data/";
 
-    if((DB = fopen("DB.dat","rb")) == NULL) {
+    if((DB = fopen("data/DB.dat","rb")) == NULL) {
        	return ERRO_ABRIR_ARQUIVO;
     }
 
@@ -20,7 +21,8 @@ char connectDB(char *db_name) {
 
         if(objcmp(vec_name[i], db_name) == 0) {
         	if(valid) {
-	        	strcpylower(connected.db_directory, vec_directory[i]);
+        		strcat(directory, vec_directory[i]);
+	        	strcpylower(connected.db_directory, directory);
 	        	fclose(DB);
 	        	return SUCCESS;
 	        }
@@ -37,11 +39,11 @@ void createDB(char *db_name) {
 	int i, len;
 	char vec_name 				[QTD_DB][LEN_DB_NAME],
 		 vec_directory 			[QTD_DB][LEN_DB_NAME],
-		 create 				[LEN_DB_NAME+6] = "mkdir ",
+		 create 				[LEN_DB_NAME+6] = "mkdir data/",
          *aux_name_tolower,
          valid;
 
-    if((DB = fopen("DB.dat","a+b")) == NULL) {
+    if((DB = fopen("data/DB.dat","a+b")) == NULL) {
        	printf("ERROR: cannot open file\n");
 		return;
     }
@@ -89,7 +91,7 @@ void createDB(char *db_name) {
     strcat(create, aux_name_tolower);
 
 	if(system(create) == -1)
-		printf("ERROR: It was not possible to create the database\n");;
+		printf("ERROR: It was not possible to create the database\n");
 
     fclose(DB);
     free(SGBD);
@@ -112,7 +114,7 @@ void dropDatabase(char *db_name) {
 		return;
 	}
 
-    if((DB = fopen("DB.dat","r+b")) == NULL) {
+    if((DB = fopen("data/DB.dat","r+b")) == NULL) {
        	printf("ERROR: cannot open file\n");
 		return;
     }
@@ -130,7 +132,7 @@ void dropDatabase(char *db_name) {
 	        	fseek(DB, ((LEN_DB_NAME*2+1)*i), SEEK_SET);
 	        	fwrite(&valid ,sizeof(char), 1, DB);
 
-	        	char directory[LEN_DB_NAME*2] = "rm ";
+	        	char directory[LEN_DB_NAME*2] = "rm data/";
 	        	strcat(directory, vec_directory[i]);
 	        	strcat(directory, " -R\0");
 
@@ -156,7 +158,7 @@ void showDB() {
 		 vec_directory 			[QTD_DB][LEN_DB_NAME],
 		 valid;
 
-    if((DB = fopen("DB.dat","r+b")) == NULL) {
+    if((DB = fopen("data/DB.dat","r+b")) == NULL) {
        	printf("ERROR: cannot open file\n");
 		return;
     }
