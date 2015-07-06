@@ -12,7 +12,7 @@ void connect(char *nome) {
         strcpylower(connected.db_name, nome);
 
         connected.conn_active = 1;
-        printf("You are now connected to database \"%s\".\n", nome);
+        printf("You are now connected to database \"%s\" as user \"Ibetres\".\n", nome);
     } else {
     	printf("ERROR: Failed to establish connection with database named \"%s\". (Error code: %d)\n", nome, r);
     }
