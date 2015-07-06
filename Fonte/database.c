@@ -71,6 +71,7 @@ void createDB(char *db_name) {
     }
 
     if(i >= QTD_DB) {
+    	fclose(DB);
     	printf("ERROR: The amount of databases in this machine exceeded the limit.\n");
     	return;
     }
@@ -97,6 +98,7 @@ void createDB(char *db_name) {
 
 	if(system(create) == -1) {			//verifica se foi possivel criar o diretorio
 		printf("ERROR: It was not possible to create the database\n");
+		fclose(DB);
 		return;
 	}
 

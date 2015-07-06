@@ -23,6 +23,7 @@ int verificaNomeTabela(char *nomeTabela) {
 
         if(objcmp(tupla, nomeTabela) == 0){ // Verifica se o nome dado pelo usuario existe no dicionario de dados.
             free(tupla);
+            fclose(dicionario);
             return 1;
         }
 
