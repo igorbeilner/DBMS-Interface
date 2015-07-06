@@ -58,9 +58,13 @@ insert into Paciente values (1158754,'pRegis',9,'Florianopolis','sarampo');
 insert into Paciente values (1158755,'pEliton',11,'Caibi','tetano');
 insert into Paciente values (1158756,'pRicardo',8,'Xanxere','catarata');
 
-insert into Consulta values (015875127,1158750,'01/07/2014', '14:15:00');
+insert into Consulta values (015875123,1158750,'01/07/2014', '14:15:00');
 insert into Consulta values (015875124,1158751,'02/07/2014', '14:15:00');
 insert into Consulta values (015875125,1158752,'03/07/2014', '15:25:00');
+insert into Consulta values (015875126,1158753,'03/07/2014', '15:25:00');
+insert into Consulta values (015875127,1158754,'03/07/2014', '15:25:00');
+insert into Consulta values (015875128,1158755,'03/07/2014', '15:25:00');
+insert into Consulta values (015875129,1158756,'03/07/2014', '15:25:00');
 
 insert into Funcionario values (2158750,'fLucas',20,'Xanxere',2537.00);
 insert into Funcionario values (2158751,'fRafael',23,'Chapeco',1537.00);
@@ -69,3 +73,4 @@ insert into Funcionario values (2158753,'fMarcos',30,'Pato_Branco',2000.00);
 insert into Funcionario values (2158754,'fRegis',33,'Chapeco',1200.00);
 insert into Funcionario values (2158755,'fEliton',24,'Caibi',1400.00);
 insert into Funcionario values (2158756,'fPaulo',27,'Chapeco',1400.00);
+
