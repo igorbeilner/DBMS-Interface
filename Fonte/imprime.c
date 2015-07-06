@@ -9,7 +9,7 @@
 
 void imprime(char nomeTabela[]) {
 
-    int j,erro, x, p;
+    int j,erro, x, p, cont=0;
     struct fs_objects objeto = leObjeto(nomeTabela);
 
     tp_table *esquema = leSchema(objeto);
@@ -44,21 +44,24 @@ void imprime(char nomeTabela[]) {
             return;
 	    }
 
-        for(j=0; j < objeto.qtdCampos; j++){
-            if(pagina[j].tipoCampo == 'S')
-                printf(" %-20s ", pagina[j].nomeCampo);
-        	else
-                printf(" %-10s ", pagina[j].nomeCampo);
-            if(j<objeto.qtdCampos-1)
-            	printf("|");
-        }
-        printf("\n");
-        for(j=0; j < objeto.qtdCampos; j++){
-            printf("%s",(pagina[j].tipoCampo == 'S')? "----------------------": "------------");
-            if(j<objeto.qtdCampos-1)
-            	printf("+");
-        }
-        printf("\n");
+	    if(!cont) {
+	        for(j=0; j < objeto.qtdCampos; j++){
+	            if(pagina[j].tipoCampo == 'S')
+	                printf(" %-20s ", pagina[j].nomeCampo);
+	        	else
+	                printf(" %-10s ", pagina[j].nomeCampo);
+	            if(j<objeto.qtdCampos-1)
+	            	printf("|");
+	        }
+	        printf("\n");
+	        for(j=0; j < objeto.qtdCampos; j++){
+	            printf("%s",(pagina[j].tipoCampo == 'S')? "----------------------": "------------");
+	            if(j<objeto.qtdCampos-1)
+	            	printf("+");
+	        }
+	        printf("\n");
+	    }
+	    cont++;
 		for(j=0; j < objeto.qtdCampos*bufferpoll[p].nrec; j++){
         	if(pagina[j].tipoCampo == 'S')
             	printf(" %-20s ", pagina[j].valorCampo);
