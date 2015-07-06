@@ -6,4 +6,4 @@ prog: *.c interface/*.c interface/*.h
 clean:
 	rm Ibetres
 	rm *.dat
-	rm ibetres/ -R
+	rm data/ -R
