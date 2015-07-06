@@ -19,9 +19,9 @@ char connectDB(char *db_name) {
         fread(vec_name[i]  		,sizeof(char), LEN_DB_NAME, DB);
         fread(vec_directory[i] 	,sizeof(char), LEN_DB_NAME, DB);
 
-        if(objcmp(vec_name[i], db_name) == 0) {
+        if(objcmp(vec_name[i], db_name) == 0) {				//verifica se encontrou o banco
         	if(valid) {
-        		strcat(directory, vec_directory[i]);
+        		strcat(directory, vec_directory[i]); 			// atualiza o diretorio do banco que esta conectado
 	        	strcpylower(connected.db_directory, directory);
 	        	fclose(DB);
 	        	return SUCCESS;
@@ -63,11 +63,16 @@ void createDB(char *db_name) {
         if(objcmp(vec_name[i], db_name) == 0) {
         	if(valid) {
 	        	fclose(DB);
-				if(objcmp(db_name, "ibetres") != 0)
+				if(objcmp(db_name, "ibetres") != 0) 			// banco de dados ja existe
 	        		printf("ERROR: database already exists\n");
 	            return;
 	        }
         }
+    }
+
+    if(i >= QTD_DB) {
+    	printf("ERROR: Was not possivle create the database, exceeded amount\n");
+    	return;
     }
 
     data_base *SGBD;
@@ -90,8 +95,10 @@ void createDB(char *db_name) {
     strcpylower(aux_name_tolower, db_name);
     strcat(create, aux_name_tolower);
 
-	if(system(create) == -1)
+	if(system(create) == -1) {			//verifica se foi possivel criar o diretorio
 		printf("ERROR: It was not possible to create the database\n");
+		return;
+	}
 
     fclose(DB);
     free(SGBD);
@@ -129,8 +136,8 @@ void dropDatabase(char *db_name) {
         if(objcmp(vec_name[i], db_name) == 0) {
         	if(valid) {
 	        	valid = 0;
-	        	fseek(DB, ((LEN_DB_NAME*2+1)*i), SEEK_SET);
-	        	fwrite(&valid ,sizeof(char), 1, DB);
+	        	fseek(DB, ((LEN_DB_NAME*2+1)*i), SEEK_SET); 	// posiciona o cabecote sobre o byte de validade
+	        	fwrite(&valid ,sizeof(char), 1, DB);			// do banco e apaga ele
 
 	        	char directory[LEN_DB_NAME*2] = "rm data/";
 	        	strcat(directory, vec_directory[i]);
