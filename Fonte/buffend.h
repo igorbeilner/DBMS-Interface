@@ -456,20 +456,48 @@ void help();
  */
 int objcmp(char *obj, char *str);
 
+/* strcpylower: Recebe duas strings dest e src,
+ *              copia src para dest em minúsculo
+ */
 void strcpylower(char *dest, char *src);
 
+/* strncpylower: Recebe duas strings dest e src e o tamanho de src,
+ *               copia src para dest em minúsculo no tamanho length
+ */
 void strncpylower(char *dest, char *src, int length);
 
+/* createTable: Recebe uma estrutura contendo os parâmetros do CREATE TABLE
+ *              e cria uma tabela no banco corrente
+ */
 void createTable(rc_insert *t);
 
+/* createDB: Recebe um nome para criar um banco de dados
+ *           cria o banco, caso ainda não exista
+ */
 void createDB(char *db_name);
 
+/* connectDB: Recebe o nome de um banco de dadados
+ *            conecta-se com o banco, caso exista
+ */
 char connectDB(char *db_name);
 
+/* dbInit: cria o banco de dados padrão
+ *         com o nome "ibetres", caso não exista
+ */
 void dbInit();
 
+/* dropDatabase: Recebe o nome de um banco de dados
+ *               deleta o banco, caso o banco exista
+ *               e o usuário esteja conectado em outro banco
+ */
 void dropDatabase(char *db_name);
 
+/* showDB: lista todos os bancos do SGBD "\l"
+ *
+ */
 void showDB();
 
+/* clear: limpa o shell do SGBD
+ *
+ */
 void clear();
