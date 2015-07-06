@@ -57,7 +57,6 @@ help							return HELP;
 								 		printf(">");
 								};
 
-[^][L]							return CLEAR;
 [\\][c]							return CONNECT;
 [\\][c]+[^ ^\n]*				{invalidCommand(yytext);};
 [\\][l]							return LIST_DBASES;

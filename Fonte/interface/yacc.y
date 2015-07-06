@@ -50,7 +50,7 @@ connection: CONNECT OBJECT {connect(*yytext); return 0;};
 /* EXIT */
 exit_program: QUIT {exit(0);};
 
-clear: CLEAR {clear();};
+clear: CLEAR {clear(); return 0;};
 
 parentesis_open: '(' {GLOBAL_PARSER->parentesis++;};
 
