@@ -58,7 +58,7 @@ int finalizaInsert(char *nome, column *c){
 
 
     if (erro == ERRO_CHAVE_ESTRANGEIRA){
-        printf("ERROR: unknow foreign key error.\n");
+        printf("ERROR: unknown foreign key error.\n");
         free(c);    // Libera a memoria da estrutura.
 		free(auxT); // Libera a memoria da estrutura.
 		free(temp); // Libera a memoria da estrutura.
@@ -68,7 +68,7 @@ int finalizaInsert(char *nome, column *c){
     }
 
     if (erro == ERRO_CHAVE_PRIMARIA){
-        printf("ERROR: unknow primary key error.\n");
+        printf("ERROR: unknown primary key error.\n");
         free(c);    // Libera a memoria da estrutura.
 		free(auxT); // Libera a memoria da estrutura.
 		free(temp); // Libera a memoria da estrutura.
