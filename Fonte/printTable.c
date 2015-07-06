@@ -20,13 +20,13 @@ void printTable(char *tbl){
 			exit(1);
 		}
 
-		printf(" %-10s | %-10s | %-10s | %-10s\n", "Schema", "Name", "Type", "Owner");
-		printf("------------+------------+------------+-------\n");
+		printf(" %-10s | %-15s | %-10s | %-10s\n", "Schema", "Name", "Type", "Owner");
+		printf("------------+-----------------+------------+-------\n");
 		int i=0;
 		while(fgetc (dicionario) != EOF){
 			fseek(dicionario, -1, 1);
 			fread(tupla, sizeof(char), TAMANHO_NOME_TABELA, dicionario);
-			printf(" %-10s | %-10s | %-10s | %-10s\n", "public", tupla, "tuple", "ibetres");
+			printf(" %-10s | %-15s | %-10s | %-10s\n", "public", tupla, "tuple", "ibetres");
 			fseek(dicionario, 28, 1);
 			i++;
 		}
@@ -41,8 +41,8 @@ void printTable(char *tbl){
 		}
 
 		printf("	  Table \"public.%s\"\n", tbl);
-		printf(" %-11s | %-12s | %-10s\n", "Column", "Type", "Modifiers");
-		printf("-------------+--------------+-----------\n");
+		printf(" %-18s | %-12s | %-10s\n", "Column", "Type", "Modifiers");
+		printf("--------------------+--------------+-----------\n");
 
 		struct fs_objects objeto1;
 		tp_table *esquema1;
@@ -68,7 +68,7 @@ void printTable(char *tbl){
 				strcpylower(refColumn[ifk++], tab3[l].nome);
 			}
 
-			printf("  %-10s |", tab3[l].nome);
+			printf("  %-17s |", tab3[l].nome);
 
 			if(tab3[l].tipo == 'S')
 				printf(" %-8s(%d) |", " varchar", tab3[l].tam);
