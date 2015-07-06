@@ -7,7 +7,7 @@ int verifyFK(char *tableName, char *column){
         struct fs_objects objeto = leObjeto(tableName);
         tp_table *esquema = leSchema(objeto);
 		if(esquema == ERRO_ABRIR_ESQUEMA){
-            printf("ERROR: cannot crate schema.\n");
+            printf("ERROR: cannot create schema.\n");
             return 0;
         }
 
@@ -80,7 +80,7 @@ void createTable(rc_insert *t) {
         tab = adicionaCampo(tab, t->columnName[i], t->type[i], size, t->attribute[i], fkTable, fkColumn);
         if((objcmp(fkTable, "") != 0) || (objcmp(fkColumn, "") != 0)){
             if(verifyFK(fkTable, fkColumn) == 0){
-    			printf("ERROR: attribute FK cannot be references\n");
+    			printf("ERROR: attribute FK cannot be referenced\n");
                 free(tableName);
                 return;
     		}

@@ -49,7 +49,7 @@ void createDB(char *db_name) {
     }
 
     if(strlen(db_name) >= LEN_DB_NAME-1) {
-    	printf("WARNING: very big name, it will be truncated\n");
+    	printf("WARNING: database name is too long, it will be truncated\n");
     	db_name[LEN_DB_NAME-1] = '\0';
     }
 
@@ -71,7 +71,7 @@ void createDB(char *db_name) {
     }
 
     if(i >= QTD_DB) {
-    	printf("ERROR: Was not possivle create the database, exceeded amount\n");
+    	printf("ERROR: The amount of databases in this machine exceeded the limit.\n");
     	return;
     }
 
