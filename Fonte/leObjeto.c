@@ -47,6 +47,7 @@ struct fs_objects leObjeto(char *nTabela){
             objeto.qtdCampos = cod;
 
             free(tupla);
+            fclose(dicionario);
             return objeto;
         }
         fseek(dicionario, 28, 1); // Pula a quantidade de caracteres para a proxima verificacao(4B do codigo, 20B do nome do arquivo e 4B da quantidade de campos).

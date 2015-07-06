@@ -59,5 +59,7 @@ tp_table *procuraAtributoFK(struct fs_objects objeto){
     free(tupla);
 	free(esquema);
 
+	fclose(schema);
+
     return vetEsqm;
 }
