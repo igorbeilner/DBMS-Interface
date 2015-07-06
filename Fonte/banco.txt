@@ -61,10 +61,6 @@ insert into Paciente values (1158756,'pRicardo',8,'Xanxere','catarata');
 insert into Consulta values (015875127,1158750,'01/07/2014', '14:15:00');
 insert into Consulta values (015875124,1158751,'02/07/2014', '14:15:00');
 insert into Consulta values (015875125,1158752,'03/07/2014', '15:25:00');
-insert into Consulta values (015875125,1158753,'05/07/2014', '16:40:00');
-insert into Consulta values (015875124,1158754,'05/07/2014', '17:00:00');
-insert into Consulta values (015875125,1158755,'06/08/2014', '15:45:00');
-insert into Consulta values (015875127,1158756,'09/09/2014', '16:30:00');
 
 insert into Funcionario values (2158750,'fLucas',20,'Xanxere',2537.00);
 insert into Funcionario values (2158751,'fRafael',23,'Chapeco',1537.00);
