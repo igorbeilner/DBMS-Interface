@@ -28,5 +28,7 @@ int colocaTuplaBuffer(tp_buffer *buffer, int from, tp_table *campos, struct fs_o
         return ERRO_BUFFER_CHEIO;
     }
 
+
+    free(tupla);
     return SUCCESS;
 }

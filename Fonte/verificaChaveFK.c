@@ -17,6 +17,7 @@ int verificaChaveFK(char *nomeTabela,column *c, char *nomeCampo, char *valorCamp
     struct fs_objects objeto;
     tp_table *tabela;
     tp_buffer *bufferpoll;
+    column *pagina = NULL;
 
     strcpylower(str, tabelaApt);
     strcat(str, dat);              //Concatena e junta o nome com .dat
@@ -40,7 +41,8 @@ int verificaChaveFK(char *nomeTabela,column *c, char *nomeCampo, char *valorCamp
         erro = colocaTuplaBuffer(bufferpoll, x, tabela, objeto);
 
     for (page = 0; page < PAGES; page++) {
-        column *pagina = getPage(bufferpoll, tabela, objeto, page);
+        if (pagina) free(pagina);
+        pagina = getPage(bufferpoll, tabela, objeto, page);
         if (!pagina) break;
 
         for(j = 0; j < objeto.qtdCampos * bufferpoll[page].nrec; j++){
@@ -49,6 +51,7 @@ int verificaChaveFK(char *nomeTabela,column *c, char *nomeCampo, char *valorCamp
 
                     if(pagina[j].tipoCampo == 'S'){
                         if(objcmp(pagina[j].valorCampo, valorCampo) == 0){
+                            free(pagina);
                             free(bufferpoll);
                             free(tabela);
                             return SUCCESS;
@@ -56,6 +59,7 @@ int verificaChaveFK(char *nomeTabela,column *c, char *nomeCampo, char *valorCamp
                     } else if(pagina[j].tipoCampo == 'I'){
                         int *n = (int *)&pagina[j].valorCampo[0];
                         if(*n == atoi(valorCampo)){
+                            free(pagina);
                             free(bufferpoll);
                             free(tabela);
                             return SUCCESS;
@@ -64,17 +68,20 @@ int verificaChaveFK(char *nomeTabela,column *c, char *nomeCampo, char *valorCamp
                         double *nn = (double *)&pagina[j].valorCampo[0];
 
                         if(*nn == atof(valorCampo)){
+                            free(pagina);
                             free(bufferpoll);
                             free(tabela);
                             return SUCCESS;
                         }
                     } else if(pagina[j].tipoCampo == 'C'){
                         if(pagina[j].valorCampo == valorCampo){
+                            free(pagina);
                             free(bufferpoll);
                             free(tabela);
                             return SUCCESS;
                         }
                     } else {
+                        free(pagina);
                         free(bufferpoll);
                         free(tabela);
                         return ERRO_CHAVE_ESTRANGEIRA;
@@ -84,6 +91,7 @@ int verificaChaveFK(char *nomeTabela,column *c, char *nomeCampo, char *valorCamp
         }
     }
 
+    if (pagina) free(pagina);
     free(bufferpoll);
     free(tabela);
     return ERRO_CHAVE_ESTRANGEIRA;

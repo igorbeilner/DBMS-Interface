@@ -18,12 +18,12 @@ char getInsertedType(rc_insert *s_insert, char *columnName, table *tabela);
 int allColumnsExists(rc_insert *s_insert, table *tabela);
 
 void insert(rc_insert *s_insert) {
-
 	int i;
 	table *tabela = (table *)malloc(sizeof(table));
+	tabela->esquema = NULL;
 	memset(tabela, 0, sizeof(table));
 	column *colunas = NULL;
-	tp_table *esquema;
+	tp_table *esquema = NULL;
 	struct fs_objects objeto;
 	memset(&objeto, 0, sizeof(struct fs_objects));
 	char  flag=0;
@@ -74,7 +74,10 @@ void insert(rc_insert *s_insert) {
 	if (!flag)
 		if (finalizaInsert(s_insert->objName, colunas) == SUCCESS)
 			printf("INSERT 0 1\n");
-	free(tabela);
+
+	freeTp_table(esquema);
+	freeColumn(colunas);
+	freeTable(tabela);
 }
 
 int typesCompatible(char table_type, char insert_type) {

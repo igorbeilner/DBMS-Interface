@@ -95,6 +95,7 @@ void createDB(char *db_name) {
     aux_name_tolower = (char *)malloc(sizeof(char) * (strlen(db_name)+1));
     strcpylower(aux_name_tolower, db_name);
     strcat(create, aux_name_tolower);
+    free(aux_name_tolower);
 
 	if(system(create) == -1) {			//verifica se foi possivel criar o diretorio
 		printf("ERROR: It was not possible to create the database\n");

@@ -15,7 +15,8 @@ int existeAtributo(char *nomeTabela, column *c){
     memset(&objeto, 0, sizeof(struct fs_objects));
     tp_table *tabela;
     tp_buffer *bufferpoll;
-    column *aux;
+    column *aux = NULL;
+    column *pagina = NULL;
 
     if(iniciaAtributos(&objeto, &tabela, &bufferpoll, nomeTabela) != SUCCESS)
         return ERRO_DE_PARAMETRO;
@@ -24,7 +25,7 @@ int existeAtributo(char *nomeTabela, column *c){
     for(x = 0; erro == SUCCESS; x++)
         erro = colocaTuplaBuffer(bufferpoll, x, tabela, objeto);
 
-    column *pagina = getPage(bufferpoll, tabela, objeto, 0);
+    pagina = getPage(bufferpoll, tabela, objeto, 0);
 
     if(pagina == NULL){
         pagina = getPage(bufferpoll, tabela, objeto, 1);
@@ -41,12 +42,14 @@ int existeAtributo(char *nomeTabela, column *c){
             }
         }
         if(count != objeto.qtdCampos){
+            free(pagina);
             free(bufferpoll);
             free(tabela);
             return ERRO_DE_PARAMETRO;
         }
     }
 
+    free(pagina);
     free(bufferpoll);
     free(tabela);
     return SUCCESS;

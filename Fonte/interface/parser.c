@@ -78,16 +78,12 @@ void setColumnCreate(char **nome) {
     GLOBAL_DATA.type        = realloc(GLOBAL_DATA.type, (GLOBAL_PARSER.col_count+1)*sizeof(char *));
 
     GLOBAL_DATA.values[GLOBAL_PARSER.col_count] = malloc(sizeof(char));
-    GLOBAL_DATA.values[GLOBAL_PARSER.col_count] = 0;
-
     GLOBAL_DATA.fkTable[GLOBAL_PARSER.col_count] = malloc(sizeof(char));
-    GLOBAL_DATA.fkTable[GLOBAL_PARSER.col_count] = 0;
-
     GLOBAL_DATA.fkColumn[GLOBAL_PARSER.col_count] = malloc(sizeof(char));
-    GLOBAL_DATA.fkColumn[GLOBAL_PARSER.col_count] = 0;
-
     GLOBAL_DATA.columnName[GLOBAL_PARSER.col_count] = malloc(sizeof(char)*(strlen(*nome)+1));
+
     strcpylower(GLOBAL_DATA.columnName[GLOBAL_PARSER.col_count], *nome);
+
     GLOBAL_DATA.columnName[GLOBAL_PARSER.col_count][strlen(*nome)] = '\0';
     GLOBAL_DATA.type[GLOBAL_PARSER.col_count] = 0;
     GLOBAL_DATA.attribute[GLOBAL_PARSER.col_count] = NPK;
@@ -132,7 +128,6 @@ void clearGlobalStructs() {
 
     if (GLOBAL_DATA.objName)
         free(GLOBAL_DATA.objName);
-    GLOBAL_DATA.objName = (char *)malloc(sizeof(char *));
 
     for (i = 0; i < GLOBAL_DATA.N; i++ ) {
         if (GLOBAL_DATA.columnName)

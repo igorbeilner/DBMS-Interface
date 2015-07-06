@@ -12,6 +12,7 @@
 
 int verificaChavePK(char *nomeTabela, column *c, char *nomeCampo, char *valorCampo) {
     int j, x, erro, page;
+    column *pagina = NULL;
 
     struct fs_objects objeto;
     tp_table *tabela;
@@ -20,14 +21,14 @@ int verificaChavePK(char *nomeTabela, column *c, char *nomeCampo, char *valorCam
     erro = existeAtributo(nomeTabela, c);
     if (erro != SUCCESS ) {
         free(bufferpoll);
-        free(tabela);
+        freeTp_table(tabela);
         return ERRO_DE_PARAMETRO;
     }
 
 
     if (iniciaAtributos(&objeto, &tabela, &bufferpoll, nomeTabela) != SUCCESS) {
         free(bufferpoll);
-        free(tabela);
+        freeTp_table(tabela);
         return ERRO_DE_PARAMETRO;
     }
 
@@ -37,7 +38,8 @@ int verificaChavePK(char *nomeTabela, column *c, char *nomeCampo, char *valorCam
 
     page = 0;
     for (page = 0; page < PAGES; page++) {
-        column *pagina = getPage(bufferpoll, tabela, objeto, page);
+        if (pagina) free(pagina);
+        pagina = getPage(bufferpoll, tabela, objeto, page);
         if (!pagina) break;
 
         for(j = 0; j < objeto.qtdCampos * bufferpoll[page].nrec; j++){
@@ -45,26 +47,34 @@ int verificaChavePK(char *nomeTabela, column *c, char *nomeCampo, char *valorCam
                 if (objcmp(pagina[j].nomeCampo, nomeCampo) == 0) {
                     if (pagina[j].tipoCampo == 'S') {
                         if (objcmp(pagina[j].valorCampo, valorCampo) == 0){
+                            free(pagina);
                             free(bufferpoll);
-                            free(tabela);
+                            freeTp_table(tabela);
                             return ERRO_CHAVE_PRIMARIA;
                         }
                     } else if (pagina[j].tipoCampo == 'I') {
                         int *n = (int *)&pagina[j].valorCampo[0];
 
                         if (*n == atoi(valorCampo)) {
+                            free(pagina);
+                            free(bufferpoll);
+                            freeTp_table(tabela);
                             return ERRO_CHAVE_PRIMARIA;
                         }
                     } else if (pagina[j].tipoCampo == 'D'){
                         double *nn = (double *)&pagina[j].valorCampo[0];
 
                         if (*nn == atof(valorCampo)){
+                            free(pagina);
+                            free(bufferpoll);
+                            freeTp_table(tabela);
                             return ERRO_CHAVE_PRIMARIA;
                         }
                     } else if (pagina[j].tipoCampo == 'C'){
                         if (pagina[j].valorCampo == valorCampo){
+                            free(pagina);
                             free(bufferpoll);
-                            free(tabela);
+                            freeTp_table(tabela);
                             return ERRO_CHAVE_PRIMARIA;
                         }
                     }
@@ -73,7 +83,8 @@ int verificaChavePK(char *nomeTabela, column *c, char *nomeCampo, char *valorCam
         }
     }
 
+    if (pagina) free(pagina);
     free(bufferpoll);
-    free(tabela);
+    freeTp_table(tabela);
     return SUCCESS;
 }

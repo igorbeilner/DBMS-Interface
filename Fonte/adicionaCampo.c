@@ -2,6 +2,7 @@
 #include "buffend.h"
 
 table *adicionaCampo(table *t,char *nomeCampo, char tipoCampo, int tamanhoCampo, int tChave, char *tabelaApt, char *attApt){
+    tp_table *e = NULL;
 
     if(t == NULL) // Se a estrutura passada for nula, retorna erro.
         return ERRO_ESTRUTURA_TABELA_NULA;
@@ -9,7 +10,7 @@ table *adicionaCampo(table *t,char *nomeCampo, char tipoCampo, int tamanhoCampo,
     if(t->esquema == NULL){ // Se o campo for o primeiro a ser adicionado, adiciona campo no esquema.
 
 
-        tp_table *e = (tp_table *)malloc(sizeof(tp_table));
+        e = (tp_table *)malloc(sizeof(tp_table));
         memset(e, 0, sizeof(tp_table));
         if (e == NULL) {
             return ERRO_DE_ALOCACAO;
@@ -38,11 +39,13 @@ table *adicionaCampo(table *t,char *nomeCampo, char tipoCampo, int tamanhoCampo,
     } else {
         for(aux = t->esquema; aux != NULL; aux = aux->next){ // Anda até o final da estrutura de campos.
             if(aux->next == NULL){ // Adiciona um campo no final.
-                tp_table *e = (tp_table *)malloc(sizeof(tp_table));
-                   memset(e, 0, sizeof(*e));
+                e = (tp_table *)malloc(sizeof(tp_table));
+                memset(e, 0, sizeof(*e));
+
                 if (e == NULL) {
                     return ERRO_DE_ALOCACAO;
                 }
+
                 e->next = NULL;
 
                 int n = strlen(nomeCampo)+1;
@@ -50,6 +53,7 @@ table *adicionaCampo(table *t,char *nomeCampo, char tipoCampo, int tamanhoCampo,
                 if (n > TAMANHO_NOME_CAMPO) {
                     n = TAMANHO_NOME_CAMPO;
                 }
+
                 strncpylower(e->nome, nomeCampo,n); // Copia nome do campo passado para o esquema
                 e->tipo = tipoCampo; // Copia tipo do campo passado para o esquema
                 e->tam = tamanhoCampo; // Copia tamanho do campo passado para o esquema

@@ -11,8 +11,13 @@ tp_table *leSchema (struct fs_objects objeto){
     memset(tuplaT, 0, TAMANHO_NOME_TABELA+1);
 
     tp_table *esquema = (tp_table *)malloc(sizeof(tp_table)*(objeto.qtdCampos+1)); // Aloca esquema com a quantidade de campos necessarios.
-    memset(esquema, 0, sizeof(tp_table)*(objeto.qtdCampos+1));
+    memset(esquema, 0, (objeto.qtdCampos+1)*sizeof(tp_table));
+    for (i = 0; i < objeto.qtdCampos+1; i++) {
+        esquema[i].next = NULL;
+    }
 
+
+    i = 0;
     if(esquema == NULL){
         free(tupla);
         free(tuplaT);

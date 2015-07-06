@@ -52,10 +52,12 @@ void createTable(rc_insert *t) {
         return;
     }
 
-    table *tab = iniciaTabela(t->objName);    //cria a tabela
+    table *tab = NULL;
+    tab = iniciaTabela(t->objName);    //cria a tabela
 
     if(0 == verifyFieldName(t->columnName, t->N)){
         free(tableName);
+        freeTable(tab);
         return;
     }
     int i;
@@ -82,6 +84,7 @@ void createTable(rc_insert *t) {
             if(verifyFK(fkTable, fkColumn) == 0){
     			printf("ERROR: attribute FK cannot be referenced\n");
                 free(tableName);
+                freeTable(tab);
                 return;
     		}
         }
@@ -89,4 +92,5 @@ void createTable(rc_insert *t) {
 
     printf("%s\n",(finalizaTabela(tab) == SUCCESS)? "CREATE TABLE" : "ERROR: table already exist\n");
     free(tableName);
+    if (tab != NULL) freeTable(tab);
 }
