@@ -487,7 +487,7 @@ char connectDB(char *db_name);
 void dbInit();
 
 /* dropDatabase: Recebe o nome de um banco de dados
- *               deleta o banco, caso o banco exista
+ *               deleta o banco caso o banco exista
  *               e o usuário esteja conectado em outro banco
  */
 void dropDatabase(char *db_name);
