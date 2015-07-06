@@ -12,6 +12,7 @@ int finalizaInsert(char *nome, column *c){
 
     table *tab     = (table *)malloc(sizeof(table));
     tp_table *tab2 = (tp_table *)malloc(sizeof(struct tp_table));
+    memset(tab2, 0, sizeof(tp_table));
 
     tab->esquema = abreTabela(nome, &objeto, &tab->esquema);
     tab2 = procuraAtributoFK(objeto);
@@ -27,10 +28,10 @@ int finalizaInsert(char *nome, column *c){
                 if (erro == ERRO_CHAVE_PRIMARIA){
                     printf("ERROR:  duplicate key value violates unique constraint \"%s_pkey\"\nDETAIL:  Key (%s)=(%s) already exists.\n", nome, temp->nomeCampo, temp->valorCampo);
 
-					freeTp_table(auxT); // Libera a memoria da estrutura.
+					free(auxT); // Libera a memoria da estrutura.
 					//free(temp); // Libera a memoria da estrutura.
 					free(tab); // Libera a memoria da estrutura.
-					freeTp_table(tab2); // Libera a memoria da estrutura.
+					free(tab2); // Libera a memoria da estrutura.
                     return ERRO_CHAVE_PRIMARIA;
                 }
 
@@ -44,10 +45,10 @@ int finalizaInsert(char *nome, column *c){
                     if (erro != SUCCESS){
                         printf("ERROR: invalid reference to \"%s.%s\". The value \"%s\" does not exist.\n", tab2[j].tabelaApt,tab2[j].attApt,temp->valorCampo);
 
-						freeTp_table(auxT); // Libera a memoria da estrutura.
+						free(auxT); // Libera a memoria da estrutura.
 						free(temp); // Libera a memoria da estrutura.
                         free(tab); // Libera a memoria da estrutura.
-						freeTp_table(tab2); // Libera a memoria da estrutura.
+						free(tab2); // Libera a memoria da estrutura.
                         return ERRO_CHAVE_ESTRANGEIRA;
                     }
                 }
@@ -60,28 +61,28 @@ int finalizaInsert(char *nome, column *c){
     if (erro == ERRO_CHAVE_ESTRANGEIRA){
         printf("ERROR: unknown foreign key error.\n");
 
-		freeTp_table(auxT); // Libera a memoria da estrutura.
+		free(auxT); // Libera a memoria da estrutura.
 		free(temp); // Libera a memoria da estrutura.
         free(tab); // Libera a memoria da estrutura.
-		freeTp_table(tab2); // Libera a memoria da estrutura.
+		free(tab2); // Libera a memoria da estrutura.
         return ERRO_CHAVE_ESTRANGEIRA;
     }
 
     if (erro == ERRO_CHAVE_PRIMARIA){
         printf("ERROR: unknown primary key error.\n");
 
-		freeTp_table(auxT); // Libera a memoria da estrutura.
+		free(auxT); // Libera a memoria da estrutura.
 		free(temp); // Libera a memoria da estrutura.
         free(tab); // Libera a memoria da estrutura.
-		freeTp_table(tab2); // Libera a memoria da estrutura.
+		free(tab2); // Libera a memoria da estrutura.
         return ERRO_CHAVE_PRIMARIA;
     }
     if (erro == ERRO_DE_PARAMETRO) {
         printf("ERROR: invalid parameter.\n");
-		freeTp_table(auxT); // Libera a memoria da estrutura.
+		free(auxT); // Libera a memoria da estrutura.
 		free(temp); // Libera a memoria da estrutura.
         free(tab); // Libera a memoria da estrutura.
-		freeTp_table(tab2); // Libera a memoria da estrutura.
+		free(tab2); // Libera a memoria da estrutura.
         return ERRO_DE_PARAMETRO;
     }
 
@@ -91,10 +92,10 @@ int finalizaInsert(char *nome, column *c){
 
     if((dados = fopen(directory,"a+b")) == NULL){
         printf("ERROR: cannot open file.\n");
-		freeTp_table(auxT); // Libera a memoria da estrutura.
+		free(auxT); // Libera a memoria da estrutura.
 		free(temp); // Libera a memoria da estrutura.
         free(tab); // Libera a memoria da estrutura.
-		freeTp_table(tab2); // Libera a memoria da estrutura.
+		free(tab2); // Libera a memoria da estrutura.
         return ERRO_ABRIR_ARQUIVO;
 
 	}
@@ -108,8 +109,8 @@ int finalizaInsert(char *nome, column *c){
             if (sizeof(auxC->valorCampo) > auxT[t].tam && sizeof(auxC->valorCampo) != 8){
                 printf("ERROR: invalid string length.\n");
 				free(tab); // Libera a memoria da estrutura.
-				freeTp_table(tab2); // Libera a memoria da estrutura.
-				freeTp_table(auxT); // Libera a memoria da estrutura.
+				free(tab2); // Libera a memoria da estrutura.
+				free(auxT); // Libera a memoria da estrutura.
 				free(temp); // Libera a memoria da estrutura.
 				fclose(dados);
                 return ERRO_NO_TAMANHO_STRING;
@@ -118,8 +119,8 @@ int finalizaInsert(char *nome, column *c){
             if (objcmp(auxC->nomeCampo, auxT[t].nome) != 0){
                 printf("ERROR: column name \"%s\" is not valid.\n", auxC->nomeCampo);
 				free(tab); // Libera a memoria da estrutura.
-				freeTp_table(tab2); // Libera a memoria da estrutura.
-				freeTp_table(auxT); // Libera a memoria da estrutura.
+				free(tab2); // Libera a memoria da estrutura.
+				free(auxT); // Libera a memoria da estrutura.
 				free(temp); // Libera a memoria da estrutura.
 				fclose(dados);
                 return ERRO_NOME_CAMPO;
@@ -136,8 +137,8 @@ int finalizaInsert(char *nome, column *c){
                 if (auxC->valorCampo[i] < 48 || auxC->valorCampo[i] > 57){
                     printf("ERROR: column \"%s\" expectet integer.\n", auxC->nomeCampo);
 					free(tab); // Libera a memoria da estrutura.
-					freeTp_table(tab2); // Libera a memoria da estrutura.
-					freeTp_table(auxT); // Libera a memoria da estrutura.
+					free(tab2); // Libera a memoria da estrutura.
+					free(auxT); // Libera a memoria da estrutura.
 					//free(temp); // Libera a memoria da estrutura.
 					fclose(dados);
                     return ERRO_NO_TIPO_INTEIRO;
@@ -156,8 +157,8 @@ int finalizaInsert(char *nome, column *c){
                 if((auxC->valorCampo[x] < 48 || auxC->valorCampo[x] > 57) && (auxC->valorCampo[x] != 46)){
                     printf("ERROR: column \"%s\" expect double.\n", auxC->nomeCampo);
 					free(tab); // Libera a memoria da estrutura.
-					freeTp_table(tab2); // Libera a memoria da estrutura.
-					freeTp_table(auxT); // Libera a memoria da estrutura.
+					free(tab2); // Libera a memoria da estrutura.
+					free(auxT); // Libera a memoria da estrutura.
 					free(temp); // Libera a memoria da estrutura.
 					fclose(dados);
                     return ERRO_NO_TIPO_DOUBLE;
@@ -173,8 +174,8 @@ int finalizaInsert(char *nome, column *c){
             if (strlen(auxC->valorCampo) > (sizeof(char))) {
                 printf("ERROR: column \"%s\" expect char.\n", auxC->nomeCampo);
 				free(tab); // Libera a memoria da estrutura.
-				freeTp_table(tab2); // Libera a memoria da estrutura.
-				freeTp_table(auxT); // Libera a memoria da estrutura.
+				free(tab2); // Libera a memoria da estrutura.
+				free(auxT); // Libera a memoria da estrutura.
 				free(temp); // Libera a memoria da estrutura.
 				fclose(dados);
                 return ERRO_NO_TIPO_CHAR;
@@ -187,8 +188,8 @@ int finalizaInsert(char *nome, column *c){
 
     fclose(dados);
     free(tab); // Libera a memoria da estrutura.
-	freeTp_table(tab2); // Libera a memoria da estrutura.
-    freeTp_table(auxT); // Libera a memoria da estrutura.
+	free(tab2); // Libera a memoria da estrutura.
+    free(auxT); // Libera a memoria da estrutura.
     free(temp); // Libera a memoria da estrutura.
     return SUCCESS;
 }

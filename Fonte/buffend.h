@@ -503,6 +503,6 @@ void showDB();
 void clear();
 
 
-void freeTp_table(tp_table *tabela);
+void freeTp_table(tp_table **tabela, int n);
 void freeTable(table *tabela);
 void freeColumn(column *colunas);

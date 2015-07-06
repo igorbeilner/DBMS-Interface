@@ -75,7 +75,8 @@ void insert(rc_insert *s_insert) {
 		if (finalizaInsert(s_insert->objName, colunas) == SUCCESS)
 			printf("INSERT 0 1\n");
 
-	freeTp_table(esquema);
+	//freeTp_table(&esquema, objeto.qtdCampos);
+	free(esquema);
 	freeColumn(colunas);
 	freeTable(tabela);
 }

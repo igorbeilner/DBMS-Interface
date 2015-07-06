@@ -141,19 +141,15 @@ void clearGlobalStructs() {
     }
 
     free(GLOBAL_DATA.columnName);
-    GLOBAL_DATA.columnName = (char **)malloc(sizeof(char **));
     GLOBAL_DATA.columnName = NULL;
 
     free(GLOBAL_DATA.values);
-    GLOBAL_DATA.values = (char **)malloc(sizeof(char **));
     GLOBAL_DATA.values = NULL;
 
     free(GLOBAL_DATA.fkTable);
-    GLOBAL_DATA.fkTable = (char **)malloc(sizeof(char **));
     GLOBAL_DATA.fkTable = NULL;
 
     free(GLOBAL_DATA.fkColumn);
-    GLOBAL_DATA.fkColumn = (char **)malloc(sizeof(char **));
     GLOBAL_DATA.fkColumn = NULL;
 
     free(GLOBAL_DATA.type);

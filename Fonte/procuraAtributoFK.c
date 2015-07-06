@@ -13,6 +13,8 @@ tp_table *procuraAtributoFK(struct fs_objects objeto){
     char *tupla = (char *)malloc(sizeof(char) * 109);
     tp_table *esquema = (tp_table *)malloc(sizeof(tp_table)*objeto.qtdCampos);
     tp_table *vetEsqm = (tp_table *)malloc(sizeof(tp_table)*objeto.qtdCampos);
+    memset(vetEsqm, 0, sizeof(tp_table)*objeto.qtdCampos);
+    memset(esquema, 0, sizeof(tp_table)*objeto.qtdCampos);
 
     char directory[LEN_DB_NAME*2];
     strcpy(directory, connected.db_directory);

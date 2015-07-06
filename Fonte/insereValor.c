@@ -16,6 +16,8 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
             return ERRO_DE_ALOCACAO;
         }
 
+        memset(e, 0, sizeof(column));
+
         int tam = retornaTamanhoValorCampo(nomeCampo, tab);
         char tipo = retornaTamanhoTipoDoCampo(nomeCampo,tab);
 
@@ -69,6 +71,9 @@ column *insereValor(table  *tab, column *c, char *nomeCampo, char *valorCampo) {
                 if (e == NULL) {
                     return ERRO_DE_ALOCACAO;
                 }
+
+                memset(e, 0, sizeof(column));
+
                 int tam = retornaTamanhoValorCampo(nomeCampo, tab);
                 char tipo = retornaTamanhoTipoDoCampo(nomeCampo,tab);
 
