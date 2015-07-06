@@ -17,7 +17,8 @@ void printTable(char *tbl){
 
 		if((dicionario = fopen(directory,"a+b")) == NULL){
 			free(tupla);
-			exit(1);
+			printf("ERROR: cannot open file\n");
+			return;
 		}
 
 		printf(" %-10s | %-15s | %-10s | %-10s\n", "Schema", "Name", "Type", "Owner");
