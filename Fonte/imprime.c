@@ -10,7 +10,14 @@
 void imprime(char nomeTabela[]) {
 
     int j,erro, x, p, cont=0;
-    struct fs_objects objeto = leObjeto(nomeTabela);
+    struct fs_objects objeto;
+
+    if(!verificaNomeTabela(nomeTabela)){
+        printf("\nERROR: relation \"%s\"was not found.\n\n\n", nomeTabela);
+        return;
+    }
+
+    objeto = leObjeto(nomeTabela);
 
     tp_table *esquema = leSchema(objeto);
 
