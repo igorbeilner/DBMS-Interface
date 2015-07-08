@@ -36,9 +36,9 @@ int yywrap() {
         LIST_DBASES CLEAR;
 
 start: insert | select | create_table | create_database | drop_table | drop_database
-     | table_attr | list_tables | connection | exit_program | semicolon {return 0;}
+     | table_attr | list_tables | connection | exit_program | semicolon {GLOBAL_PARSER->consoleFlag = 1; return 0;}
      | parentesis_open | parentesis_close| help_pls | list_databases | clear
-     | /*nothing*/;
+     | qualquer_coisa | /*nothing*/;
 
 /*--------------------------------------------------*/
 /**************** GENERAL FUNCTIONS *****************/
@@ -46,6 +46,8 @@ start: insert | select | create_table | create_database | drop_table | drop_data
 
 /* CONNECTION */
 connection: CONNECT OBJECT {connect(*yytext); return 0;};
+
+qualquer_coisa: OBJECT {GLOBAL_PARSER->consoleFlag = 1; GLOBAL_PARSER->noerror = 0; return 0;};
 
 /* EXIT */
 exit_program: QUIT {exit(0);};

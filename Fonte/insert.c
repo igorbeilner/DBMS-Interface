@@ -66,7 +66,7 @@ void insert(rc_insert *s_insert) {
 				}
 			}
 		} else {
-			printf("ERROR:  INSERT has more expressions than target columns.\n");
+			printf("ERROR: INSERT has more expressions than target columns.\n");
 			flag = 1;
 		}
 	}

@@ -260,6 +260,7 @@ int interface() {
             }
 
             printf("ERROR: syntax error.\n");
+            GLOBAL_PARSER.noerror = 1;
         }
 
         if (GLOBAL_PARSER.mode != 0) {

@@ -13,7 +13,7 @@ void imprime(char nomeTabela[]) {
     struct fs_objects objeto;
 
     if(!verificaNomeTabela(nomeTabela)){
-        printf("\nERROR: relation \"%s\"was not found.\n\n\n", nomeTabela);
+        printf("\nERROR: relation \"%s\" was not found.\n\n\n", nomeTabela);
         return;
     }
 
