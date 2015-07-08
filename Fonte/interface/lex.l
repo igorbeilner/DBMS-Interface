@@ -62,6 +62,7 @@ help							return HELP;
 
 [\\][c]							return CONNECT;
 [\\][c]+[^ ^\n]*				{invalidCommand(yytext);};
+[\\][c]+[ ]*[\n]					{invalidCommand("\\c <enter>'. Expecting '\\c DBNAME"); return 0;};
 [\\][l]							return LIST_DBASES;
 [\\][l]+[^\n]*					{invalidCommand(yytext);};
 [\\][q]							return QUIT;
@@ -70,5 +71,6 @@ help							return HELP;
 [\\][d]+[^\n]*					{invalidCommand(yytext);};
 [\\][t]+						return LIST_TABLE;
 [\\][t]+[^ ^\n]*				{invalidCommand(yytext);};
+[\\][t]+[ ]*[\n]					{invalidCommand("\\t <enter>'. Expecting '\\t TABLENAME"); return 0;};
 [ \t]+							/* ignore whitespace */;
 %%
