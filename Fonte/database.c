@@ -163,7 +163,7 @@ void dropDatabase(char *db_name) {
 void showDB() {
 
 	FILE *DB;
-	int i;
+	int i, qtdDB=0;
 	char vec_name 				[QTD_DB][LEN_DB_NAME],
 		 vec_directory 			[QTD_DB][LEN_DB_NAME],
 		 valid;
@@ -185,9 +185,10 @@ void showDB() {
 
        	if(valid) {
        		printf("%-20s| Ibetres  | UTF8     | pt_BR.UTF-8 | pt_BR.UTF-8 | \n", vec_name[i]);
+       		qtdDB++;
         }
     }
 
-    printf("(%d %s)\n\n\n\n", i, (1 >= i)? "row": "rows");
+    printf("(%d %s)\n\n\n\n", qtdDB, (1 >= qtdDB)? "row": "rows");
     fclose(DB);
 }
