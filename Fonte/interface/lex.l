@@ -39,7 +39,7 @@ help							return HELP;
 [(]								return *yytext;
 [)]								return *yytext;
 
-[a-zA-Z_]+[0-9_]*				{yylval.strval = yytext; return OBJECT;};
+([a-zA-Z_]+[0-9_]*)+			{yylval.strval = yytext; return OBJECT;};
 [\']([^'])+[\']			  		{yylval.strval = yytext; return ALPHANUM;};
 [0-9]*\.[0-9]*					{yylval.strval = yytext; return VALUE;};
 [0-9]+							{yylval.strval = yytext; return NUMBER;}
