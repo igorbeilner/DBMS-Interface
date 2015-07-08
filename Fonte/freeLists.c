@@ -1,15 +1,9 @@
 #include "buffend.h"
 
-/*
-typedef struct tp_table{ // Estrutura usada para carregar fs_schema.dat
-    char nome[TAMANHO_NOME_CAMPO];  // Nome do Campo.                    40bytes
-    char tipo;                      // Tipo do Campo.                     1bytes
-    int tam;                        // Tamanho do Campo.                  4bytes
-    int chave;                      // Tipo da chave                      4bytes
-    char tabelaApt[TAMANHO_NOME_TABELA]; //Nome da Tabela Apontada        20bytes
-    char attApt[TAMANHO_NOME_CAMPO];    //Nome do Atributo Apontado       40bytes
-    struct tp_table *next;          // Encadeamento para o próximo campo.
-}tp_table;
+/* NÃO IMPLEMENTADO: a ideia era dar o free de maneira correta nas listas alocadas ao longo
+ * da execução do programa, já que os grupos anteriores não se preocuparam com isso. No entanto,
+ * não tivemos tempo ágil para implementar uma solução livre de erros e preferimos deixar
+ * dessa maneira.
  */
 
 void freeTp_table(tp_table **tabela, int n) {
@@ -17,12 +11,6 @@ void freeTp_table(tp_table **tabela, int n) {
 }
 
 
-/*
-typedef struct table{ // Estrutura utilizada para criar uma tabela.
-    char nome[TAMANHO_NOME_TABELA]; // Nome da tabela.
-    tp_table *esquema;              // Esquema de campos da tabela.
-}table;
- */
 void freeTable(table *tabela) {
 	if (tabela != NULL) {
 		free(tabela->esquema);
@@ -30,14 +18,7 @@ void freeTable(table *tabela) {
 	}
 }
 
-/*
-typedef struct column{ // Estrutura utilizada para inserir em uma tabela, excluir uma tupla e retornar valores de uma página.
-    char tipoCampo;                     // Tipo do Campo.
-    char nomeCampo[TAMANHO_NOME_CAMPO]; //Nome do Campo.
-    char *valorCampo;                   // Valor do Campo.
-    struct column *next;                // Encadeamento para o próximo campo.
-}column;
- */
+
 void freeColumn(column *colunas) {
 	if (colunas != NULL) {
 		free(colunas);
