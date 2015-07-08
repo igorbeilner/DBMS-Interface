@@ -112,7 +112,6 @@ void createDB(char *db_name) {
 }
 
 void dropDatabase(char *db_name) {
-
 	FILE *DB;
 	int i;
 	char vec_name 				[QTD_DB][LEN_DB_NAME],
