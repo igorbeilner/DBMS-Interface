@@ -54,15 +54,15 @@ void printTable(char *tbl){
 		tab3 = procuraAtributoFK(objeto1); //retorna tp_table
 		int l, ipk=0, ifk=0;
 
-		char **pk;
-		char **fkTable;
-		char **fkColumn;
-		char **refColumn;
+		char **pk 			= (char**)malloc(objeto1.qtdCampos*sizeof(char**));
+		char **fkTable		= (char**)malloc(objeto1.qtdCampos*sizeof(char**));
+		char **fkColumn 	= (char**)malloc(objeto1.qtdCampos*sizeof(char**));
+		char **refColumn 	= (char**)malloc(objeto1.qtdCampos*sizeof(char**));
 
-		pk 			= (char**)malloc(objeto1.qtdCampos*sizeof(char));
-		fkTable		= (char**)malloc(objeto1.qtdCampos*sizeof(char));
-		fkColumn	= (char**)malloc(objeto1.qtdCampos*sizeof(char));
-		refColumn	= (char**)malloc(objeto1.qtdCampos*sizeof(char));
+		memset(pk 		, 0, objeto1.qtdCampos);
+		memset(fkTable 	, 0, objeto1.qtdCampos);
+		memset(fkColumn , 0, objeto1.qtdCampos);
+		memset(refColumn, 0, objeto1.qtdCampos);
 
 		int i;
 		for(i=0; i<objeto1.qtdCampos; i++) {
@@ -70,6 +70,12 @@ void printTable(char *tbl){
 			fkTable[i] 		= (char*)malloc(40*sizeof(char));
 			fkColumn[i] 	= (char*)malloc(40*sizeof(char));
 			refColumn[i] 	= (char*)malloc(40*sizeof(char));
+
+			memset(pk[i] 		, '\0', 40);
+			memset(fkTable[i] 	, '\0', 40);
+			memset(fkColumn[i]  , '\0', 40);
+			memset(refColumn[i] , '\0', 40);
+
 		}
 
 		for(l=0; l<objeto1.qtdCampos; l++) {
@@ -111,6 +117,10 @@ void printTable(char *tbl){
 			}
 		}
 
+		free(pk);
+		free(fkTable);
+		free(fkColumn);
+		free(refColumn);
 		free(tab3);
 		printf("\n");
 	}
