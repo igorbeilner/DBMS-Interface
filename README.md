@@ -22,7 +22,7 @@
 	\c <NomeBanco> 		// estabelece conexão com o banco de dados <NomeBanco>
 	\l 					// retorna uma lista com os bancos de dados criados no SGBD
 	\d 					// retorna uma lista com as tabelas existentes no banco de dados corrente
-	\dt <NomeTabela>	// retorna uma lista com o esquema de uma tabela
+	\t <NomeTabela>		// retorna uma lista com o esquema de uma tabela
 	\q 					// sai do shell do SGBD
 
 

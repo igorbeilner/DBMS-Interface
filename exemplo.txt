@@ -47,9 +47,9 @@
 	\c myDB
 
 # Para visualizar o esquema das tabelas "tbl" e "tbl2", digite:
-	\dt tbl
+	\t tbl
 	
-	\dt tbl2
+	\t tbl2
 
 # Inserir valores na tabela "tbl" (de várias formas):
 	INSERT INTO tbl VALUES (1, 'fulano', 'M');
