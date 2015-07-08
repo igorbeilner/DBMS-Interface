@@ -81,6 +81,7 @@ list_tables: LIST_TABLES {
 /* LIST DATABASES */
 list_databases: LIST_DBASES {
     showDB();
+    GLOBAL_PARSER->consoleFlag = 1;
     return 0;
 }
 
