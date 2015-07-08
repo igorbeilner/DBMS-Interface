@@ -3,6 +3,15 @@
 #include "../buffend.h"
 #include "parser.h"
 
+/* Estrutura global que guarda as informações obtidas pelo yacc
+ * na identificação dos tokens
+ */
+rc_insert GLOBAL_DATA;
+
+/* Estrutura auxiliar do reconhecedor.
+ */
+rc_parser GLOBAL_PARSER;
+
 void connect(char *nome) {
     int r;
     r = connectDB(nome);
@@ -271,8 +280,8 @@ int interface() {
     return 0;
 }
 
-void yyerror(rc_parser *GLOBAL_PARSER, char *s, ...) {
-    GLOBAL_PARSER->noerror = 0;
+void yyerror(char *s, ...) {
+    GLOBAL_PARSER.noerror = 0;
     /*extern yylineno;
 
     va_list ap;

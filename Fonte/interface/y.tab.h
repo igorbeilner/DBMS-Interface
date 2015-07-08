@@ -124,6 +124,6 @@ union YYSTYPE
 
 extern YYSTYPE yylval;
 
-int yyparse (rc_parser *GLOBAL_PARSER);
+int yyparse (void);
 
 #endif /* !YY_YY_Y_TAB_H_INCLUDED  */

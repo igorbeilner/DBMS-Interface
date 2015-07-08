@@ -23,9 +23,6 @@ int yywrap() {
     char *strval;
 }
 
-%parse-param { rc_parser *GLOBAL_PARSER }
-%lex-param { rc_parser *GLOBAL_PARSER }
-
 %%
 
 %token  INSERT      INTO        VALUES      SELECT      FROM
@@ -36,7 +33,7 @@ int yywrap() {
         LIST_DBASES CLEAR;
 
 start: insert | select | create_table | create_database | drop_table | drop_database
-     | table_attr | list_tables | connection | exit_program | semicolon {GLOBAL_PARSER->consoleFlag = 1; return 0;}
+     | table_attr | list_tables | connection | exit_program | semicolon {GLOBAL_PARSER.consoleFlag = 1; return 0;}
      | parentesis_open | parentesis_close| help_pls | list_databases | clear
      | qualquer_coisa | /*nothing*/;
 
@@ -45,24 +42,24 @@ start: insert | select | create_table | create_database | drop_table | drop_data
 /*--------------------------------------------------*/
 
 /* CONNECTION */
-connection: CONNECT OBJECT {connect(*yytext); GLOBAL_PARSER->consoleFlag = 1; return 0;};
+connection: CONNECT OBJECT {connect(*yytext); GLOBAL_PARSER.consoleFlag = 1; return 0;};
 
-qualquer_coisa: OBJECT {GLOBAL_PARSER->consoleFlag = 1; GLOBAL_PARSER->noerror = 0; return 0;};
+qualquer_coisa: OBJECT {GLOBAL_PARSER.consoleFlag = 1; GLOBAL_PARSER.noerror = 0; return 0;};
 
 /* EXIT */
 exit_program: QUIT {exit(0);};
 
-clear: CLEAR {clear(); GLOBAL_PARSER->consoleFlag = 1; return 0;};
+clear: CLEAR {clear(); GLOBAL_PARSER.consoleFlag = 1; return 0;};
 
-parentesis_open: '(' {GLOBAL_PARSER->parentesis++;};
+parentesis_open: '(' {GLOBAL_PARSER.parentesis++;};
 
-parentesis_close: ')' {GLOBAL_PARSER->parentesis--;};
+parentesis_close: ')' {GLOBAL_PARSER.parentesis--;};
 
 /* TABLE ATTRIBUTES */
 table_attr: LIST_TABLE OBJECT {
     if(connected.conn_active) {
         printTable(yylval.strval);
-        GLOBAL_PARSER->consoleFlag = 1;
+        GLOBAL_PARSER.consoleFlag = 1;
     } else
         notConnected();
     return 0;
@@ -72,7 +69,7 @@ table_attr: LIST_TABLE OBJECT {
 list_tables: LIST_TABLES {
     if(connected.conn_active) {
         printTable(NULL);
-        GLOBAL_PARSER->consoleFlag = 1;
+        GLOBAL_PARSER.consoleFlag = 1;
     } else
         notConnected();
     return 0;
@@ -81,12 +78,12 @@ list_tables: LIST_TABLES {
 /* LIST DATABASES */
 list_databases: LIST_DBASES {
     showDB();
-    GLOBAL_PARSER->consoleFlag = 1;
+    GLOBAL_PARSER.consoleFlag = 1;
     return 0;
 }
 
 /* HELP */
-help_pls: HELP {help(); GLOBAL_PARSER->consoleFlag = 1; return 0;}
+help_pls: HELP {help(); GLOBAL_PARSER.consoleFlag = 1; return 0;}
 
 /*--------------------------------------------------*/
 /****************** SQL STATEMENTS ******************/
@@ -94,11 +91,11 @@ help_pls: HELP {help(); GLOBAL_PARSER->consoleFlag = 1; return 0;}
 
 /* INSERT */
 insert: INSERT INTO {setMode(OP_INSERT);} table opt_column_list VALUES parentesis_open value_list parentesis_close semicolon {
-    if (GLOBAL_PARSER->col_count == GLOBAL_PARSER->val_count || GLOBAL_DATA.columnName == NULL)
-        GLOBAL_DATA.N = GLOBAL_PARSER->val_count;
+    if (GLOBAL_PARSER.col_count == GLOBAL_PARSER.val_count || GLOBAL_DATA.columnName == NULL)
+        GLOBAL_DATA.N = GLOBAL_PARSER.val_count;
     else {
         printf("ERROR: The column counter doesn't match the value counter.\n");
-        GLOBAL_PARSER->noerror=0;
+        GLOBAL_PARSER.noerror=0;
     }
     return 0;
 };
@@ -121,7 +118,7 @@ value: VALUE {setValueInsert(yylval.strval, 'D');}
 
 /* CREATE TABLE */
 create_table: CREATE TABLE {setMode(OP_CREATE_TABLE);} table parentesis_open table_column_attr parentesis_close semicolon {
-    GLOBAL_DATA.N = GLOBAL_PARSER->col_count;
+    GLOBAL_DATA.N = GLOBAL_PARSER.col_count;
 
     return 0;
 };

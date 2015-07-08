@@ -13,23 +13,23 @@
 /* Estrutura global que guarda as informações obtidas pelo yacc
  * na identificação dos tokens
  */
-rc_insert GLOBAL_DATA;
+extern rc_insert GLOBAL_DATA;
 
 /* Estrutura auxiliar do reconhecedor.
  */
-rc_parser GLOBAL_PARSER;
+extern rc_parser GLOBAL_PARSER;
 
 /* Funcções do yacc
  */
-int yyparse(rc_parser *parser);
-int yylex(rc_parser *parser);
+int yyparse();
+int yylex();
 int yylex_destroy();
 extern int  yylineno;
 
 /* Função padrão do yacc chamada quando um erro sintático é
  * identificado.
  */
-void yyerror(rc_parser *GLOBAL_PARSER, char *s, ...);
+void yyerror(char *s, ...);
 
 /* Imprime o erro caso o comando seja inválido
  */

@@ -3,7 +3,6 @@
 #include "../buffend.h"
 #include "parser.h"
 #include "y.tab.h"
-#define YY_DECL int yylex(rc_parser *parser)
 #define YY_NO_INPUT
 %}
 
@@ -46,14 +45,14 @@ help							return HELP;
 [0-9]+							{yylval.strval = yytext; return NUMBER;}
 
 \n								{
-									if (parser->mode != 0) {
-										if (parser->parentesis)
+									if (GLOBAL_PARSER.mode != 0) {
+										if (GLOBAL_PARSER.parentesis)
 											printf("%s(# ", connected.db_name);
 										else
 											printf("%s-# ", connected.db_name);
 									} else if (connected.conn_active) {
-								 		if (parser->consoleFlag)
-							                parser->consoleFlag = 0;
+								 		if (GLOBAL_PARSER.consoleFlag)
+							                GLOBAL_PARSER.consoleFlag = 0;
 							            else
 							                printf("%s=# ", connected.db_name);
 									} else
