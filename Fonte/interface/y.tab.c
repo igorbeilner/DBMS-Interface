@@ -1365,7 +1365,7 @@ yyreduce:
 
   case 20:
 #line 48 "yacc.y" /* yacc.c:1646  */
-    {connect(*yytext); return 0;}
+    {connect(*yytext); GLOBAL_PARSER->consoleFlag = 1; return 0;}
 #line 1370 "y.tab.c" /* yacc.c:1646  */
     break;
 

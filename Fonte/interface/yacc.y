@@ -45,7 +45,7 @@ start: insert | select | create_table | create_database | drop_table | drop_data
 /*--------------------------------------------------*/
 
 /* CONNECTION */
-connection: CONNECT OBJECT {connect(*yytext); return 0;};
+connection: CONNECT OBJECT {connect(*yytext); GLOBAL_PARSER->consoleFlag = 1; return 0;};
 
 qualquer_coisa: OBJECT {GLOBAL_PARSER->consoleFlag = 1; GLOBAL_PARSER->noerror = 0; return 0;};
 
