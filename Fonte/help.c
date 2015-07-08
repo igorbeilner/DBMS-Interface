@@ -11,7 +11,7 @@ void help() {
 	printf("Digite:");
 	printf("\t\\d\t\t- Para listar as tabelas do banco\n");
 	printf("\t\\l\t\t- Para listar os bancos de dados existentes\n");
-	printf("\t\\dt NOME\t- Para listar os atributos de uma tabela\n\n");
+	printf("\t\\t NOME\t\t- Para listar os atributos de uma tabela\n\n");
 	printf("------------------------------------------------ Sintaxe SQL ------------------------------------------------\n");
 	printf("CREATE DATABASE NOME;\t\t\t\t- Cria um novo banco de dados\n");
 	printf("\nDROP DATABASE NOME;\t\t\t\t- Exclui um banco de dados\n");
