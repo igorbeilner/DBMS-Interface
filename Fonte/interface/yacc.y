@@ -58,18 +58,20 @@ parentesis_close: ')' {GLOBAL_PARSER->parentesis--;};
 
 /* TABLE ATTRIBUTES */
 table_attr: LIST_TABLE OBJECT {
-    if(connected.conn_active)
+    if(connected.conn_active) {
         printTable(yylval.strval);
-    else
+        GLOBAL_PARSER->consoleFlag = 1;
+    } else
         notConnected();
     return 0;
 };
 
 /* LIST TABLES */
 list_tables: LIST_TABLES {
-    if(connected.conn_active)
+    if(connected.conn_active) {
         printTable(NULL);
-    else
+        GLOBAL_PARSER->consoleFlag = 1;
+    } else
         notConnected();
     return 0;
 };

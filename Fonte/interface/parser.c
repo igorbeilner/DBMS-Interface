@@ -230,6 +230,7 @@ int interface() {
                 }
             }
         } else {
+            GLOBAL_PARSER.consoleFlag = 1;
             switch(GLOBAL_PARSER.mode) {
                 case OP_CREATE_DATABASE:
                 case OP_DROP_DATABASE:
@@ -238,6 +239,7 @@ int interface() {
                 case OP_SELECT_ALL:
                 case OP_INSERT:
                     if (GLOBAL_PARSER.step == 1) {
+                        GLOBAL_PARSER.consoleFlag = 0;
                         printf("Expected object name.\n");
                     }
                 break;
@@ -246,13 +248,16 @@ int interface() {
             }
 
             if (GLOBAL_PARSER.mode == OP_CREATE_TABLE) {
-                if (GLOBAL_PARSER.step == 2)
+                if (GLOBAL_PARSER.step == 2) {
                     printf("Column not specified correctly.\n");
+                    GLOBAL_PARSER.consoleFlag = 0;
+                }
             } else if (GLOBAL_PARSER.mode == OP_INSERT) {
-                if (GLOBAL_PARSER.step == 2)
+                if (GLOBAL_PARSER.step == 2) {
                     printf("Expected token \"VALUES\" after object name.\n");
+                    GLOBAL_PARSER.consoleFlag = 0;
+                }
             }
-
 
             printf("ERROR: syntax error.\n");
         }
