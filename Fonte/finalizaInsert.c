@@ -26,7 +26,7 @@ int finalizaInsert(char *nome, column *c){
             case PK:
                 erro = verificaChavePK(nome, temp , temp->nomeCampo, temp->valorCampo);
                 if (erro == ERRO_CHAVE_PRIMARIA){
-                    printf("ERROR:  duplicate key value violates unique constraint \"%s_pkey\"\nDETAIL:  Key (%s)=(%s) already exists.\n", nome, temp->nomeCampo, temp->valorCampo);
+                    printf("ERROR: duplicate key value violates unique constraint \"%s_pkey\"\nDETAIL:  Key (%s)=(%s) already exists.\n", nome, temp->nomeCampo, temp->valorCampo);
 
 					free(auxT); // Libera a memoria da estrutura.
 					//free(temp); // Libera a memoria da estrutura.

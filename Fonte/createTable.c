@@ -28,7 +28,7 @@ int verifyFieldName(char **fieldName, int N){
     for(i=0; i < N; i++){
         for(j=i+1; j < N; j++){
             if(objcmp(fieldName[i], fieldName[j]) == 0){
-                printf("ERROR:  column \"%s\" specified more than once\n", fieldName[i]);
+                printf("ERROR: column \"%s\" specified more than once\n", fieldName[i]);
                 return 0;
             }
         }

@@ -78,7 +78,7 @@ int excluirTabela(char *nomeTabela) {
                     for(l=0; l<objeto1.qtdCampos; l++) {
                         if(tab3[l].chave == FK) { //verifica se a outra tabela possui chave estrangeira. se sim, verifica se e da tabela anterior.
                             if(objcmp(nomeTabela, tab3[l].tabelaApt) == 0) {
-                                printf("ERROR:  cannot drop table \"%s\" because other objects depend on it.\n", nomeTabela);
+                                printf("ERROR: cannot drop table \"%s\" because other objects depend on it.\n", nomeTabela);
                                 return ERRO_CHAVE_ESTRANGEIRA;
                             }
                         }
