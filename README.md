@@ -1,6 +1,6 @@
-<b>BANCO DE DADOS II</b><br>
-<i>Implementação de interface com as funcionalidades a seguir:</i>
- - Comandos com sintaxe padrão do SQL:
+#BANCO DE DADOS II
+Implementação de interface com as funcionalidades a seguir:
+##Comandos com sintaxe padrão do SQL:
  	CREATE DATABASE <dbName>;
  	CREATE TABLE <tblName>(
  		<attr1> integer [primary key],
@@ -11,13 +11,12 @@
  		[, ...]
  	);
  	INSERT INTO <tblName> values (123, 'string', 'c', 1.23, 123 [, ...]);
- #ou
-  	INSERT INTO <tblName> (<attr1>, <attr2>, <attr3>, <attr4>, <attr5> [, ...]) 
- 		VALUES (321, 'string', 'c', 1.23, 123 [, ...]);
+  	INSERT INTO <tblName> (<attr1>, <attr2>, <attr3>, <attr4>, <attr5> [, ...])
+ 		VALUES (321, 'string', 'c', 1.23, 123 [, ...]);```
  	DROP DATABASE <dbName>;
  	DROP TABLE <tblName>;
  	SELECT * FROM <tblName>;
- - Comandos do Shell do SGBD:
+##Comandos do Shell do SGBD:
  	help				// retorna um menu de ajuda
 	\c <NomeBanco> 		// estabelece conexão com o banco de dados <NomeBanco>
 	\l 					// retorna uma lista com os bancos de dados criados no SGBD
