@@ -51,9 +51,12 @@ help							return HELP;
 											printf("%s(# ", connected.db_name);
 										else
 											printf("%s-# ", connected.db_name);
-									} else if (connected.conn_active)
-								 		printf("%s=# ", connected.db_name);
-								 	else
+									} else if (connected.conn_active) {
+								 		if (parser->consoleFlag)
+							                parser->consoleFlag = 0;
+							            else
+							                printf("%s=# ", connected.db_name);
+									} else
 								 		printf(">");
 								};
 

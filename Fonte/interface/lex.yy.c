@@ -1067,68 +1067,71 @@ YY_RULE_SETUP
 											printf("%s(# ", connected.db_name);
 										else
 											printf("%s-# ", connected.db_name);
-									} else if (connected.conn_active)
-								 		printf("%s=# ", connected.db_name);
-								 	else
+									} else if (connected.conn_active) {
+								 		if (parser->consoleFlag)
+							                parser->consoleFlag = 0;
+							            else
+							                printf("%s=# ", connected.db_name);
+									} else
 								 		printf(">");
 								};
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 61 "lex.l"
+#line 63 "lex.l"
 return CONNECT;
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 62 "lex.l"
+#line 64 "lex.l"
 {invalidCommand(yytext);};
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 63 "lex.l"
+#line 65 "lex.l"
 return LIST_DBASES;
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 64 "lex.l"
+#line 66 "lex.l"
 {invalidCommand(yytext);};
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 65 "lex.l"
+#line 67 "lex.l"
 return QUIT;
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 66 "lex.l"
+#line 68 "lex.l"
 {invalidCommand(yytext);};
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 67 "lex.l"
+#line 69 "lex.l"
 return LIST_TABLES;
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 68 "lex.l"
+#line 70 "lex.l"
 return LIST_TABLE;
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 69 "lex.l"
+#line 71 "lex.l"
 {invalidCommand(yytext);};
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 70 "lex.l"
+#line 72 "lex.l"
 /* ignore whitespace */;
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 71 "lex.l"
+#line 73 "lex.l"
 ECHO;
 	YY_BREAK
-#line 1132 "lex.yy.c"
+#line 1135 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2089,6 +2092,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 71 "lex.l"
+#line 73 "lex.l"
 
 

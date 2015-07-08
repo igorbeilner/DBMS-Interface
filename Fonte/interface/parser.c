@@ -126,8 +126,10 @@ void setColumnFKColumnCreate(char **nome) {
 void clearGlobalStructs() {
     int i;
 
-    if (GLOBAL_DATA.objName)
+    if (GLOBAL_DATA.objName) {
         free(GLOBAL_DATA.objName);
+        GLOBAL_DATA.objName = NULL;
+    }
 
     for (i = 0; i < GLOBAL_DATA.N; i++ ) {
         if (GLOBAL_DATA.columnName)
@@ -255,8 +257,10 @@ int interface() {
             printf("ERROR: syntax error.\n");
         }
 
-        pthread_create(&pth, NULL, (void*)clearGlobalStructs, NULL);
-        pthread_join(pth, NULL);
+        if (GLOBAL_PARSER.mode != 0) {
+            pthread_create(&pth, NULL, (void*)clearGlobalStructs, NULL);
+            pthread_join(pth, NULL);
+        }
     }
     return 0;
 }
