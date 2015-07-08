@@ -86,7 +86,7 @@ list_databases: LIST_DBASES {
 }
 
 /* HELP */
-help_pls: HELP {help(); return 0;}
+help_pls: HELP {help(); GLOBAL_PARSER->consoleFlag = 1; return 0;}
 
 /*--------------------------------------------------*/
 /****************** SQL STATEMENTS ******************/
