@@ -40,7 +40,7 @@ help							return HELP;
 [(]								return *yytext;
 [)]								return *yytext;
 
-[a-zA-Z_]+[0-9_]*					{yylval.strval = yytext; return OBJECT;};
+[a-zA-Z_]+[0-9_]*				{yylval.strval = yytext; return OBJECT;};
 [\']([^'])+[\']			  		{yylval.strval = yytext; return ALPHANUM;};
 [0-9]*\.[0-9]*					{yylval.strval = yytext; return VALUE;};
 [0-9]+							{yylval.strval = yytext; return NUMBER;}
@@ -62,7 +62,7 @@ help							return HELP;
 
 [\\][c]							return CONNECT;
 [\\][c]+[^ ^\n]*				{invalidCommand(yytext);};
-[\\][c]+[ ]*[\n]					{invalidCommand("\\c <enter>'. Expecting '\\c DBNAME"); return 0;};
+[\\][c]+[ ]*[\n]				{invalidCommand("\\c <enter>'. Expecting '\\c DBNAME"); return 0;};
 [\\][l]							return LIST_DBASES;
 [\\][l]+[^\n]*					{invalidCommand(yytext);};
 [\\][q]							return QUIT;
@@ -71,6 +71,6 @@ help							return HELP;
 [\\][d]+[^\n]*					{invalidCommand(yytext);};
 [\\][t]+						return LIST_TABLE;
 [\\][t]+[^ ^\n]*				{invalidCommand(yytext);};
-[\\][t]+[ ]*[\n]					{invalidCommand("\\t <enter>'. Expecting '\\t TABLENAME"); return 0;};
+[\\][t]+[ ]*[\n]				{invalidCommand("\\t <enter>'. Expecting '\\t TABLENAME"); return 0;};
 [ \t]+							/* ignore whitespace */;
 %%
