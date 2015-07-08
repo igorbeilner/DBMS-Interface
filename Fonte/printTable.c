@@ -53,10 +53,24 @@ void printTable(char *tbl){
 		tp_table *tab3 = (tp_table *)malloc(sizeof(struct tp_table));
 		tab3 = procuraAtributoFK(objeto1); //retorna tp_table
 		int l, ipk=0, ifk=0;
-		char pk[objeto1.qtdCampos][40];
-		char fkTable[objeto1.qtdCampos][40];
-		char fkColumn[objeto1.qtdCampos][40];
-		char refColumn[objeto1.qtdCampos][40];
+
+		char **pk;
+		char **fkTable;
+		char **fkColumn;
+		char **refColumn;
+
+		pk 			= (char**)malloc(objeto1.qtdCampos*sizeof(char));
+		fkTable		= (char**)malloc(objeto1.qtdCampos*sizeof(char));
+		fkColumn	= (char**)malloc(objeto1.qtdCampos*sizeof(char));
+		refColumn	= (char**)malloc(objeto1.qtdCampos*sizeof(char));
+
+		int i;
+		for(i=0; i<objeto1.qtdCampos; i++) {
+			pk[i] 			= (char*)malloc(40*sizeof(char));
+			fkTable[i] 		= (char*)malloc(40*sizeof(char));
+			fkColumn[i] 	= (char*)malloc(40*sizeof(char));
+			refColumn[i] 	= (char*)malloc(40*sizeof(char));
+		}
 
 		for(l=0; l<objeto1.qtdCampos; l++) {
 
@@ -64,8 +78,8 @@ void printTable(char *tbl){
 				strcpylower(pk[ipk++], tab3[l].nome);
 			}
 			else if(tab3[l].chave == FK){
-				strcpylower(fkTable[ifk], tab3[l].tabelaApt);
-				strcpylower(fkColumn[ifk], tab3[l].attApt);
+				strcpylower(fkTable[ifk]	, tab3[l].tabelaApt);
+				strcpylower(fkColumn[ifk]	, tab3[l].attApt);
 				strcpylower(refColumn[ifk++], tab3[l].nome);
 			}
 
