@@ -66,15 +66,15 @@ void printTable(char *tbl){
 
 		int i;
 		for(i=0; i<objeto1.qtdCampos; i++) {
-			pk[i] 			= (char*)malloc(40*sizeof(char));
-			fkTable[i] 		= (char*)malloc(40*sizeof(char));
-			fkColumn[i] 	= (char*)malloc(40*sizeof(char));
-			refColumn[i] 	= (char*)malloc(40*sizeof(char));
+			pk[i] 			= (char*)malloc(TAMANHO_NOME_CAMPO*sizeof(char));
+			fkTable[i] 		= (char*)malloc(TAMANHO_NOME_CAMPO*sizeof(char));
+			fkColumn[i] 	= (char*)malloc(TAMANHO_NOME_CAMPO*sizeof(char));
+			refColumn[i] 	= (char*)malloc(TAMANHO_NOME_CAMPO*sizeof(char));
 
-			memset(pk[i] 		, '\0', 40);
-			memset(fkTable[i] 	, '\0', 40);
-			memset(fkColumn[i]  , '\0', 40);
-			memset(refColumn[i] , '\0', 40);
+			memset(pk[i] 		, '\0', TAMANHO_NOME_CAMPO);
+			memset(fkTable[i] 	, '\0', TAMANHO_NOME_CAMPO);
+			memset(fkColumn[i]  , '\0', TAMANHO_NOME_CAMPO);
+			memset(refColumn[i] , '\0', TAMANHO_NOME_CAMPO);
 
 		}
 
