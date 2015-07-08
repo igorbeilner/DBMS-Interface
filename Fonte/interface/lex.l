@@ -30,7 +30,7 @@
 (?i:DROP)						return DROP;
 help							return HELP;
 [\\][h]							return HELP;
-[\\][h]+[^ ^\n]*				{invalidCommand(yytext);};
+[\\][h]+[^\n]*					{invalidCommand(yytext);};
 [\\][\?]						return HELP;
 (?i:CLEAR)						return CLEAR;
 
@@ -63,11 +63,11 @@ help							return HELP;
 [\\][c]							return CONNECT;
 [\\][c]+[^ ^\n]*				{invalidCommand(yytext);};
 [\\][l]							return LIST_DBASES;
-[\\][l]+[^ ^\n]*				{invalidCommand(yytext);};
+[\\][l]+[^\n]*					{invalidCommand(yytext);};
 [\\][q]							return QUIT;
-[\\][q]+[^ ^\n]*				{invalidCommand(yytext);};
+[\\][q]+[^\n]*					{invalidCommand(yytext);};
 [\\][d]+						return LIST_TABLES;
-[\\][d]+[^ ^\n]*				{invalidCommand(yytext);};
+[\\][d]+[^\n]*					{invalidCommand(yytext);};
 [\\][t]+						return LIST_TABLE;
 [\\][t]+[^ ^\n]*				{invalidCommand(yytext);};
 [ \t]+							/* ignore whitespace */;
